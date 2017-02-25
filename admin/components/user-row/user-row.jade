@@ -1,0 +1,24 @@
+div.user-row
+  div(@click="showDetails = !showDetails").user-row-header
+    div.icon(:style="{ backgroundColor: modifiedUser.color }", :title="modifiedUser.name")
+      div.initials {{initials}}
+    div.user
+      div.title {{modifiedUser.email}}
+      div.role {{modifiedUser.role || 'admin'}}
+  div.user-settings(v-if="modifiedUser._id !== currentUser._id && showDetails")
+    .form-input-group.four.h-4.m-4.padding-right-1.v-top 
+      label.form-check-label Account
+      div.enabled-toggle
+        .checkbox.no-top-margin
+          label
+            input(type='checkbox', @change="changeIsEnabled(user)", v-model="user.newIsEnabled", :disabled="modifiedUser.role === 'admin'")
+            | Enabled
+    .form-input-group.four.h-4.m-4.padding-right-1.v-top
+      label Role
+      div.role
+        select(@change="changeUserRole(user)", v-model="modifiedUser.newRole").form-control
+          option(v-for="role in roles", :value="role.role") {{role.role}}
+      div.drop-down
+        i.fa.icon-ellipsis-vertical
+    .four.h-4.m-4.v-center.margin-top-1
+      button.btn.btn-danger.delete-user-btn(@click="removeUser(modifiedUser)") Delete User

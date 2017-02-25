@@ -1,0 +1,23 @@
+db:
+  image: mongo
+  expose:
+    - "27017"
+    - "37017"
+  command: --smallfiles
+web:
+  build: .
+  expose:
+    - "80"
+  env_file:
+    - environment.env
+  links:
+    - db:db
+nginx:
+  # restart: always
+  build: nginx
+  links:
+    - web:web
+  volumes_from:
+    - web
+  ports:
+    - "80:80"

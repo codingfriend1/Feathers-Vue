@@ -1,0 +1,16 @@
+html
+  body(style='margin: 0;font-family: Tahoma;font-size: 1.2em;background-color: #ECF0F1;')
+    header.text-center(style='padding: 1em;background-color: #34495E;margin-bottom: 1em;text-align: center;')
+      .logo(style='max-width: 33.33%;')
+        img(src='#{logo}')
+    .body(style='padding: 1em;margin-right: auto;margin-left: auto;max-width: 500px;color: #2C3E50;')
+      h1(style='font-family: Palatino;font-size: 1.5em;') Hi, #{name}
+      p Your user information was just changed. Please verify that you made these changes.
+      ul
+        each change, key in changes
+          li #{key}: #{change}
+      a.reset-btn(href='#{hashLink}', style='color: #2980B9;display: block;text-align: center;text-decoration: none;padding: 0.5em;font-size: 1.2em;border: 5px solid #2980B9;border-radius: 3px;margin: 1em;margin-right: auto;margin-left: auto;') I accept the changes
+      p.text-small(style='color: grey;font-size: 0.9em;text-align: center;margin-bottom: 0;margin-top: 2em;') If you didn't request this change please
+      p.text-small(style="text-align: center;")
+        a(href='mailto:#{returnEmail}?subject=I did not change my email&body=Someone unauthorized changed my email. Can you help me change it back?') let us know
+      

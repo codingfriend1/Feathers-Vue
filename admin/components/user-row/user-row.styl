@@ -1,0 +1,62 @@
+.user-row
+	background-color #fafafa
+	border-radius 3px
+	margin-bottom 0.4em
+	border-bottom 2px solid #808080
+	border-right 1px solid #808080
+
+	.user-row-header
+		padding 0.75em
+
+	.user-settings
+		padding 0.75em
+
+	.icon
+		background-color #ECF0F1
+		border-radius: 3em
+		display inline-block
+		position relative
+		width 56px
+		height 56px
+		margin-right: 0.5em
+		vertical-align top
+		color white
+
+		.initials
+			position absolute
+			top 50%
+			left 50%
+			-webkit-transform translate(-50%, -50%)
+			transform translate(-50%, -50%)
+
+	.user
+		display inline-block
+		vertical-align top
+
+	.form-input-group
+		display: inline-block
+
+	.delete-user-btn
+		float right
+
+	.slide-down-enter-active,
+	.slide-down-enter-to,
+	.slide-down-leave-active
+		max-height: 500px
+		overflow-y: hidden
+		-webkit-transition-property: all
+		-webkit-transition-duration: .5s
+		-webkit-transition-timing-function: cubic-bezier(0, 1, 0.5, 1)
+		transition-property: all
+		transition-duration: .5s
+		transition-timing-function: cubic-bezier(0, 1, 0.5, 1)
+
+	.slide-down-enter,
+	.slide-down-leave-to,
+	.slide-down-leave
+		max-height: 0
+
+@media only screen and (min-width: 768px)
+	.user-row
+		.user-row-header
+			cursor pointer

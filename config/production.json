@@ -1,0 +1,78 @@
+{
+  "host": "HOST",
+  "port": "PORT",
+  "protocal": "PROTOCAL",
+  "mongodb": "DATABASE_URL",
+  "complaint_email": "COMPLAINT_EMAIL",
+  "public": "../public/",
+  "src": "../lib/",
+  "auth": {
+    "token": {
+      "secret": "FEATHERS_AUTH_SECRET"
+    },
+    "local": {},
+    "bitbucket": {
+      "clientID": "your bitbucket client id",
+      "clientSecret": "your bitbucket client secret",
+      "permissions": {
+        "scope": ["account"]
+      }
+    },
+    "dropbox": {
+      "clientID": "your dropbox client id",
+      "clientSecret": "your dropbox client secret",
+      "permissions": {
+        "scope": []
+      }
+    },
+    "facebook": {
+      "clientID": "your facebook client id",
+      "clientSecret": "your facebook client secret",
+      "permissions": {
+        "scope": ["public_profile","email"]
+      }
+    },
+    "github": {
+      "clientID": "your github client id",
+      "clientSecret": "your github client secret",
+      "permissions": {
+        "scope": []
+      }
+    },
+    "google": {
+      "clientID": "your google client id",
+      "clientSecret": "your google client secret",
+      "permissions": {
+        "scope": ["profile"]
+      }
+    },
+    "instagram": {
+      "clientID": "your instagram client id",
+      "clientSecret": "your instagram client secret",
+      "permissions": {
+        "scope": ["basic"]
+      }
+    },
+    "linkedin": {
+      "clientID": "your linkedin client id",
+      "clientSecret": "your linkedin client secret",
+      "permissions": {
+        "scope": ["r_emailaddress","r_basicprofile"]
+      }
+    },
+    "paypal": {
+      "clientID": "your paypal client id",
+      "clientSecret": "your paypal client secret",
+      "permissions": {
+        "scope": ["https://identity.x.com/xidentity/resources/profile/me"]
+      }
+    },
+    "spotify": {
+      "clientID": "your spotify client id",
+      "clientSecret": "your spotify client secret",
+      "permissions": {
+        "scope": ["user-read-email","user-read-private"]
+      }
+    }
+  }
+}

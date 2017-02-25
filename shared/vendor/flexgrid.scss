@@ -1,0 +1,543 @@
+/* Flexgrid by Jon Paul Miles
+*/
+
+$tablet: 	960px; // Tablets range from 960px to 640px
+$handheld: 	768px; // Override Property 768px to 640px
+$mobile: 	640px; // Mobile Devices range from 640px to 0px
+$cell: 		480px; // Override Property 480px to 0
+
+// Columns
+$c1: 	8.33%;
+$c2: 	16.666%;
+$c3: 	25%;
+$c4: 	33.33%;
+$c5: 	41.66%;
+$c6: 	50%;
+$c7: 	58.33%;
+$c8: 	66.66%;
+$c9: 	75%;
+$c10: 	83.33%;
+$c11:	91.66%;
+$c12:	100%;
+$c20:	20%;
+$c40: 	40%;
+$c60: 	60%;
+$c80: 	80%;
+
+
+// Function for this stylesheet's prebuilt classes
+@mixin pushes($className) {
+	.#{$className}-1	{margin-left: $c1;}
+	.#{$className}-2	{margin-left: $c2;}
+	.#{$className}-3	{margin-left: $c3;}
+	.#{$className}-4	{margin-left: $c4;}
+	.#{$className}-5	{margin-left: $c5;}
+	.#{$className}-6	{margin-left: $c6;}
+	.#{$className}-7	{margin-left: $c7;}
+	.#{$className}-8	{margin-left: $c8;}
+	.#{$className}-9	{margin-left: $c9;}
+	.#{$className}-10 	{margin-left: $c10;}
+	.#{$className}-11 	{margin-left: $c11;}
+	.#{$className}-20 	{margin-left: $c20;}
+	.#{$className}-40 	{margin-left: $c40;}
+	.#{$className}-60 	{margin-left: $c60;}
+	.#{$className}-80	{margin-left: $c80;}
+}
+
+@mixin pulls($className) {
+	.#{$className}-1	{margin-right: $c1;}
+	.#{$className}-2	{margin-right: $c2;}
+	.#{$className}-3	{margin-right: $c3;}
+	.#{$className}-4	{margin-right: $c4;}
+	.#{$className}-5	{margin-right: $c5;}
+	.#{$className}-6	{margin-right: $c6;}
+	.#{$className}-7	{margin-right: $c7;}
+	.#{$className}-8	{margin-right: $c8;}
+	.#{$className}-9	{margin-right: $c9;}
+	.#{$className}-10 	{margin-right: $c10;}
+	.#{$className}-11 	{margin-right: $c11;}
+	.#{$className}-20 	{margin-right: $c20;}
+	.#{$className}-40 	{margin-right: $c40;}
+	.#{$className}-60 	{margin-right: $c60;}
+	.#{$className}-80	{margin-right: $c80;}
+}
+
+@mixin widths($className) {
+	.#{$className}-1	{width: $c1;}
+	.#{$className}-2	{width: $c2;}
+	.#{$className}-3	{width: $c3;}
+	.#{$className}-4	{width: $c4;}
+	.#{$className}-5	{width: $c5;}
+	.#{$className}-6	{width: $c6;}
+	.#{$className}-7	{width: $c7;}
+	.#{$className}-8	{width: $c8;}
+	.#{$className}-9	{width: $c9;}
+	.#{$className}-10	{width: $c10;}
+	.#{$className}-11	{width: $c11;}
+	.#{$className}-12	{width: $c12;}
+	.#{$className}-20	{width: $c20;}
+	.#{$className}-40	{width: $c40;}
+	.#{$className}-60	{width: $c60;}
+	.#{$className}-80	{width: $c80;}
+}
+
+@mixin alignments($className) {
+	.#{$className}-center 		{text-align: center;}
+	.#{$className}-right		{text-align: right}
+	.#{$className}-left			{text-align: left;}
+	.#{$className}-justify 		{text-align: justify;}
+	.#{$className}-top 			{vertical-align: top;}
+	.#{$className}-middle 		{vertical-align: middle;}
+	.#{$className}-bottom 		{vertical-align: bottom;}
+	.#{$className}-float-right	{float: right;}
+	.#{$className}-float-left 	{float: left;}
+}
+
+@mixin screenSize($type) {
+	@if $type == desktop {
+		/* Desktop */
+		@media screen and (min-width: $tablet + 1) {
+			@content;
+		}
+	}
+
+	@if $type == tablet {
+		/* Tablet */
+		@media screen and (min-width: $mobile+1) and (max-width: $tablet) {
+			@content;
+		}
+	}
+
+	@if $type == desktopTablet {
+		/* Desktop and Tablet */
+		@media screen and (min-width: $mobile + 1) {
+			@content;
+		}
+	}
+
+	@if $type == handheld {
+		/* Handheld */
+		@media screen and (min-width: $mobile + 1) and (max-width: $handheld) {
+			@content;
+		}
+	}
+
+	@if $type == mobile {
+		/* Mobile */
+		@media screen and (max-width: $mobile) {
+			@content;
+		}
+	}
+
+	@if $type == cell {
+		/* Cell */
+		@media screen and (max-width: $cell) {
+			@content;
+		}
+	}
+}
+
+
+.one,
+.two,
+.three,
+.four,
+.five,
+.six,
+.seven,
+.eight,
+.nine,
+.ten,
+.eleven,
+.twelve,
+.twenty,
+.fourty,
+.sixty,
+.eighty,
+.d-1,
+.d-2,
+.d-3,
+.d-4,
+.d-5,
+.d-6,
+.d-7,
+.d-8,
+.d-9,
+.d-10,
+.d-11,
+.d-12,
+.d-20,
+.d-40,
+.d-60,
+.d-80,
+.t-1,
+.t-2,
+.t-3,
+.t-4,
+.t-5,
+.t-6,
+.t-7,
+.t-8,
+.t-9,
+.t-10,
+.t-11,
+.t-12,
+.t-20,
+.t-40,
+.t-60,
+.t-80,
+.h-1,
+.h-2,
+.h-3,
+.h-4,
+.h-5,
+.h-6,
+.h-7,
+.h-8,
+.h-9,
+.h-10,
+.h-11,
+.h-12,
+.h-20,
+.h-40,
+.h-60,
+.h-80,
+.m-1,
+.m-2,
+.m-3,
+.m-4,
+.m-5,
+.m-6,
+.m-7,
+.m-8,
+.m-9,
+.m-10,
+.m-11,
+.m-12,
+.m-20,
+.m-40,
+.m-60,
+.m-80,
+.c-1,
+.c-2,
+.c-3,
+.c-4,
+.c-5,
+.c-6,
+.c-7,
+.c-8,
+.c-9,
+.c-10,
+.c-11,
+.c-12,
+.c-20,
+.c-40,
+.c-60,
+.c-80,
+.a-1,
+.a-2,
+.a-3,
+.a-4,
+.a-5,
+.a-6,
+.a-7,
+.a-8,
+.a-9,
+.a-10,
+.a-11,
+.a-12,
+.a-20,
+.a-40,
+.a-60,
+.a-80,
+.fg {
+    display: inline-block;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-left: 0 !important;
+    margin-right: -0.25em !important;
+    vertical-align: top;
+    width: $c12;
+}
+
+.js .one,
+.js .two,
+.js .three,
+.js .four,
+.js .five,
+.js .six,
+.js .seven,
+.js .eight,
+.js .nine,
+.js .ten,
+.js .eleven,
+.js .twelve,
+.js .twenty,
+.js .fourty,
+.js .sixty,
+.js .eighty,
+.js .d-1,
+.js .d-2,
+.js .d-3,
+.js .d-4,
+.js .d-5,
+.js .d-6,
+.js .d-7,
+.js .d-8,
+.js .d-9,
+.js .d-10,
+.js .d-11,
+.js .d-12,
+.js .d-20,
+.js .d-40,
+.js .d-60,
+.js .d-80,
+.js .t-1,
+.js .t-2,
+.js .t-3,
+.js .t-4,
+.js .t-5,
+.js .t-6,
+.js .t-7,
+.js .t-8,
+.js .t-9,
+.js .t-10,
+.js .t-11,
+.js .t-12,
+.js .t-20,
+.js .t-40,
+.js .t-60,
+.js .t-80,
+.js .h-1,
+.js .h-2,
+.js .h-3,
+.js .h-4,
+.js .h-5,
+.js .h-6,
+.js .h-7,
+.js .h-8,
+.js .h-9,
+.js .h-10,
+.js .h-11,
+.js .h-12,
+.js .h-20,
+.js .h-40,
+.js .h-60,
+.js .h-80,
+.js .m-1,
+.js .m-2,
+.js .m-3,
+.js .m-4,
+.js .m-5,
+.js .m-6,
+.js .m-7,
+.js .m-8,
+.js .m-9,
+.js .m-10,
+.js .m-11,
+.js .m-12,
+.js .m-20,
+.js .m-40,
+.js .m-60,
+.js .m-80,
+.js .c-1,
+.js .c-2,
+.js .c-3,
+.js .c-4,
+.js .c-5,
+.js .c-6,
+.js .c-7,
+.js .c-8,
+.js .c-9,
+.js .c-10,
+.js .c-11,
+.js .c-12,
+.js .c-20,
+.js .c-40,
+.js .c-60,
+.js .c-80,
+.js .a-1,
+.js .a-2,
+.js .a-3,
+.js .a-4,
+.js .a-5,
+.js .a-6,
+.js .a-7,
+.js .a-8,
+.js .a-9,
+.js .a-10,
+.js .a-11,
+.js .a-12,
+.js .a-20,
+.js .a-40,
+.js .a-60,
+.js .a-80,
+.js .fg {
+	margin-right: 0 !important;
+}
+
+.inner {
+	box-sizing: border-box;
+}
+
+
+@include widths(a);
+// @include pushes(a-push);
+// @include pulls(a-pull);
+@include alignments(a);
+
+@include screenSize(desktopTablet) {
+
+	// @include pushes(push);
+	// @include pulls(pull);
+
+	.one	{width: $c1;}
+	.two	{width: $c2;}
+	.three	{width: $c3;}
+	.four	{width: $c4;}
+	.five	{width: $c5;}
+	.six	{width: $c6;}
+	.seven	{width: $c7;}
+	.eight	{width: $c8;}
+	.nine	{width: $c9;}
+	.ten	{width: $c10;}
+	.eleven	{width: $c11;}
+	.twelve	{width: $c12;}
+	.twenty	{width: $c20;}
+	.fourty	{width: $c40;}
+	.sixty	{width: $c60;}
+	.eighty	{width: $c80;}
+
+	.center 		{text-align: center;}
+	.right			{text-align: right}
+	.left			{text-align: left;}
+	.justify 		{text-align: justify;}
+	.top 			{vertical-align: top;}
+	.middle 		{vertical-align: middle;}
+	.bottom 		{vertical-align: bottom;}
+	.float-right	{float: right;}
+	.float-left 	{float: left;}
+}
+
+@include screenSize(desktop) {
+	@include widths(d);
+	@include alignments(d);
+
+	/* These toggle the visibility of elements based on screen size */
+	.tablet-only 	{display: none;}
+	.mobile-only 	{display: none;}
+	.desktop-hide 	{display: none;}
+
+	// This body style is read by jQuery to determine screen size
+	body {
+		outline-style: dashed !important;
+		outline-width: 0 !important;
+	}
+}
+
+@include screenSize(tablet) {
+	@include widths(t);
+	@include alignments(t);
+
+	.desktop-only 	{display: none;}
+	.mobile-only 	{display: none;}
+	.tablet-hide 	{display: none;}
+
+	// This body style is read by jQuery to determine screen size
+	body {
+		outline-style: solid !important;
+		outline-width: 0 !important;
+	}
+}
+
+@include screenSize(handheld) {
+	@include widths(h);
+	@include alignments(h);
+}
+
+@include screenSize(mobile) {
+	@include widths(m);
+	@include alignments(m);
+
+	.desktop-only 	{display: none;}
+	.tablet-only 	{display: none;}
+	.mobile-hide	{display: none;}
+
+	// This body style is read by jQuery to determine screen size
+	body {
+		outline-style: dotted !important;
+		outline-width: 0 !important;
+	}
+}
+
+@include screenSize(cell) {
+	@include widths(c);
+	@include alignments(c);
+}
+
+/* Responsive Video and Images */
+
+//jQuery automatically wraps embeded and framed movies (from youtube or elsewhere) with this wrapper
+.responsive-container {
+	position: relative;
+	/*padding-bottom: 75%;*/
+	height: 0px;
+	margin: 10px;
+	background-color: black;
+	overflow: hidden;
+}
+
+.responsive-container iframe,
+.responsive-container object,
+.responsive-container embed,
+.responsive-container img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.padding-right-1 {
+  padding-right: 1em;
+}
+
+.v-center {
+  vertical-align: middle;
+}
+
+.v-top {
+  vertical-align: top;
+}
+
+.no-top-margin {
+  margin-top: 0;
+}
+
+.margin-top-1 {
+  margin-top: 1em;
+}
+
+.margin-all-around {
+  margin: 0.5em;
+}
+
+.no-margin {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.float-right {
+  float: right;
+}
