@@ -5,13 +5,22 @@ import _ from 'lodash'
 module.exports = (options) => {
   return async hook => {
 
+    let defaults = {
+      queryField: 'email'
+    };
+
+    let config = Object.assign(defaults, options);
+
     if(!hook.params.provider) { return hook; }
 
     if(!hook.data.email) {
       throw new errors.BadRequest(`You must provide an email to authenticate a user`);
     }
 
-    let [err, found] = await to(hook.app.service('users').find({query: {email: hook.data.email}}) );
+    let query = {}
+    query[config.queryField] = _.get(hook.data, config.queryField);
+
+    let [err, found] = await to(hook.app.service('users').find({ query }) );
 
     let user = _.get(found, 'data.0') || _.get(found, '0');
 
@@ -30,8 +39,8 @@ module.exports = (options) => {
       }
 
     } else {
-      
-      throw new errors.NotFound(`${hook.data.email} is not a user.`)
+
+      throw new errors.NotFound(`A user matching ${_.get(hook.data, config.queryField)} could not be found.`);
 
     }
 

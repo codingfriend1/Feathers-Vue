@@ -68,7 +68,7 @@ export default {
 		},
 
 		sendMessage: async function(data) {
-      
+
 			let valid = await checkValid(data, 'message')
 
 			if(valid) {

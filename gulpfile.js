@@ -98,6 +98,7 @@ gulp.task('inject-vue', function() {
     folders.views,
     [
       folders.app + '/views/**/*.vue',
+      '!' + folders.app + '/views/app.vue'
     ],
     'inject vue'
   )
@@ -158,6 +159,7 @@ gulp.task('inject-admin-vue', function() {
     folders.admin.views,
     [
       folders.admin.views + '/**/*.vue',
+      '!' + folders.admin.views + '/app.vue',
     ],
     'inject vue'
   )

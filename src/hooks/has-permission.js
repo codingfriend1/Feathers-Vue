@@ -12,7 +12,7 @@ module.exports = function hasPermission(permission) {
 
     if(!_.get(hook, 'params.user')) {
 
-      throw new errors.NotAuthenticated('Cannot check permissions if you are not logged in.');
+      throw new errors.NotAuthenticated(`Cannot read user permissions. The current user is missing. You must not be authenticated.`);
 
     } else if(!_.get(hook, 'params.user.permissions')) {
 

@@ -9,7 +9,7 @@ module.exports = function isEnabled(options) {
 
     if(!hook.params.user) {
 
-      throw new errors.NotAuthenticated('Cannot check enabled of a non-existant user.');
+      throw new errors.NotAuthenticated(`Cannot check if the user is enabled. The current user is missing. You must not be authenticated.`);
 
     } else if(!_.get(hook, 'params.user.isEnabled')) {
 

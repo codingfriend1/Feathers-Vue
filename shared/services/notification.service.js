@@ -27,7 +27,7 @@ try {
     },
 
     debug: (title, err) => {
-      console.log(title, JSON.stringify(err, null, 2))
+      console.log(title, JSON.stringify(err || {}, null, 2))
     },
 
     clear: (...args) => {
@@ -53,7 +53,7 @@ try {
         console.log(...args);
       },
       debug: (title, err) => {
-        console.log(title, JSON.stringify(err, null, 2))
+        console.log(title, JSON.stringify(err || {}, null, 2))
       },
       clear: () => {}
     }

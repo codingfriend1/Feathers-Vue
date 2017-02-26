@@ -7,7 +7,8 @@ const sitePermissions = [
   'update',
   'read',
   'manageUsers',
-  'manageRoles'
+  'manageRoles',
+  'manageSettings'
 ]
 
 exports.schema = {

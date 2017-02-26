@@ -8,7 +8,8 @@ const admin = {
     'update',
     'delete',
     'manageUsers',
-    'manageRoles'
+    'manageRoles',
+    'manageSettings'
   ]
 }
 

@@ -15,7 +15,7 @@ const auth = {
       return auth.currentUser = foundUser
     } else {
       notify.warning(err.message)
-      console.error('Error authenticating', err.message)
+      notify.debug('Error authenticating', err)
       auth.logout()
       return false
     }
@@ -135,7 +135,7 @@ const auth = {
       notify.success('Your email has been verified. We can now protect your account.')
     } else {
       notify.error('Sorry, but we could not verify your email.')
-      console.log("Verify Email Error: ", err);
+      notify.debug("Verify Email Error: ", err);
     }
 
     return response
@@ -152,7 +152,7 @@ const auth = {
       notify.success('You have approved the changes to your account. You may now sign in under the new email.')
     } else {
       notify.error('Sorry, but we could not approved the changes to your account.')
-      console.log("Verify Changes Error: ", err);
+      notify.debug("Verify Changes Error: ", err);
     }
   },
 
@@ -196,7 +196,7 @@ const auth = {
       notify.success('Please check your email. A link to reset your password has been sent.')
     } else {
       notify.warning(err.message)
-      console.log('Error sending reset password email', err)
+      notify.debug('Error sending reset password email', err)
     }
   },
 
@@ -225,7 +225,7 @@ const auth = {
       auth.currentUser = feathers.get('user')
       return auth.currentUser
     }, err => {
-      console.log("Currently not logged in");
+      notify.debug("Currently not logged in");
     });
   },
 
@@ -241,7 +241,7 @@ const auth = {
 
           let privs = _.get(auth, 'currentUser.permissions')
 
-          if(!privs || (!privs.includes(permissionName) && !privs.includes('allPrivilages'))) {
+          if(!privs || (!privs.includes(permissionName) && _.get(auth, 'currentUser.role') !== 'admin')) {
             return false
           } else {
             return true
@@ -250,7 +250,7 @@ const auth = {
         return false
       })
     } else {
-      if(privs.includes(permissionName) || privs.includes('allPrivilages')) {
+      if(privs.includes(permissionName) || _.get(auth, 'currentUser.role') === 'admin') {
         return true
       } else {
         return false
@@ -263,7 +263,7 @@ const auth = {
     let privs = _.get(auth, 'currentUser.permissions')
 
     if(
-        !privs || (!privs.includes(permissionName) && !privs.includes('allPrivilages'))
+        !privs || (!privs.includes(permissionName) && _.get(auth, 'currentUser.role') !== 'admin')
     ) {
       return false
     }

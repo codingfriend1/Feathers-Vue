@@ -25,6 +25,7 @@ let models = {}
 
 /**
  * Maps patterns and patternMessages into mongoose validators and creates mongoose models
+ * Also runs pre and post hooks on schema
  */
 
 _.forOwn(schemas, (schema, key) => {

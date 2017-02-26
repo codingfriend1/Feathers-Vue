@@ -1,3 +1,7 @@
+/**
+ * A helper to find the correct url to connect to socket.io on in all environments
+ */
+
 import Vue from 'vue'
 import config from '../../config/default.json'
 import productionConfig from '../../config/production.json'

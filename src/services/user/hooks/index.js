@@ -69,7 +69,8 @@ exports.before = {
     auth.verifyToken(),
     auth.populateUser(),
     auth.restrictToAuthenticated(),
-    globalHooks.isEnabled()
+    globalHooks.isEnabled(),
+    globalHooks.hasPermission('manageUsers')
   ]
 };
 

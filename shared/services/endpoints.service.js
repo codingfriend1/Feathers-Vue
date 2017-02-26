@@ -8,13 +8,13 @@ import _ from 'lodash'
  * @version 1.0.0
  * @license MIT
  * @example `var menus = new endpoints('menus');
- * var replaceMenu = {
- * 	url: '/new-url',
- * 	classes: 'another-class',
- * 	target:'_self'
+ * var postUpdates = {
+ * 	title: 'Welcome to my First Article',
+ * 	author: '1481024910249192',
+ * 	likes: 14
  * };
  * //Pass in raw mongoDB queries
- * menus.update({url: '/about'}, replaceMenu).then(cb);`
+ * menus.update({title: 'Welcome to my Blog!'}, postUpdates).then(cb);`
  */
 
 	/**
