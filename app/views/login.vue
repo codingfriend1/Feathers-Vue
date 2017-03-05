@@ -19,14 +19,17 @@
 			.login-form-warning-text
 			.login-form-social-logins
 				.login-form-third-column
-					.login-form-social-login-icon.login-form-facebook-icon
-						i.fa.fa-facebook
+					a(href="/api/auth/facebook")
+						.login-form-social-login-icon.login-form-facebook-icon
+							i.fa.fa-facebook
 				.login-form-third-column
-					.login-form-social-login-icon.login-form-google-icon
-						i.fa.fa-google
+					a(href="/api/auth/google")
+						.login-form-social-login-icon.login-form-google-icon
+							i.fa.fa-google
 				.login-form-third-column
-					.login-form-social-login-icon.login-form-twitter-icon
-						i.fa.fa-twitter
+					a(href="/api/auth/twitter")
+						.login-form-social-login-icon.login-form-twitter-icon
+							i.fa.fa-twitter
 			.login-form-login-button(@click="login(user)") Login
 			.login-form-forgot-password(@click="auth.sendResetPassword(user.email)") Forgot your password?
 		.signup-form(v-show="showing === 'signup'")
@@ -105,18 +108,18 @@
 			},
 		}),
 		methods: {
-      login: async function(user) {
-        let [err, result] = await to(auth.login(user))
-        if(!err) { this.$router.push('/') }
-      },
+			login: async function(user) {
+				let [err, result] = await to(auth.login(user))
+				if(!err) { this.$router.push('/') }
+			},
 			signup: async function(user) {
-        user.role = 'willBeReplaced'
+				user.role = 'willBeReplaced'
 				let valid = await checkValid(user, 'user')
 
 				if(valid) {
 					this.errorsSummary = ''
 					let [err, result] = await to(auth.signup(user))
-          if(!err) { this.$router.push('/') }
+					if(!err) { this.$router.push('/') }
 				} else {
 					this.errorsSummary = _.map(user.errors, err => err).join('<br>')
 				}

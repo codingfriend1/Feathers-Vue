@@ -37,3 +37,5 @@ lib/middleware/
 lib/app.js
 lib/index.js
 lib/routes.js
+lib/renderer.js
+lib/seed

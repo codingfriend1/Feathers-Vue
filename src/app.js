@@ -1,5 +1,9 @@
 'use strict';
 
+global.to = function(promise) {
+  return promise.then(result => [null, result]).catch(err => [err, null])
+}
+
 const path = require('path');
 const serveStatic = require('feathers').static;
 const favicon = require('serve-favicon');
@@ -49,7 +53,7 @@ const app = feathers()
   .use('/api', api)
   .use(favicon( path.join(api.get('public'), 'favicon.ico') ))
   .configure(routes)
-  
+
 app.set('view engine', 'jade');
 
 module.exports = app;

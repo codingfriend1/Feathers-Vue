@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import '../../shared/services/helpers.service'
 import errors from 'feathers-errors'
 
 module.exports = options => async hook => {

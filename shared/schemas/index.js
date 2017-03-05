@@ -1,4 +1,4 @@
-import _ from 'lodash'
+const _ = require("lodash")
 
 /**
  * Checks for mongoose in the browser and if it's not loaded recognizes this is a node environment. Mongoose in the browser has a promise bug that is fixed by using bluebird

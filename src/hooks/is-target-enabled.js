@@ -1,5 +1,4 @@
 const errors = require('feathers-errors');
-import helpers from '../../shared/services/helpers.service'
 import _ from 'lodash'
 
 module.exports = (options) => {

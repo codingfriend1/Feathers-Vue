@@ -40,8 +40,8 @@
       }
     },
     "google": {
-      "clientID": "your google client id",
-      "clientSecret": "your google client secret",
+      "clientID": "GOOGLE_CLIENT_ID",
+      "clientSecret": "GOOGLE_CLIENT_SECRET",
       "permissions": {
         "scope": ["profile"]
       }
