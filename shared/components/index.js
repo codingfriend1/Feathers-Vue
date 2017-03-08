@@ -1,5 +1,4 @@
 // inject shared components js
-import "./index.js"
 import "./confirm/confirm.js"
 import "./foot/foot.js"
 import "./heading/heading.js"

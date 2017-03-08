@@ -86,6 +86,7 @@ gulp.task('inject-shared-component-js', function() {
     [
       folders.shared.components + '/**/*.js',
       '!**/*spec.js',
+      '!**/*index.js',
       '!**/*mock.js',
     ],
     'inject shared components js'
