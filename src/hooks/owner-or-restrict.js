@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const errors = require('feathers-errors');
+import _ from 'lodash';
+import errors from 'feathers-errors';
 
 const defaults = {
   idField: '_id',
@@ -9,11 +9,11 @@ const defaults = {
 module.exports = function ownerOrRestrict(options) {
   return function(hook) {
     if (hook.type !== 'before') {
-      throw new Error(`The 'restrictToOwner' hook should only be used as a 'before' hook.`);
+      throw new Error(`The 'ownerOrRestrict' hook should only be used as a 'before' hook.`);
     }
 
     if (!hook.id) {
-      throw new errors.MethodNotAllowed(`The 'restrictToOwner' hook should only be used on the 'get', 'update', 'patch' and 'remove' service methods.`);
+      throw new errors.MethodNotAllowed(`The 'ownerOrRestrict' hook should only be used on the 'get', 'update', 'patch' and 'remove' service methods.`);
     }
 
     // If it was an internal call then skip this hook
