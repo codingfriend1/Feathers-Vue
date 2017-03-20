@@ -59,15 +59,23 @@ export default {
 		updateMessage: async function(m) {
 			let mes = _.cloneDeep(m)
 			mes.text = mes.textChanges
+
 			let valid = await checkValid(mes, 'message')
 			if(valid) {
-				await to( api.messages.upsert(mes) )
+				let [err, message] = await api.messages.upsert(mes)
+        if(err) { notify.error(parseErrors(err)); }
 			} else {
 				Vue.set(m, 'errors', mes.errors)
 			}
 		},
 
 		sendMessage: async function(data) {
+      if(!_.get(this, 'currentUser._id')) {
+        this.errorsSummary = "You must be logged in."
+        return false;
+      }
+
+      data.userId = _.get(this, 'currentUser._id');
 
 			let valid = await checkValid(data, 'message')
 

@@ -22,11 +22,27 @@ module.exports = (permissionName, options) => {
 
       const name = _.get(hook, 'params.user.name') || _.get(hook, 'params.user.email');
 
-      for (var i = 0; i < options.restrictOn.length; i++) {
-        if(hook.data.hasOwnProperty(options.restrictOn[i])) {
-          throw new errors.Forbidden(`${name} is not permitted to update the '${options.restrictOn[i]}' field.`);
+      options.restrictOn = _.castArray(options.restrictOn);
+
+      var includeS = '';
+
+      const restrictions = _
+        .chain(options.restrictOn)
+        .map(restriction => _.has(hook.data, restriction)? restriction: null)
+        .compact()
+        .value()
+        .join(', ');
+
+      if(!restrictions) { return hook; }
+
+      if(restrictions.split(',').length > 0) {
+        restrictions = restrictions.replace(/,(?!.*,)/gmi, ' or');
+        if(restrictions.split(',').length > 1) {
+          includeS = 's';
         }
       }
+
+      throw new errors.Forbidden(`${name} is not permitted to update the ${restrictions} field${includeS}.`);
 
     }
 

@@ -13,3 +13,4 @@ exports.sendVerificationEmail = require('./send-verification-email');
 exports.isTargetEnabled = require('./is-target-enabled');
 exports.hasPermissionOrRestrictChanges = require('./permission-or-restrict-changes');
 exports.preventDisabledAdmin = require('./prevent-disabled-admin');
+exports.ownerOrRestrict = require('./owner-or-restrict');

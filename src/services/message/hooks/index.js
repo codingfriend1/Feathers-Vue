@@ -13,8 +13,20 @@ exports.before = {
   find: [],
   get: [],
   create: [],
-  update: [],
-  patch: [],
+  update: [
+    auth.verifyToken(),
+    auth.populateUser(),
+    auth.restrictToAuthenticated(),
+    globalHooks.isEnabled(),
+    globalHooks.ownerOrRestrict({ restrictOn: ["text"] })
+  ],
+  patch: [
+    auth.verifyToken(),
+    auth.populateUser(),
+    auth.restrictToAuthenticated(),
+    globalHooks.isEnabled(),
+    globalHooks.ownerOrRestrict({ restrictOn: ["text"] })
+  ],
   remove: []
 };
 
