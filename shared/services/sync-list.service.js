@@ -1,8 +1,8 @@
 /**
  * Uses Socket.io to detect updates, deletions, and creations and updates a property on the store with the changes
  */
-import Vue from 'vue'
-import feathers from './feathers.service'
+const Vue = require('vue')
+const feathers = require('./feathers.service')
 
 // The id property to identify list items by
 const idProperty = '_id'
@@ -74,4 +74,4 @@ function prepareSyncList(store) {
 }
 
 global.prepareSyncList = prepareSyncList
-export default prepareSyncList
+module.exports = prepareSyncList

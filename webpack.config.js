@@ -143,22 +143,22 @@ configs[1] = Object.assign({
   }
 }, modules)
 
-configs.push(Object.assign({
-  entry: ['babel-polyfill', path.join(folders.admin, 'app.js')],
-  output: {
-    path: path.join(folders.bundle, 'admin'),
-    pathinfo: true,
-    filename: 'admin.js',
-    sourceMapFilename: "[file].map"
-  },
-  devtool: isProduction? null: "cheap-source-map",
-  resolve: {
-    modules: ['node_modules'],
-    alias: {
-      vue: 'vue/dist/vue.js'
-    }
-  }
-}, modules))
+// configs.push(Object.assign({
+//   entry: ['babel-polyfill', path.join(folders.admin, 'app.js')],
+//   output: {
+//     path: path.join(folders.bundle, 'admin'),
+//     pathinfo: true,
+//     filename: 'admin.js',
+//     sourceMapFilename: "[file].map"
+//   },
+//   devtool: isProduction? null: "cheap-source-map",
+//   resolve: {
+//     modules: ['node_modules'],
+//     alias: {
+//       vue: 'vue/dist/vue.js'
+//     }
+//   }
+// }, modules))
 
 
 module.exports = configs

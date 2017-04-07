@@ -1,6 +1,6 @@
-import Vue from 'vue'
+const Vue = require('vue')
 
-export default Vue.component('user-row', {
+module.exports = Vue.component('user-row', {
   props: ['user'],
   store: ['roles', 'currentUser', 'currentModal'],
   data: () => ({

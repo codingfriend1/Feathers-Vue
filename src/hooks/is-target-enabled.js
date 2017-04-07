@@ -1,5 +1,5 @@
 const errors = require('feathers-errors');
-import _ from 'lodash'
+const _ = require('lodash')
 
 module.exports = (options) => {
   return async hook => {

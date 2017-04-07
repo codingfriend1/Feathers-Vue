@@ -26,13 +26,13 @@
 
 </template>
 
-<script lang="babel">
+<script>
 
-import feathers from '../../shared/services/feathers.service'
-import _ from 'lodash'
-import Vue from 'vue'
+const feathers = require('../../shared/services/feathers.service')
+const _ = require('lodash')
+const Vue = require('vue')
 
-export default {
+module.exports = {
 	data: () => ({
 		newMessage: {
 			text: '',

@@ -1,6 +1,6 @@
-import Vue from 'vue'
+const Vue = require('vue')
 
-export default Vue.component('confirm', {
+module.exports = Vue.component('confirm', {
   template: `
     <div class="confirm-dialogue">
       <div class="confirm-dialogue-header">

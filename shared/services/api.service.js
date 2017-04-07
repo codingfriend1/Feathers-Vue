@@ -1,4 +1,4 @@
-import endpoints from './endpoints.service.js'
+const endpoints = require('./endpoints.service.js')
 
 const api = {
   roles: new endpoints('roles'),
@@ -9,4 +9,4 @@ const api = {
 };
 
 global.api = api
-export default api
+module.exports = api

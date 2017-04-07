@@ -42,9 +42,9 @@ function generateInject(injectTo, outputFolder, arrayOfFilesToInject, startTag, 
           title = title.substr(0, title.lastIndexOf('.')).replace('-', '_')
           if(importStatement !== 'require') {
             if (filepath.indexOf('..') !== -1) {
-              return importStatement + ' ' + title + ' from "' + filepath + '"'
+              return 'var ' + title + ' = require("' + filepath + '")'
             } else {
-              return importStatement + ' ' + title + ' from "./' + filepath + '"'
+              return 'var ' + title + ' = require("./' + filepath + '")'
             }
           } else {
             if (filepath.indexOf('..') !== -1) {
@@ -56,9 +56,9 @@ function generateInject(injectTo, outputFolder, arrayOfFilesToInject, startTag, 
 
         } else {
           if (filepath.indexOf('..') !== -1) {
-            return importStatement + ' "' + filepath + '"'
+            return 'require("' + filepath + '")'
           } else {
-            return importStatement + ' "./' + filepath + '"'
+            return 'require("./' + filepath + '")'
           }
         }
       }

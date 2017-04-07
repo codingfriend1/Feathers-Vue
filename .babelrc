@@ -1,18 +1,3 @@
 {
-  "presets": [
-    ["env", {
-      "targets": {
-        "node": "current",
-        "browsers": [
-          "last 1 Chrome version",
-          "last 1 Firefox version",
-          "last 1 Edge version",
-          "last 1 iOS version",
-          "last 1 Opera version",
-          "last 1 Safari version",
-        ]
-      }
-    }]
-  ],
-  "plugins": ["transform-regenerator", "transform-es2015-destructuring"]
+  "plugins": ["transform-async-to-generator"]
 }

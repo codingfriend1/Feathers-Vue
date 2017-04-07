@@ -5,9 +5,9 @@
         | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error, repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus, minus!
 </template>
 
-<script lang="babel">
+<script>
 
-export default {
+module.exports = {
 	store: ['message', 'currentUser', 'currentModal'],
 
   // beforeCreate and create are both run on the server before the html is sent. The api library used, "axios", is isomorphic so it works both on client and server

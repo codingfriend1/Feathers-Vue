@@ -1,18 +1,18 @@
-import Vue from 'vue'
-import store from './store-reconciliation'
-import router from '../../shared/boot/router'
+const Vue = require('vue')
+const store = require('./store-reconciliation')
+const router = require('../../shared/boot/router')
 
-import prepareSyncList from '../../shared/services/sync-list.service'
-import '../../shared/services/api.service'
-import '../../shared/services/notification.service'
-import '../../shared/services/helpers.service'
+const prepareSyncList = require('../../shared/services/sync-list.service')
+require('../../shared/services/api.service')
+require('../../shared/services/notification.service')
+require('../../shared/services/helpers.service')
 
-import '../../shared/components'
-import '../components'
-import '../views'
-import App from '../views/app.vue'
+require('../../shared/components')
+require('../components')
+require('../views')
+const App = require('../views/app.vue')
 
-import * as filters from '../filters'
+const filters = require('../filters')
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {

@@ -1,5 +1,5 @@
-import errors from 'feathers-errors';
-import _ from 'lodash'
+const errors = require('feathers-errors')
+const _ = require('lodash')
 
 module.exports = (permissionName, options) => {
   return (hook) => {

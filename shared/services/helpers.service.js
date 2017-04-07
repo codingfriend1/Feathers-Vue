@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import _ from 'lodash'
+const Vue = require('vue')
+const _ = require('lodash')
 
 if(!Vue.prototype.$isServer) {
   global.schemas = require('../../shared/schemas').schemas
@@ -20,11 +20,11 @@ if(!Vue.prototype.$isServer) {
   *
   * ```
   */
-export const to = function(promise) {
+const to = function to(promise) {
   return promise.then(result => [null, result]).catch(err => [err, null])
 }
 
-export const parseErrors = function(err) {
+const parseErrors = function parseErrors(err) {
   if(err.name) {
     return err.message
   } else {
@@ -45,7 +45,7 @@ export const parseErrors = function(err) {
  *   radio.$emit('eventName', 5)
  * ```
  */
-export const radio = new Vue()
+const radio = new Vue()
 
 
 // ### isValid(schema, data, field)
@@ -56,7 +56,7 @@ export const radio = new Vue()
  * @param {string} field Only validate one field
  * @return {Promise} Rejects with mongoose errors or resolves with 'valid'
  */
-export const isValid = function(schema, data, field) {
+const isValid = function isValid(schema, data, field) {
   return new Promise((resolve, reject) => {
     let doc = global.mongoose.Document(_.cloneDeep(data), schema)
     doc.validate((err) => {
@@ -79,7 +79,7 @@ export const isValid = function(schema, data, field) {
  * @param {string} field Validate one specific field instead of all of them
  * @return {Promise} Returns boolean of if data is valid
  */
-export const checkValid = async function(data, schema, field) {
+const checkValid = async function checkValid(data, schema, field) {
 
   let foundSchema = typeof schema === 'string'? _.get(schemas, `${schema}.schema`): schema.schema
 
@@ -102,15 +102,15 @@ export const checkValid = async function(data, schema, field) {
 
 }
 
-export const validateLive = _.debounce(async function(data, schema, field) {
+const validateLive = _.debounce(async function validateLive(data, schema, field) {
   checkValid(data, schema, field)
 }, 500)
 
-export function a_or_an(field) {
+const a_or_an = function a_or_an(field) {
   return /[aeiou]/.test(field.charAt(0)) ? 'an' : 'a'
 }
 
-const confirm = function(message, store) {
+const confirm = function confirm(message, store) {
   return new Promise(async resolve => {
 
     store.modalConfig = {
@@ -121,7 +121,7 @@ const confirm = function(message, store) {
   })
 }
 
-export const prepareConfirm = function (store) {
+const prepareConfirm =  function prepareConfirm(store) {
   global.confirm = _.partialRight(confirm, store)
   return global.confirm
 }
@@ -135,3 +135,14 @@ global.validateLive = validateLive
 global.a_or_an = a_or_an
 global.confirm = confirm
 global.prepareConfirm = prepareConfirm
+
+module.exports = {
+  to,
+  parseErrors,
+  radio,
+  isValid,
+  validateLive,
+  a_or_an,
+  confirm,
+  prepareConfirm
+}

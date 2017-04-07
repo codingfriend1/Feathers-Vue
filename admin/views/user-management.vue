@@ -7,9 +7,9 @@
 
 </template>
 
-<script lang="babel">
+<script>
 
-export default {
+module.exports = {
 	store: ['message', 'currentUser', 'currentModal', 'users'],
 	data: () => ({
 		showUsers: false

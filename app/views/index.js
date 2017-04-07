@@ -1,4 +1,4 @@
 // inject vue
-import "./home.vue"
-import "./login.vue"
+require("./home.vue")
+require("./login.vue")
 // end inject vue

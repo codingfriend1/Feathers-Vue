@@ -1,5 +1,5 @@
-import Vue from 'vue'
+const Vue = require('vue')
 
-export default Vue.component('foot', {
+module.exports = Vue.component('foot', {
   template: require('./foot.jade')
 })

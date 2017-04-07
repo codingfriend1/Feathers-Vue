@@ -1,6 +1,6 @@
-import Vue from 'vue'
+const Vue = require('vue')
 
-export default Vue.component('navigation', {
+module.exports = Vue.component('navigation', {
   store: ['routes', 'tasks'],
   template: require('./navigation.jade')
 })

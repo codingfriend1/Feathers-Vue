@@ -2,9 +2,9 @@
  * A helper to find the correct url to connect to socket.io on in all environments
  */
 
-import Vue from 'vue'
-import config from '../../config/default.json'
-import productionConfig from '../../config/production.json'
+const Vue = require('vue')
+const config = require('../../config/default.json')
+const productionConfig = require('../../config/production.json')
 
 var correctConfig = config
 var url
@@ -28,4 +28,4 @@ if(Vue.prototype.$isServer) {
   }
 }
 
-export { url }
+exports.url = url

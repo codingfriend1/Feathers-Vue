@@ -1,8 +1,8 @@
 // inject shared components js
-import "./confirm/confirm.js"
-import "./foot/foot.js"
-import "./heading/heading.js"
-import "./modal/modal.js"
-import "./navigation/navigation.js"
-import "./simple-input/simple-input.js"
+require("./confirm/confirm.js")
+require("./foot/foot.js")
+require("./heading/heading.js")
+require("./modal/modal.js")
+require("./navigation/navigation.js")
+require("./simple-input/simple-input.js")
 // end inject shared components js

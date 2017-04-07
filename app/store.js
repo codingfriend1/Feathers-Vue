@@ -1,6 +1,6 @@
-import routes from '../shared/routes'
+const routes = require('../shared/routes')
 
-export default {
+module.exports = {
   routes,
   currentModal: '',
   modalConfig: {},

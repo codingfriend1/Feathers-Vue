@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import errors from 'feathers-errors';
+const _ = require('lodash')
+const errors = require('feathers-errors')
 
 const defaults = {
   idField: '_id',

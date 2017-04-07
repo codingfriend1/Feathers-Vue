@@ -1,3 +1,3 @@
 // inject component js
-import "./index.js"
+require("./index.js")
 // end inject component js

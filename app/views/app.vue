@@ -8,8 +8,8 @@
 		modal
 </template>
 
-<script lang="babel">
-export default {
+<script>
+module.exports = {
 	methods: {
 
 	},

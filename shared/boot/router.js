@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import Meta from 'vue-meta'
-import VueRouter from 'vue-router'
-import routes from '../routes'
+const Vue = require('vue')
+const Meta = require('vue-meta')
+const VueRouter = require('vue-router')
+const routes = require('../routes')
 
 Vue.use(Meta)
 Vue.use(VueRouter)
@@ -29,4 +29,4 @@ router.beforeEach(async (to, from, next) => {
 
 })
 
-export default router;
+module.exports = router;

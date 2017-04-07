@@ -1,4 +1,4 @@
 // inject vue
-import "./admin.vue"
-import "./user-management.vue"
+require("./admin.vue")
+require("./user-management.vue")
 // end inject vue

@@ -1,6 +1,6 @@
-import { to } from './helpers.service'
-import feathers from './feathers.service'
-import _ from 'lodash'
+const { to } = require('./helpers.service')
+const feathers = require('./feathers.service')
+const _ = require('lodash')
 
 /**
  * @overview 	A sevice that sends get, post, put, and delete requests to the server through http. Allows raw mongoDB queries to be passed to the server. The user creates a new instance of the endpoints service providing an endpoint url to reach and calls api methods on that instance.
@@ -128,4 +128,4 @@ import _ from 'lodash'
     return to(feathers.service(this.url).remove(id))
 	}
 
-export default endpoints
+module.exports = endpoints

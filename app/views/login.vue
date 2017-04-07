@@ -90,8 +90,8 @@
 			.login-form-change-email-btn(@click="auth.changeIdentity(user, user.password, {email: user.newEmail})") Update Email
 </template>
 
-<script lang="babel">
-	export default {
+<script>
+	module.exports =  {
 		store: ['currentUser'],
 		data: () => ({
 			showing: 'login',

@@ -1,7 +1,7 @@
 // The server may have made changes to the store before rendering the initial html. It writes those changes to window.__INITIAL_STATE__. We need to set out local store to be the same as the server so vue does not throw an hydration error (server and client html out of sync)
-import Vue from 'vue'
-import VueStash from 'vue-stash'
-import defaultStore from '../store'
+const Vue = require('vue')
+const VueStash = require('vue-stash').default
+const defaultStore = require('../store')
 
 Vue.use(VueStash)
 
@@ -13,4 +13,4 @@ try {
   }
 } catch(err) {}
 
-export default store
+module.exports = store

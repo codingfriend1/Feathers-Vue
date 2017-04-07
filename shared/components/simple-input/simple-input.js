@@ -1,6 +1,6 @@
-import Vue from 'vue'
+const Vue = require('vue')
 
-Vue.component('simple-input', {
+module.exports = Vue.component('simple-input', {
   template: `
     <div class="form-group" :class="{'has-error': error, 'has-success': !error }">
       <label :for="randomId" v-once v-if="label">{{label}}</label>

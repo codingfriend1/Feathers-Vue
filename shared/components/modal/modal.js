@@ -1,6 +1,6 @@
-import Vue from 'vue'
+const Vue = require('vue')
 
-export default Vue.component('modal', {
+module.exports = Vue.component('modal', {
   name: 'modal',
   template: require('./modal.jade'),
   store: ['currentModal', 'modalConfig'],

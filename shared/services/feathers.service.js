@@ -1,9 +1,9 @@
-import { url } from './config.service'
-import Vue from 'vue'
+const { url } = require('./config.service')
+const Vue  = require('vue')
 const feathers = require('feathers/client')
 const hooks = require('feathers-hooks')
 
-import axios from 'axios'
+const axios = require('axios')
 const authentication = require('feathers-authentication/client')
 const rest = require('feathers-rest/client')
 const AuthManagement = require('feathers-authentication-management/lib/client')
@@ -34,4 +34,4 @@ if(Vue.prototype.$isServer) {
 }
 
 global.feathers = app
-export default app
+module.exports = app

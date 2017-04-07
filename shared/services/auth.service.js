@@ -1,7 +1,7 @@
-import './helpers.service'
-import './notification.service'
-import './feathers.service'
-import './api.service'
+require('./helpers.service')
+require('./notification.service')
+require('./feathers.service')
+require('./api.service')
 
 const auth = {
   currentUser: undefined,
@@ -278,4 +278,4 @@ try {
   global.auth = auth
 } catch(err) {}
 
-export default auth
+module.exports = auth
