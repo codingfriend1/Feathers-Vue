@@ -12,8 +12,7 @@ require('../views')
 const App = require('../views/app.vue')
 
 const filters = require('../filters')
-
-// register global utility filters.
+// register global utility filters
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
@@ -23,9 +22,11 @@ const app = new Vue(Object.assign({
   data: { store }
 }, App))
 
+// Prepare the confirm modal and sync list helpers
 prepareSyncList(app.store)
 prepareConfirm(app.store)
 
+// Check if user is logged in then launch the app unless we are rendering from the server
 if(Vue.prototype.$isServer) {
   app.$mount('#app')
 } else {

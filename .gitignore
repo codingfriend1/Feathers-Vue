@@ -39,3 +39,4 @@ lib/index.js
 lib/routes.js
 lib/renderer.js
 lib/seed
+src/compiled-ssr.js

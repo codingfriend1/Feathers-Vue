@@ -14,6 +14,7 @@ COPY config/ /var/www/config
 
 # Expose the default port
 EXPOSE 3030
+EXPOSE 80
 VOLUME /var/www
 
 CMD ["pm2", "start", "src", "--no-daemon"]
