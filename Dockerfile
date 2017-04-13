@@ -7,7 +7,7 @@ COPY package.json /var/www/
 ENV NODE_ENV=production
 RUN npm install
 COPY public/ /var/www/public
-COPY lib/ /var/www/lib
+COPY src/ /var/www/src
 COPY config/ /var/www/config
 # RUN chmod -R 755 /var/www
 ################## END DIRECTORIES ######################
