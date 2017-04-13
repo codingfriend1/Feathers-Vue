@@ -1,5 +1,10 @@
 FROM codingfriend/meanbase
 
+# Upgrade node
+RUN npm cache clean -f
+RUN npm install -g n
+RUN n 7.6
+
 ################## ESTABLISH DIRECTORIES ######################
 RUN rm -rf /var/www/
 WORKDIR /var/www/
@@ -13,7 +18,6 @@ COPY config/ /var/www/config
 ################## END DIRECTORIES ######################
 
 # Expose the default port
-EXPOSE 3030
 EXPOSE 80
 VOLUME /var/www
 

@@ -4,6 +4,6 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 $fa-font-path: "~font-awesome/fonts";
 @import "node_modules/font-awesome/scss/font-awesome";
 
-@import "../../node_modules/toastr/toastr.scss";
+@import "node_modules/toastr/toastr.scss";
 
 @import './flexgrid.scss';
