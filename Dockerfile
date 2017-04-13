@@ -16,4 +16,4 @@ COPY config/ /var/www/config
 EXPOSE 3030
 VOLUME /var/www
 
-CMD ["pm2", "start", "lib", "--no-daemon"]
+CMD ["pm2", "start", "src", "--no-daemon"]
