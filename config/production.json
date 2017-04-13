@@ -5,7 +5,7 @@
   "mongodb": "DATABASE_URL",
   "complaint_email": "COMPLAINT_EMAIL",
   "public": "../public/",
-  "src": "../lib/",
+  "src": "../src/",
   "auth": {
     "token": {
       "secret": "FEATHERS_AUTH_SECRET"

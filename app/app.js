@@ -1,4 +1,4 @@
-require('../shared/services/auth.service')
+require('./services/auth.service')
 require('./vendor')
 
 // remount vue app from client because the server makes a one time static render that's not interactable and will cause full page reloads when navigating

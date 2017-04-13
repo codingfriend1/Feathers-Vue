@@ -3,6 +3,7 @@ const path = require('path')
 var ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 
+
 const configs = []
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -14,11 +15,9 @@ const folders = {
   node_modules: path.resolve(__dirname, 'node_modules'),
   bundle: path.resolve(__dirname, 'public'),
   src: path.resolve(__dirname, 'src'),
-  renderer: path.resolve(__dirname, 'src', 'renderer.js'),
+  renderer: path.resolve(__dirname, 'vue-server-side-rendering.js'),
   serve: path.resolve(__dirname, 'public', '/'),
   app: path.resolve(__dirname, 'app'),
-  admin: path.resolve(__dirname, 'admin'),
-  shared: path.resolve(__dirname, 'shared'),
   styles: path.resolve(__dirname, 'app/styles.js')
 }
 
@@ -135,30 +134,13 @@ configs[0] = Object.assign({
 
 configs[1] = Object.assign({
   target: 'node',
-  entry: ['babel-polyfill', path.join(folders.src, 'renderer.js')],
+  entry: ['babel-polyfill', path.join(folders.root, 'vue-server-side-rendering.js')],
   output: {
     libraryTarget: 'commonjs2',
-    path: path.join(folders.root, 'lib'),
-    filename: 'renderer.js'
+    path: path.join(folders.root, 'src'),
+    filename: 'compiled-ssr.js'
   }
 }, modules)
-
-// configs.push(Object.assign({
-//   entry: ['babel-polyfill', path.join(folders.admin, 'app.js')],
-//   output: {
-//     path: path.join(folders.bundle, 'admin'),
-//     pathinfo: true,
-//     filename: 'admin.js',
-//     sourceMapFilename: "[file].map"
-//   },
-//   devtool: isProduction? null: "cheap-source-map",
-//   resolve: {
-//     modules: ['node_modules'],
-//     alias: {
-//       vue: 'vue/dist/vue.js'
-//     }
-//   }
-// }, modules))
 
 
 module.exports = configs

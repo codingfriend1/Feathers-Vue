@@ -8005,59 +8005,53 @@ module.exports =
 /* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const Vue = __webpack_require__(298);
+	const Vue = __webpack_require__(298)
 
-	module.exports = function (context) {
-	  var store, app, router, boot;
-	  if (context.admin) {
-	    // boot = require('../admin/boot')
-	    boot = __webpack_require__(299);
-	  } else {
-	    boot = __webpack_require__(299);
-	  }
+	module.exports = function(context) {
+	  var store, app, router, boot
+	  var { store, app, router } = __webpack_require__(299)
 
-	  store = boot.store;
-	  app = boot.app;
-	  router = boot.router;
+	  const meta = app.$meta()
 
-	  const meta = app.$meta();
-
-	  router.push(context.url);
-	  let matchedComponents = router.getMatchedComponents();
+	  router.push(context.url)
+	  let matchedComponents = router.getMatchedComponents()
 
 	  // no matched routes
 	  if (!matchedComponents.length) {
-	    return Promise.reject({ code: '404' });
+	    return Promise.reject({ code: '404' })
 	  }
+
 
 	  // We wait for the "beforeCreate" and "created" hooks to finish their promises before rendering. You can run an isomorphic ajax library such as axios or isomorphic-fetch in it. It should be a function You that returns a promise and when it resolves it will render the html. This allows you to fetch all your ajax data before the html is sent. The store is attached to this and passed in as the first parameter as well
 
 	  return Promise.all(matchedComponents.map(component => {
 
 	    const componentInstance = new Vue(Object.assign(component, { data: () => ({
-	        store: app.$store
-	      }) }));
+	      store: app.$store
+	    }) }))
 
-	    let promises = [];
+	    let promises = []
 
 	    if (component.beforeCreate) {
 	      try {
-	        promises.push(component.beforeCreate.apply(componentInstance));
-	      } catch (err) {}
+	        promises.push(component.beforeCreate.apply(componentInstance))
+	      } catch(err) {}
 	    }
-	    if (component.created) {
+	    if(component.created) {
 	      try {
-	        promises.push(component.created.apply(componentInstance));
-	      } catch (err) {}
+	        promises.push(component.created.apply(componentInstance))
+	      } catch(err) {}
 	    }
 
-	    return Promise.all([]);
+	    return Promise.all([])
 	  })).then(() => {
-	    context.initialState = app.$store;
-	    context.meta = meta;
-	    return app;
-	  });
+	    context.initialState = app.$store
+	    context.meta = meta
+	    return app
+	  })
+
 	};
+
 
 /***/ },
 /* 298 */
@@ -14279,19 +14273,18 @@ module.exports =
 
 	const Vue = __webpack_require__(298);
 	const store = __webpack_require__(300);
-	const router = __webpack_require__(493);
+	const router = __webpack_require__(487);
 
-	const prepareSyncList = __webpack_require__(496);
-	__webpack_require__(497);
-	__webpack_require__(543);
-	__webpack_require__(499);
+	const prepareSyncList = __webpack_require__(490);
+	__webpack_require__(491);
+	__webpack_require__(537);
+	__webpack_require__(493);
 
-	__webpack_require__(547);
-	__webpack_require__(558);
-	__webpack_require__(559);
-	const App = __webpack_require__(560);
+	__webpack_require__(541);
+	__webpack_require__(552);
+	const App = __webpack_require__(553);
 
-	const filters = __webpack_require__(563);
+	const filters = __webpack_require__(556);
 
 	// register global utility filters.
 	Object.keys(filters).forEach(key => {
@@ -14478,48 +14471,25 @@ module.exports =
 /* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// inject views
-	var home = __webpack_require__(305);
-	var login = __webpack_require__(484);
-	var admin = __webpack_require__(487);
-	var user_management = __webpack_require__(490);
-	// end inject views
+	const views = {
+	  // inject views
+	  home: __webpack_require__(305),
+	  login: __webpack_require__(484)
+	};
 
 	module.exports = [{
 	  path: '/',
 	  name: 'Home',
-	  component: home,
+	  component: views.home,
 	  meta: {
 	    subtitle: 'Welcome to Front-Vue!'
 	  }
 	}, {
 	  path: '/login/:type?/:slug?',
 	  name: 'Login',
-	  component: login,
+	  component: views.login,
 	  meta: {
 	    subtitle: ''
-	  }
-	}, {
-	  path: '/admin',
-	  name: 'admin',
-	  component: admin,
-	  meta: {
-	    subtitle: 'Welcome to Front-Vue!'
-	  }
-	}, {
-	  path: '/admin/users',
-	  name: 'users',
-	  component: user_management,
-	  meta: {
-	    subtitle: 'Users and Roles'
-	  }
-	}, {
-	  path: '/admin/:view',
-	  name: 'adminView',
-	  component: admin,
-	  meta: {
-	    excludeMenu: true,
-	    subtitle: 'Welcome to Front-Vue!'
 	  }
 	}];
 
@@ -14757,7 +14727,6 @@ module.exports =
 		"protocal": "http",
 		"mongodb": "mongodb://localhost:27017/FeathersVue",
 		"public": "../public/",
-		"lib": "../lib/",
 		"src": "../src/",
 		"auth": {
 			"token": {
@@ -14858,7 +14827,7 @@ module.exports =
 		"mongodb": "DATABASE_URL",
 		"complaint_email": "COMPLAINT_EMAIL",
 		"public": "../public/",
-		"src": "../lib/",
+		"src": "../src/",
 		"auth": {
 			"token": {
 				"secret": "FEATHERS_AUTH_SECRET"
@@ -55331,238 +55300,38 @@ module.exports =
 /* 487 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
-
-	/* styles */
-
-	/* script */
-	__vue_exports__ = __webpack_require__(488)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(489)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.__file = "/Users/jonpaul/Desktop/POCS/Feathers-Vue/admin/views/admin.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	if (__vue_options__.functional) {console.error("[vue-loader] admin.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-	module.exports = __vue_exports__
-
-
-/***/ },
-/* 488 */
-/***/ function(module, exports) {
-
-	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-
-
-	module.exports = {
-	  store: ['message', 'currentUser', 'currentModal'],
-
-	  // beforeCreate and create are both run on the server before the html is sent. The api library used, "axios", is isomorphic so it works both on client and server
-	  beforeCreate: (() => {
-	    var _ref = _asyncToGenerator(function* () {});
-
-	    return function beforeCreate() {
-	      return _ref.apply(this, arguments);
-	    };
-	  })(),
-	  metaInfo: {
-	    title: 'Home'
-	  }
-	};
-
-/***/ },
-/* 489 */
-/***/ function(module, exports) {
-
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _vm._m(0)
-	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('div', {
-	    staticClass: "row"
-	  }, [_c('div', {
-	    staticClass: "col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"
-	  }, [_c('p', [_vm._v("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error, repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus, minus!")])])])
-	}]}
-	module.exports.render._withStripped = true
-
-/***/ },
-/* 490 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
-
-	/* styles */
-
-	/* script */
-	__vue_exports__ = __webpack_require__(491)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(492)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.__file = "/Users/jonpaul/Desktop/POCS/Feathers-Vue/admin/views/user-management.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	if (__vue_options__.functional) {console.error("[vue-loader] user-management.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-	module.exports = __vue_exports__
-
-
-/***/ },
-/* 491 */
-/***/ function(module, exports) {
-
-	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-
-
-	module.exports = {
-		store: ['message', 'currentUser', 'currentModal', 'users'],
-		data: () => ({
-			showUsers: false
-		}),
-		// beforeCreate and create are both run on the server before the html is sent. The api library used, "axios", is isomorphic so it works both on client and server
-		beforeMount: (() => {
-			var _ref = _asyncToGenerator(function* () {
-				var _this = this;
-
-				if (!this.$isServer) {
-
-					_asyncToGenerator(function* () {
-						let [err, result] = yield api.users.find({});
-						if (!err) {
-							_this.$store.users = _.keyBy(result.data, '_id');
-							if (result.data.length) {
-								_this.showUsers = true;
-							}
-						}
-					})();
-
-					_asyncToGenerator(function* () {
-						let [err, result] = yield api.roles.find({});
-						if (!err) {
-							_this.$store.roles = _.keyBy(result.data, '_id');
-						}
-					})();
-				}
-			});
-
-			return function beforeMount() {
-				return _ref.apply(this, arguments);
-			};
-		})(),
-		metaInfo: {
-			title: 'Users and Roles'
-		}
-	};
-
-/***/ },
-/* 492 */
-/***/ function(module, exports) {
-
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('div', [(this.showUsers) ? _c('div', {
-	    staticClass: "user-list"
-	  }, _vm._l((_vm.users), function(user) {
-	    return _c('user-row', {
-	      attrs: {
-	        "user": user
-	      }
-	    })
-	  })) : _vm._e(), (!this.showUsers) ? _c('div', {
-	    staticClass: "container"
-	  }, [_c('div', {
-	    staticClass: "alert alert-warning"
-	  }, [_vm._v("There are either no users or you do not have permission to view them")])]) : _vm._e()])
-	},staticRenderFns: []}
-	module.exports.render._withStripped = true
-
-/***/ },
-/* 493 */
-/***/ function(module, exports, __webpack_require__) {
-
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 	const Vue = __webpack_require__(298);
-	const Meta = __webpack_require__(494);
-	const VueRouter = __webpack_require__(495);
+	const Meta = __webpack_require__(488);
+	const VueRouter = __webpack_require__(489);
 	const routes = __webpack_require__(304);
 
 	Vue.use(Meta);
 	Vue.use(VueRouter);
 
 	const router = new VueRouter({
-	  mode: 'history',
-	  hashbang: false,
-	  routes
+	    mode: 'history',
+	    hashbang: false,
+	    routes
 	});
 
 	// If switching between admin and app we want to do a full page refresh instead of just an ajax route change
 	router.beforeEach((() => {
-	  var _ref = _asyncToGenerator(function* (to, from, next) {
+	    var _ref = _asyncToGenerator(function* (to, from, next) {
 
-	    if (!Vue.prototype.$isServer) {
-	      if (to.fullPath.startsWith('/admin') && !from.fullPath.startsWith('/admin') && from.fullPath !== '/') {
-	        window.location.href = to.fullPath;
-	      } else if (!to.fullPath.startsWith('/admin') && from.fullPath.startsWith('/admin')) {
-	        window.location.href = to.fullPath;
-	      } else {
 	        next();
-	      }
-	    } else {
-	      next();
-	    }
-	  });
+	    });
 
-	  return function (_x, _x2, _x3) {
-	    return _ref.apply(this, arguments);
-	  };
+	    return function (_x, _x2, _x3) {
+	        return _ref.apply(this, arguments);
+	    };
 	})());
 
 	module.exports = router;
 
 /***/ },
-/* 494 */
+/* 488 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -56574,7 +56343,7 @@ module.exports =
 
 
 /***/ },
-/* 495 */
+/* 489 */
 /***/ function(module, exports) {
 
 	/**
@@ -58640,7 +58409,7 @@ module.exports =
 	module.exports = VueRouter;
 
 /***/ },
-/* 496 */
+/* 490 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -58734,10 +58503,10 @@ module.exports =
 	module.exports = prepareSyncList;
 
 /***/ },
-/* 497 */
+/* 491 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const endpoints = __webpack_require__(498);
+	const endpoints = __webpack_require__(492);
 
 	const api = {
 	  roles: new endpoints('roles'),
@@ -58751,10 +58520,10 @@ module.exports =
 	module.exports = api;
 
 /***/ },
-/* 498 */
+/* 492 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const { to } = __webpack_require__(499);
+	const { to } = __webpack_require__(493);
 	const feathers = __webpack_require__(307);
 	const _ = __webpack_require__(482);
 
@@ -58890,7 +58659,7 @@ module.exports =
 	module.exports = endpoints;
 
 /***/ },
-/* 499 */
+/* 493 */
 /***/ function(module, exports, __webpack_require__) {
 
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -58899,7 +58668,7 @@ module.exports =
 	const _ = __webpack_require__(482);
 
 	if (!Vue.prototype.$isServer) {
-	  global.schemas = __webpack_require__(500).schemas;
+	  global.schemas = __webpack_require__(494).schemas;
 	}
 
 	/**
@@ -59061,30 +58830,33 @@ module.exports =
 	};
 
 /***/ },
-/* 500 */
+/* 494 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const _ = __webpack_require__(482);
+	const _ = __webpack_require__(482)
 
 	/**
 	 * Checks for mongoose in the browser and if it's not loaded recognizes this is a node environment. Mongoose in the browser has a promise bug that is fixed by using bluebird
 	 */
 
-	if (!global.mongoose) {
-	  global.mongoose = __webpack_require__(501);
+	if(!global.mongoose) {
+	  global.mongoose = __webpack_require__(495)
 	} else {
-	  const bluebird = __webpack_require__(502);
-	  global.mongoose.Promise = bluebird;
+	  const bluebird = __webpack_require__(496)
+	  global.mongoose.Promise = bluebird
 	}
 
 	let schemas = {
 	  // inject schemas
-	  message: __webpack_require__(538),
-	  roles: __webpack_require__(540),
-	  settings: __webpack_require__(541),
-	  user: __webpack_require__(542)
-	};
-	let models = {};
+	  message: __webpack_require__(532),
+	  roles: __webpack_require__(534),
+	  settings: __webpack_require__(535),
+	  user: __webpack_require__(536),
+	  // end inject schemas
+	}
+	let models = {}
+
+
 
 	/**
 	 * Maps patterns and patternMessages into mongoose validators and creates mongoose models
@@ -59092,52 +58864,53 @@ module.exports =
 	 */
 
 	_.forOwn(schemas, (schema, key) => {
-	  const composition = schema.schema;
-	  const validations = schema.validations;
-	  _.forOwn(composition, function (val, key) {
-	    if (val.pattern && val.patternMessage) {
+	  const composition = schema.schema
+	  const validations = schema.validations
+	  _.forOwn(composition, function(val, key) {
+	    if(val.pattern && val.patternMessage) {
 	      composition[key].validate = {
-	        validator: function (v) {
-	          return val.pattern.test(v);
+	        validator: function(v) {
+	          return val.pattern.test(v)
 	        },
 	        message: val.patternMessage
-	      };
-	    }
-	  });
-	  schemas[key].schema = new global.mongoose.Schema(composition);
-
-	  if (validations) {
-	    _.forOwn(validations, function (val, k) {
-	      if (k === 'pre') {
-	        _.forOwn(validations.pre, function (val, k) {
-	          schemas[key].schema.pre(k, val);
-	        });
-	      } else if (k === 'post') {
-	        _.forOwn(validations.post, function (val, k) {
-	          schemas[key].schema.post(k, val);
-	        });
 	      }
-	    });
+	    }
+	  })
+	  schemas[key].schema = new global.mongoose.Schema(composition)
+
+	  if(validations) {
+	    _.forOwn(validations, function(val, k) {
+	      if(k === 'pre') {
+	        _.forOwn(validations.pre, function(val, k) {
+	          schemas[key].schema.pre(k, val)
+	        })
+	      } else if (k === 'post') {
+	        _.forOwn(validations.post, function(val, k) {
+	          schemas[key].schema.post(k, val)
+	        })
+	      }
+	    })
 	  }
 
-	  if (global.mongoose.model) {
-	    models[key] = global.mongoose.model(key, schemas[key].schema);
+	  if(global.mongoose.model) {
+	    models[key] = global.mongoose.model(key, schemas[key].schema)
 	  }
-	});
+	})
 
 	module.exports = {
 	  models,
 	  schemas
-	};
+	}
+
 
 /***/ },
-/* 501 */
+/* 495 */
 /***/ function(module, exports) {
 
 	// empty (null-loader)
 
 /***/ },
-/* 502 */
+/* 496 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -59148,13 +58921,13 @@ module.exports =
 	    catch (e) {}
 	    return bluebird;
 	}
-	var bluebird = __webpack_require__(503)();
+	var bluebird = __webpack_require__(497)();
 	bluebird.noConflict = noConflict;
 	module.exports = bluebird;
 
 
 /***/ },
-/* 503 */
+/* 497 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -59170,7 +58943,7 @@ module.exports =
 	};
 	function Proxyable() {}
 	var UNDEFINED_BINDING = {};
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 
 	var getDomain;
 	if (util.isNode) {
@@ -59186,11 +58959,11 @@ module.exports =
 	}
 	util.notEnumerableProp(Promise, "_getDomain", getDomain);
 
-	var es5 = __webpack_require__(505);
-	var Async = __webpack_require__(506);
+	var es5 = __webpack_require__(499);
+	var Async = __webpack_require__(500);
 	var async = new Async();
 	es5.defineProperty(Promise, "_async", {value: async});
-	var errors = __webpack_require__(509);
+	var errors = __webpack_require__(503);
 	var TypeError = Promise.TypeError = errors.TypeError;
 	Promise.RangeError = errors.RangeError;
 	var CancellationError = Promise.CancellationError = errors.CancellationError;
@@ -59201,19 +58974,19 @@ module.exports =
 	var INTERNAL = function(){};
 	var APPLY = {};
 	var NEXT_FILTER = {};
-	var tryConvertToPromise = __webpack_require__(510)(Promise, INTERNAL);
+	var tryConvertToPromise = __webpack_require__(504)(Promise, INTERNAL);
 	var PromiseArray =
-	    __webpack_require__(511)(Promise, INTERNAL,
+	    __webpack_require__(505)(Promise, INTERNAL,
 	                               tryConvertToPromise, apiRejection, Proxyable);
-	var Context = __webpack_require__(512)(Promise);
+	var Context = __webpack_require__(506)(Promise);
 	 /*jshint unused:false*/
 	var createContext = Context.create;
-	var debug = __webpack_require__(513)(Promise, Context);
+	var debug = __webpack_require__(507)(Promise, Context);
 	var CapturedTrace = debug.CapturedTrace;
 	var PassThroughHandlerContext =
-	    __webpack_require__(514)(Promise, tryConvertToPromise);
-	var catchFilter = __webpack_require__(515)(NEXT_FILTER);
-	var nodebackForPromise = __webpack_require__(516);
+	    __webpack_require__(508)(Promise, tryConvertToPromise);
+	var catchFilter = __webpack_require__(509)(NEXT_FILTER);
+	var nodebackForPromise = __webpack_require__(510);
 	var errorObj = util.errorObj;
 	var tryCatch = util.tryCatch;
 	function check(self, executor) {
@@ -59881,31 +59654,31 @@ module.exports =
 	                       "_makeSelfResolutionError",
 	                       makeSelfResolutionError);
 
-	__webpack_require__(517)(Promise, INTERNAL, tryConvertToPromise, apiRejection,
+	__webpack_require__(511)(Promise, INTERNAL, tryConvertToPromise, apiRejection,
 	    debug);
-	__webpack_require__(518)(Promise, INTERNAL, tryConvertToPromise, debug);
-	__webpack_require__(519)(Promise, PromiseArray, apiRejection, debug);
-	__webpack_require__(520)(Promise);
-	__webpack_require__(521)(Promise);
-	__webpack_require__(522)(
+	__webpack_require__(512)(Promise, INTERNAL, tryConvertToPromise, debug);
+	__webpack_require__(513)(Promise, PromiseArray, apiRejection, debug);
+	__webpack_require__(514)(Promise);
+	__webpack_require__(515)(Promise);
+	__webpack_require__(516)(
 	    Promise, PromiseArray, tryConvertToPromise, INTERNAL, async, getDomain);
 	Promise.Promise = Promise;
 	Promise.version = "3.4.7";
-	__webpack_require__(523)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
-	__webpack_require__(524)(Promise);
-	__webpack_require__(525)(Promise, apiRejection, tryConvertToPromise, createContext, INTERNAL, debug);
-	__webpack_require__(526)(Promise, INTERNAL, debug);
-	__webpack_require__(527)(Promise, apiRejection, INTERNAL, tryConvertToPromise, Proxyable, debug);
-	__webpack_require__(528)(Promise);
+	__webpack_require__(517)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
+	__webpack_require__(518)(Promise);
+	__webpack_require__(519)(Promise, apiRejection, tryConvertToPromise, createContext, INTERNAL, debug);
+	__webpack_require__(520)(Promise, INTERNAL, debug);
+	__webpack_require__(521)(Promise, apiRejection, INTERNAL, tryConvertToPromise, Proxyable, debug);
+	__webpack_require__(522)(Promise);
+	__webpack_require__(523)(Promise, INTERNAL);
+	__webpack_require__(524)(Promise, PromiseArray, tryConvertToPromise, apiRejection);
+	__webpack_require__(525)(Promise, INTERNAL, tryConvertToPromise, apiRejection);
+	__webpack_require__(526)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
+	__webpack_require__(527)(Promise, PromiseArray, debug);
+	__webpack_require__(528)(Promise, PromiseArray, apiRejection);
 	__webpack_require__(529)(Promise, INTERNAL);
-	__webpack_require__(530)(Promise, PromiseArray, tryConvertToPromise, apiRejection);
-	__webpack_require__(531)(Promise, INTERNAL, tryConvertToPromise, apiRejection);
-	__webpack_require__(532)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
-	__webpack_require__(533)(Promise, PromiseArray, debug);
-	__webpack_require__(534)(Promise, PromiseArray, apiRejection);
-	__webpack_require__(535)(Promise, INTERNAL);
-	__webpack_require__(536)(Promise, INTERNAL);
-	__webpack_require__(537)(Promise);
+	__webpack_require__(530)(Promise, INTERNAL);
+	__webpack_require__(531)(Promise);
 	                                                         
 	    util.toFastProperties(Promise);                                          
 	    util.toFastProperties(Promise.prototype);                                
@@ -59933,11 +59706,11 @@ module.exports =
 
 
 /***/ },
-/* 504 */
+/* 498 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var es5 = __webpack_require__(505);
+	var es5 = __webpack_require__(499);
 	var canEvaluate = typeof navigator == "undefined";
 
 	var errorObj = {e: {}};
@@ -60318,7 +60091,7 @@ module.exports =
 
 
 /***/ },
-/* 505 */
+/* 499 */
 /***/ function(module, exports) {
 
 	var isES5 = (function(){
@@ -60404,15 +60177,15 @@ module.exports =
 
 
 /***/ },
-/* 506 */
+/* 500 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var firstLineError;
 	try {throw new Error(); } catch (e) {firstLineError = e;}
-	var schedule = __webpack_require__(507);
-	var Queue = __webpack_require__(508);
-	var util = __webpack_require__(504);
+	var schedule = __webpack_require__(501);
+	var Queue = __webpack_require__(502);
+	var util = __webpack_require__(498);
 
 	function Async() {
 	    this._customScheduler = false;
@@ -60571,11 +60344,11 @@ module.exports =
 
 
 /***/ },
-/* 507 */
+/* 501 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 	var schedule;
 	var noAsyncScheduler = function() {
 	    throw new Error("No async scheduler available\u000a\u000a    See http://goo.gl/MqrFmX\u000a");
@@ -60638,7 +60411,7 @@ module.exports =
 
 
 /***/ },
-/* 508 */
+/* 502 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -60717,13 +60490,13 @@ module.exports =
 
 
 /***/ },
-/* 509 */
+/* 503 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var es5 = __webpack_require__(505);
+	var es5 = __webpack_require__(499);
 	var Objectfreeze = es5.freeze;
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 	var inherits = util.inherits;
 	var notEnumerableProp = util.notEnumerableProp;
 
@@ -60839,12 +60612,12 @@ module.exports =
 
 
 /***/ },
-/* 510 */
+/* 504 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	module.exports = function(Promise, INTERNAL) {
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 	var errorObj = util.errorObj;
 	var isObject = util.isObject;
 
@@ -60931,13 +60704,13 @@ module.exports =
 
 
 /***/ },
-/* 511 */
+/* 505 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	module.exports = function(Promise, INTERNAL, tryConvertToPromise,
 	    apiRejection, Proxyable) {
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 	var isArray = util.isArray;
 
 	function toResolutionValue(val) {
@@ -61121,7 +60894,7 @@ module.exports =
 
 
 /***/ },
-/* 512 */
+/* 506 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -61196,15 +60969,15 @@ module.exports =
 
 
 /***/ },
-/* 513 */
+/* 507 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	module.exports = function(Promise, Context) {
 	var getDomain = Promise._getDomain;
 	var async = Promise._async;
-	var Warning = __webpack_require__(509).Warning;
-	var util = __webpack_require__(504);
+	var Warning = __webpack_require__(503).Warning;
+	var util = __webpack_require__(498);
 	var canAttachTrace = util.canAttachTrace;
 	var unhandledRejectionHandled;
 	var possiblyUnhandledRejection;
@@ -62118,12 +61891,12 @@ module.exports =
 
 
 /***/ },
-/* 514 */
+/* 508 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	module.exports = function(Promise, tryConvertToPromise) {
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 	var CancellationError = Promise.CancellationError;
 	var errorObj = util.errorObj;
 
@@ -62235,13 +62008,13 @@ module.exports =
 
 
 /***/ },
-/* 515 */
+/* 509 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	module.exports = function(NEXT_FILTER) {
-	var util = __webpack_require__(504);
-	var getKeys = __webpack_require__(505).keys;
+	var util = __webpack_require__(498);
+	var getKeys = __webpack_require__(499).keys;
 	var tryCatch = util.tryCatch;
 	var errorObj = util.errorObj;
 
@@ -62283,15 +62056,15 @@ module.exports =
 
 
 /***/ },
-/* 516 */
+/* 510 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 	var maybeWrapAsError = util.maybeWrapAsError;
-	var errors = __webpack_require__(509);
+	var errors = __webpack_require__(503);
 	var OperationalError = errors.OperationalError;
-	var es5 = __webpack_require__(505);
+	var es5 = __webpack_require__(499);
 
 	function isUntypedError(obj) {
 	    return obj instanceof Error &&
@@ -62340,13 +62113,13 @@ module.exports =
 
 
 /***/ },
-/* 517 */
+/* 511 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	module.exports =
 	function(Promise, INTERNAL, tryConvertToPromise, apiRejection, debug) {
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 	var tryCatch = util.tryCatch;
 
 	Promise.method = function (fn) {
@@ -62401,7 +62174,7 @@ module.exports =
 
 
 /***/ },
-/* 518 */
+/* 512 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -62474,12 +62247,12 @@ module.exports =
 
 
 /***/ },
-/* 519 */
+/* 513 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	module.exports = function(Promise, PromiseArray, apiRejection, debug) {
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 	var tryCatch = util.tryCatch;
 	var errorObj = util.errorObj;
 	var async = Promise._async;
@@ -62609,7 +62382,7 @@ module.exports =
 
 
 /***/ },
-/* 520 */
+/* 514 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -62661,7 +62434,7 @@ module.exports =
 
 
 /***/ },
-/* 521 */
+/* 515 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -62770,14 +62543,14 @@ module.exports =
 
 
 /***/ },
-/* 522 */
+/* 516 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	module.exports =
 	function(Promise, PromiseArray, tryConvertToPromise, INTERNAL, async,
 	         getDomain) {
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 	var canEvaluate = util.canEvaluate;
 	var tryCatch = util.tryCatch;
 	var errorObj = util.errorObj;
@@ -62944,7 +62717,7 @@ module.exports =
 
 
 /***/ },
-/* 523 */
+/* 517 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -62955,7 +62728,7 @@ module.exports =
 	                          INTERNAL,
 	                          debug) {
 	var getDomain = Promise._getDomain;
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 	var tryCatch = util.tryCatch;
 	var errorObj = util.errorObj;
 	var async = Promise._async;
@@ -63118,7 +62891,7 @@ module.exports =
 
 
 /***/ },
-/* 524 */
+/* 518 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -63130,7 +62903,7 @@ module.exports =
 	}
 
 	module.exports = function(Promise) {
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 	var canEvaluate = util.canEvaluate;
 	var isIdentifier = util.isIdentifier;
 
@@ -63247,15 +63020,15 @@ module.exports =
 
 
 /***/ },
-/* 525 */
+/* 519 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	module.exports = function (Promise, apiRejection, tryConvertToPromise,
 	    createContext, INTERNAL, debug) {
-	    var util = __webpack_require__(504);
-	    var TypeError = __webpack_require__(509).TypeError;
-	    var inherits = __webpack_require__(504).inherits;
+	    var util = __webpack_require__(498);
+	    var TypeError = __webpack_require__(503).TypeError;
+	    var inherits = __webpack_require__(498).inherits;
 	    var errorObj = util.errorObj;
 	    var tryCatch = util.tryCatch;
 	    var NULL = {};
@@ -63479,12 +63252,12 @@ module.exports =
 
 
 /***/ },
-/* 526 */
+/* 520 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	module.exports = function(Promise, INTERNAL, debug) {
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 	var TimeoutError = Promise.TimeoutError;
 
 	function HandleWrapper(handle)  {
@@ -63578,7 +63351,7 @@ module.exports =
 
 
 /***/ },
-/* 527 */
+/* 521 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -63588,9 +63361,9 @@ module.exports =
 	                          tryConvertToPromise,
 	                          Proxyable,
 	                          debug) {
-	var errors = __webpack_require__(509);
+	var errors = __webpack_require__(503);
 	var TypeError = errors.TypeError;
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 	var errorObj = util.errorObj;
 	var tryCatch = util.tryCatch;
 	var yieldHandlers = [];
@@ -63807,12 +63580,12 @@ module.exports =
 
 
 /***/ },
-/* 528 */
+/* 522 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	module.exports = function(Promise) {
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 	var async = Promise._async;
 	var tryCatch = util.tryCatch;
 	var errorObj = util.errorObj;
@@ -63871,18 +63644,18 @@ module.exports =
 
 
 /***/ },
-/* 529 */
+/* 523 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	module.exports = function(Promise, INTERNAL) {
 	var THIS = {};
-	var util = __webpack_require__(504);
-	var nodebackForPromise = __webpack_require__(516);
+	var util = __webpack_require__(498);
+	var nodebackForPromise = __webpack_require__(510);
 	var withAppended = util.withAppended;
 	var maybeWrapAsError = util.maybeWrapAsError;
 	var canEvaluate = util.canEvaluate;
-	var TypeError = __webpack_require__(509).TypeError;
+	var TypeError = __webpack_require__(503).TypeError;
 	var defaultSuffix = "Async";
 	var defaultPromisified = {__isPromisified__: true};
 	var noCopyProps = [
@@ -64191,15 +63964,15 @@ module.exports =
 
 
 /***/ },
-/* 530 */
+/* 524 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	module.exports = function(
 	    Promise, PromiseArray, tryConvertToPromise, apiRejection) {
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 	var isObject = util.isObject;
-	var es5 = __webpack_require__(505);
+	var es5 = __webpack_require__(499);
 	var Es6Map;
 	if (typeof Map === "function") Es6Map = Map;
 
@@ -64315,13 +64088,13 @@ module.exports =
 
 
 /***/ },
-/* 531 */
+/* 525 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	module.exports = function(
 	    Promise, INTERNAL, tryConvertToPromise, apiRejection) {
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 
 	var raceLater = function (promise) {
 	    return promise.then(function(array) {
@@ -64370,7 +64143,7 @@ module.exports =
 
 
 /***/ },
-/* 532 */
+/* 526 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -64381,7 +64154,7 @@ module.exports =
 	                          INTERNAL,
 	                          debug) {
 	var getDomain = Promise._getDomain;
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 	var tryCatch = util.tryCatch;
 
 	function ReductionPromiseArray(promises, fn, initialValue, _each) {
@@ -64548,14 +64321,14 @@ module.exports =
 
 
 /***/ },
-/* 533 */
+/* 527 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	module.exports =
 	    function(Promise, PromiseArray, debug) {
 	var PromiseInspection = Promise.PromiseInspection;
-	var util = __webpack_require__(504);
+	var util = __webpack_require__(498);
 
 	function SettledPromiseArray(values) {
 	    this.constructor$(values);
@@ -64597,15 +64370,15 @@ module.exports =
 
 
 /***/ },
-/* 534 */
+/* 528 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	module.exports =
 	function(Promise, PromiseArray, apiRejection) {
-	var util = __webpack_require__(504);
-	var RangeError = __webpack_require__(509).RangeError;
-	var AggregateError = __webpack_require__(509).AggregateError;
+	var util = __webpack_require__(498);
+	var RangeError = __webpack_require__(503).RangeError;
+	var AggregateError = __webpack_require__(503).AggregateError;
 	var isArray = util.isArray;
 	var CANCELLATION = {};
 
@@ -64751,7 +64524,7 @@ module.exports =
 
 
 /***/ },
-/* 535 */
+/* 529 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -64769,7 +64542,7 @@ module.exports =
 
 
 /***/ },
-/* 536 */
+/* 530 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -64805,7 +64578,7 @@ module.exports =
 
 
 /***/ },
-/* 537 */
+/* 531 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -64832,10 +64605,10 @@ module.exports =
 
 
 /***/ },
-/* 538 */
+/* 532 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const patterns = __webpack_require__(539);
+	const patterns = __webpack_require__(533)
 
 	exports.schema = {
 	  text: {
@@ -64859,43 +64632,54 @@ module.exports =
 	  }
 	};
 
+
 /***/ },
-/* 539 */
+/* 533 */
 /***/ function(module, exports) {
 
-	var messages = {};
+	var messages = {}
 
-	exports.isTitle = /^[A-Za-z0-9@:?&=.\/ _\-]*$/;
-	messages.isTitle = `Can only contain letters, numbers, and @ : ? & = . / _ -`;
+	exports.isTitle = /^[A-Za-z0-9@:?&=.\/ _\-]*$/
+	messages.isTitle = `Can only contain letters, numbers, and @ : ? & = . / _ -`
 
-	exports.isURI = /(((http|https|ftp):\/\/([\w-\d]+\.)+[\w-\d]+){0,1}((\/|#)[\w~,\-\.\/?%&+#=]*))/;
-	messages.isURI = `Must be a valid internet link address`;
+	exports.isURI = /(((http|https|ftp):\/\/([\w-\d]+\.)+[\w-\d]+){0,1}((\/|#)[\w~,\-\.\/?%&+#=]*))/
+	messages.isURI = `Must be a valid internet link address`
 
-	exports.isFilePath = /^[0-9A-Za-z \/*_.\\\-]*$/;
-	messages.isFilePath = `Can only contain letters, numbers, and / * _ . \ -`;
+	exports.isFilePath = /^[0-9A-Za-z \/*_.\\\-]*$/
+	messages.isFilePath = `Can only contain letters, numbers, and / * _ . \ -`
 
-	exports.isCSSClass = /^[A-Za-z0-9_ \-*]*$/;
-	messages.isCSSClass = `Can only contain letters, numbers, and _ - *`;
+	exports.isCSSClass = /^[A-Za-z0-9_ \-*]*$/
+	messages.isCSSClass = `Can only contain letters, numbers, and _ - *`
 
-	exports.isAnchorTarget = /^[_blank|_self|_parent|_top]*$/;
-	messages.isAnchorTarget = `Must be _blank, _self, _parent, or _top`;
+	exports.isAnchorTarget = /^[_blank|_self|_parent|_top]*$/
+	messages.isAnchorTarget = `Must be _blank, _self, _parent, or _top`
 
-	exports.messages = messages;
+	exports.messages = messages
+
 
 /***/ },
-/* 540 */
+/* 534 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const patterns = __webpack_require__(539);
+	const patterns = __webpack_require__(533)
 
-	const sitePermissions = ['email', 'delete', 'create', 'update', 'read', 'manageUsers', 'manageRoles', 'manageSettings'];
+	const sitePermissions = [
+	  'email',
+	  'delete',
+	  'create',
+	  'update',
+	  'read',
+	  'manageUsers',
+	  'manageRoles',
+	  'manageSettings'
+	]
 
 	exports.schema = {
 	  role: {
-	    type: String,
-	    required: true,
-	    unique: true,
-	    trim: true,
+	  	type: String,
+	  	required: true,
+	  	unique: true,
+	  	trim: true,
 	    pattern: patterns.isTitle,
 	    patternMessage: patterns.messages.isTitle
 	  },
@@ -64913,11 +64697,12 @@ module.exports =
 	  }
 	};
 
+
 /***/ },
-/* 541 */
+/* 535 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const patterns = __webpack_require__(539);
+	const patterns = __webpack_require__(533)
 	const Schema = global.mongoose.Schema;
 
 	exports.schema = {
@@ -64935,14 +64720,15 @@ module.exports =
 	  }
 	};
 
+
 /***/ },
-/* 542 */
+/* 536 */
 /***/ function(module, exports, __webpack_require__) {
 
 	const Schema = global.mongoose.Schema;
-	const patterns = __webpack_require__(539);
+	const patterns = __webpack_require__(533)
 
-	const colors = ['#1ABC9C', '#16A085', '#2ECC71', '#27AE60', '#3498DB', '#2980B9', '#34495E', '#EA4C88', '#CA2C68', '#9B59B6', '#8E44AD', '#F1C40F', '#F39C12', '#E74C3C', '#C0392B'];
+	const colors = ['#1ABC9C', '#16A085', '#2ECC71', '#27AE60', '#3498DB', '#2980B9', '#34495E', '#EA4C88', '#CA2C68', '#9B59B6', '#8E44AD', '#F1C40F', '#F39C12', '#E74C3C', '#C0392B']
 
 	exports.schema = {
 	  bitbucketId: { type: String },
@@ -64963,7 +64749,7 @@ module.exports =
 	  paypal: { type: Schema.Types.Mixed },
 	  spotifyId: { type: String },
 	  spotify: { type: Schema.Types.Mixed },
-	  email: { type: String, required: true, unique: true },
+	  email: {type: String, required: true, unique: true},
 	  password: { type: String, required: true },
 	  name: { type: String, required: false },
 
@@ -64985,8 +64771,8 @@ module.exports =
 	    type: String,
 	    trim: true,
 	    enum: colors,
-	    default: function () {
-	      return colors[Math.floor(Math.random() * colors.length)];
+	    default: function() {
+	      return colors[Math.floor(Math.random()*colors.length)]
 	    }
 	  },
 
@@ -64999,21 +64785,22 @@ module.exports =
 	  verifyChanges: { type: Object }, // an object (key-value map), e.g. { field: "value" }
 	  resetToken: { type: String },
 	  resetExpires: { type: Date } // or a long integer
-	};
+	}
 
 	exports.validations = {
 	  pre: {
-	    validate: function (next) {
-	      if (this.role === 'admin' && !this.isEnabled) {
+	    validate: function(next) {
+	      if(this.role === 'admin' && !this.isEnabled) {
 	        return next(new Error(`An admin role cannot be disabled`));
 	      }
 	      next();
-	    }
+	    },
 	  }
-	};
+	}
+
 
 /***/ },
-/* 543 */
+/* 537 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -65025,7 +64812,7 @@ module.exports =
 
 	// Client side notifications
 	try {
-	  const toastr = __webpack_require__(544);
+	  const toastr = __webpack_require__(538);
 	  window.toastr = toastr;
 	  window.notify = {
 	    warning: (...args) => {
@@ -65079,7 +64866,7 @@ module.exports =
 	} catch (err) {}
 
 /***/ },
-/* 544 */
+/* 538 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -65096,7 +64883,7 @@ module.exports =
 	 */
 	/* global define */
 	; (function (define) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(545)], __WEBPACK_AMD_DEFINE_RESULT__ = function ($) {
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(539)], __WEBPACK_AMD_DEFINE_RESULT__ = function ($) {
 	        return (function () {
 	            var $container;
 	            var listener;
@@ -65510,11 +65297,11 @@ module.exports =
 
 	        })();
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(546)));
+	}(__webpack_require__(540)));
 
 
 /***/ },
-/* 545 */
+/* 539 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -75740,27 +75527,27 @@ module.exports =
 
 
 /***/ },
-/* 546 */
+/* 540 */
 /***/ function(module, exports) {
 
 	module.exports = function() { throw new Error("define cannot be used indirect"); };
 
 
 /***/ },
-/* 547 */
+/* 541 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// inject shared components js
-	__webpack_require__(548);
+	__webpack_require__(542);
+	__webpack_require__(543);
+	__webpack_require__(545);
+	__webpack_require__(547);
 	__webpack_require__(549);
 	__webpack_require__(551);
-	__webpack_require__(553);
-	__webpack_require__(555);
-	__webpack_require__(557);
 	// end inject shared components js
 
 /***/ },
-/* 548 */
+/* 542 */
 /***/ function(module, exports, __webpack_require__) {
 
 	const Vue = __webpack_require__(298);
@@ -75813,46 +75600,46 @@ module.exports =
 	});
 
 /***/ },
-/* 549 */
+/* 543 */
 /***/ function(module, exports, __webpack_require__) {
 
 	const Vue = __webpack_require__(298);
 
 	module.exports = Vue.component('foot', {
-	  template: __webpack_require__(550)
+	  template: __webpack_require__(544)
 	});
 
 /***/ },
-/* 550 */
+/* 544 */
 /***/ function(module, exports) {
 
 	module.exports = "<footer><div class=\"container\"><div class=\"row\"><div class=\"col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1\"><ul class=\"list-inline text-center\"><li><a href=\"#\"><span class=\"fa-stack fa-lg\"><i class=\"fa fa-circle fa-stack-2x\"></i><i class=\"fa fa-twitter fa-stack-1x fa-inverse\"></i></span></a></li><li><a href=\"#\"><span class=\"fa-stack fa-lg\"><i class=\"fa fa-circle fa-stack-2x\"></i><i class=\"fa fa-facebook fa-stack-1x fa-inverse\"></i></span></a></li><li><a href=\"#\"><span class=\"fa-stack fa-lg\"><i class=\"fa fa-circle fa-stack-2x\"></i><i class=\"fa fa-github fa-stack-1x fa-inverse\"></i></span></a></li></ul><p class=\"copyright text-muted\">MIT License © Front-Vue 2016</p></div></div></div></footer>"
 
 /***/ },
-/* 551 */
+/* 545 */
 /***/ function(module, exports, __webpack_require__) {
 
 	const Vue = __webpack_require__(298);
 
 	module.exports = Vue.component('heading', {
-	  template: __webpack_require__(552)
+	  template: __webpack_require__(546)
 	});
 
 /***/ },
-/* 552 */
+/* 546 */
 /***/ function(module, exports) {
 
 	module.exports = "<header style=\"background-image: url(\'/public/images/Laptop Desk.jpg\')\" class=\"intro-header\"><div class=\"container\"><div class=\"row\"><div class=\"col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1\"><div class=\"page-heading\"><h1>{{$route.name}}</h1><hr class=\"small\"><span class=\"subheading\">{{$route.meta.subtitle}}</span></div></div></div></div></header>"
 
 /***/ },
-/* 553 */
+/* 547 */
 /***/ function(module, exports, __webpack_require__) {
 
 	const Vue = __webpack_require__(298);
 
 	module.exports = Vue.component('modal', {
 	  name: 'modal',
-	  template: __webpack_require__(554),
+	  template: __webpack_require__(548),
 	  store: ['currentModal', 'modalConfig'],
 	  methods: {
 	    close: function () {
@@ -75872,30 +75659,30 @@ module.exports =
 	});
 
 /***/ },
-/* 554 */
+/* 548 */
 /***/ function(module, exports) {
 
 	module.exports = "<div @click=\"close\" v-show=\"currentModal\" transition=\"modal\" class=\"modal-mask\"><div class=\"modal-area\"><div @click.stop=\"\" class=\"modal-container\"><component :is=\"currentModal\"></component></div></div></div>"
 
 /***/ },
-/* 555 */
+/* 549 */
 /***/ function(module, exports, __webpack_require__) {
 
 	const Vue = __webpack_require__(298);
 
 	module.exports = Vue.component('navigation', {
 	  store: ['routes', 'tasks'],
-	  template: __webpack_require__(556)
+	  template: __webpack_require__(550)
 	});
 
 /***/ },
-/* 556 */
+/* 550 */
 /***/ function(module, exports) {
 
 	module.exports = "<nav class=\"navbar navbar-default navbar-custom navbar-fixed-top\"><div class=\"container-fluid\"><div class=\"navbar-header page-scroll\"><button type=\"button\" data-toggle=\"collapse\" data-target=\"#headbar-navbar\" class=\"navbar-toggle\"><span class=\"sr-only\">Toggle navigation</span><i class=\"fa fa-bars\"></i></button><a v-link=\"{path: \'/\'}\" class=\"navbar-brand\">Front-Vue</a></div><div id=\"headbar-navbar\" class=\"collapse navbar-collapse\"><ul class=\"nav navbar-nav navbar-right\"><li v-for=\"route in routes\" v-if=\"!route.meta.excludeMenu\"><router-link :to=\"{ name: route.name }\">{{route.name}}</router-link></li></ul></div></div></nav>"
 
 /***/ },
-/* 557 */
+/* 551 */
 /***/ function(module, exports, __webpack_require__) {
 
 	const Vue = __webpack_require__(298);
@@ -75944,15 +75731,7 @@ module.exports =
 	});
 
 /***/ },
-/* 558 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// inject component js
-	__webpack_require__(558);
-	// end inject component js
-
-/***/ },
-/* 559 */
+/* 552 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// inject vue
@@ -75961,17 +75740,17 @@ module.exports =
 	// end inject vue
 
 /***/ },
-/* 560 */
+/* 553 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(561)
+	__vue_exports__ = __webpack_require__(554)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(562)
+	var __vue_template__ = __webpack_require__(555)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -75992,7 +75771,7 @@ module.exports =
 
 
 /***/ },
-/* 561 */
+/* 554 */
 /***/ function(module, exports) {
 
 	//
@@ -76035,7 +75814,7 @@ module.exports =
 	};
 
 /***/ },
-/* 562 */
+/* 555 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -76052,7 +75831,7 @@ module.exports =
 	module.exports.render._withStripped = true
 
 /***/ },
-/* 563 */
+/* 556 */
 /***/ function(module, exports) {
 
 	

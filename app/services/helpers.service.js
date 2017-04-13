@@ -2,7 +2,7 @@ const Vue = require('vue')
 const _ = require('lodash')
 
 if(!Vue.prototype.$isServer) {
-  global.schemas = require('../../shared/schemas').schemas
+  global.schemas = require('../../src/schemas').schemas
 }
 
 

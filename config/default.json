@@ -4,7 +4,6 @@
   "protocal": "http",
   "mongodb": "mongodb://localhost:27017/FeathersVue",
   "public": "../public/",
-  "lib": "../lib/",
   "src": "../src/",
   "auth": {
     "token": {

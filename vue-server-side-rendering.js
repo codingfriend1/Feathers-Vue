@@ -2,16 +2,7 @@ const Vue = require('vue')
 
 module.exports = function(context) {
   var store, app, router, boot
-  if(context.admin) {
-    // boot = require('../admin/boot')
-    boot = require('../app/boot')
-  } else {
-    boot = require('../app/boot')
-  }
-
-  store = boot.store
-  app = boot.app
-  router = boot.router
+  var { store, app, router } = require('./app/boot')
 
   const meta = app.$meta()
 

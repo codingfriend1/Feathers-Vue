@@ -6,18 +6,9 @@ db:
   command: --smallfiles
 web:
   build: .
-  expose:
-    - "80"
+  ports:
+    - "80":"80"
   env_file:
     - environment.env
   links:
     - db:db
-nginx:
-  # restart: always
-  build: nginx
-  links:
-    - web:web
-  volumes_from:
-    - web
-  ports:
-    - "80:80"

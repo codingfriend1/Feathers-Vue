@@ -28,7 +28,7 @@
 
 <script>
 
-const feathers = require('../../shared/services/feathers.service')
+const feathers = require('../services/feathers.service')
 const _ = require('lodash')
 const Vue = require('vue')
 
