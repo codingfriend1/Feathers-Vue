@@ -60,15 +60,16 @@ const modules = {
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader"),
+        loader: ExtractTextPlugin.extract("style", "css!sass"),
         include: [
           folders.app,
-          folders.renderer
+          folders.renderer,
+          folders.node_modules
         ]
       },
       {
         test: /\.styl$/,
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader!stylus-loader"),
+        loader: ExtractTextPlugin.extract("style", "css!stylus"),
         include: [
           folders.app,
           folders.renderer

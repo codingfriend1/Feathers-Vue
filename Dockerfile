@@ -1,9 +1,4 @@
-FROM codingfriend/meanbase
-
-# Upgrade node
-RUN npm cache clean -f
-RUN npm install -g n
-RUN n 7.6
+FROM gzlock/node-pm2
 
 ################## ESTABLISH DIRECTORIES ######################
 RUN rm -rf /var/www/
