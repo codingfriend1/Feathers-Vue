@@ -1,7 +1,6 @@
 /**
  * Uses Socket.io to detect updates, deletions, and creations and updates a property on the store with the changes
  */
-const Vue = require('vue')
 const feathers = require('./feathers.service')
 
 // The id property to identify list items by
@@ -17,7 +16,7 @@ const idProperty = '_id'
  */
 function liveSyncWithServer(service, storeProperty, store) {
 
-  if(Vue.prototype.$isServer) { return false }
+  if(typeof window === 'undefined') { return false }
 
   // Adds items to the local list that were added to the server
   feathers.service(service).on('created', items => {

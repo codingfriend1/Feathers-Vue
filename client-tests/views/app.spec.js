@@ -1,16 +1,25 @@
-import Vue from 'vue'
-import { router, store } from '../utils'
-import App from '../../app/views/app.vue'
+const Vue = require('vue')
+const test = require('tape');
+const { root, prepareTests } = require('../utils')
 
-describe('app.vue', function () {
 
-  var vm = new Vue(Object.assign({
-    router,
-    data: { store: _.clone(store, true) },
-  }, App)).$mount()
+var vm
 
-  it('should contain inital store message', function() {
-    expect(vm.$store.message).toBe('Welcome to Front-Vue')
-  })
+function setup() {
+	vm = root()
+}
 
+function teardown() {
+	vm = null
+}
+
+var testing = prepareTests(setup, teardown)
+
+
+testing('app.vue should contain inital store message', function(t) {
+
+	t.equal(vm.$store.message, 'Welcome to Front-Vue')
+
+  t.end();
+  
 })

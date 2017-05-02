@@ -27,7 +27,16 @@ function generateInject(injectTo, outputFolder, arrayOfFilesToInject, startTag, 
 
           
           title = title.substr(0, title.lastIndexOf('.')).replace('-', '_')
-          if(importStatement !== 'require') {
+
+          if(importStatement === 'vueGlobal') {
+            var path
+            if (filepath.indexOf('..') !== -1) {
+              path = 'require("' + filepath + '")'
+            } else {
+              path = 'require("./' + filepath + '")'
+            }
+            return `Vue.component('${title}', ${path})`
+          } else if(importStatement !== 'require') {
             if (filepath.indexOf('..') !== -1) {
               return importStatement + '("' + filepath + '")'
             } else {
@@ -156,6 +165,20 @@ gulp.task('inject-schemas', function() {
   )
 })
 
+gulp.task('globalize-vue-components', function() {
+  return generateInject(
+    path.join(folders.components, 'index.js'),
+    folders.components,
+    [
+      folders.components + '/**/*.vue',
+      '!' + folders.components + '/**/index.js'
+    ],
+    'globalize vue components',
+    'vueGlobal',
+    true
+  )
+})
+
 gulp.task('default', function(done) {
-  runSequence('inject-css', 'inject-component-js', 'inject-vue', 'inject-views', done)
+  runSequence('inject-css', 'inject-component-js', 'inject-vue', 'inject-views', 'globalize-vue-components', done)
 })

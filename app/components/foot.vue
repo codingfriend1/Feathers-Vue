@@ -1,3 +1,4 @@
+<template lang="jade">
 footer
   .container
     .row
@@ -19,3 +20,10 @@ footer
                 i.fa.fa-circle.fa-stack-2x
                 i.fa.fa-github.fa-stack-1x.fa-inverse
         p.copyright.text-muted MIT License © Front-Vue 2016
+</template>
+
+<script>
+module.exports = {
+  store: ['routes', 'tasks']
+}
+</script>

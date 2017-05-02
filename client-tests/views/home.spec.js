@@ -1,25 +1,34 @@
-import '../utils'
-import home from '../../app/views/home.vue'
+const Vue = require('vue')
+const { mockAxios, prepareTests, load } = require('../utils')
+var sinon = require('sinon')
+const home = require('../../app/views/home.vue')
 
-describe('home.vue', function () {
+function setup() {
+	
+}
 
-  afterEach(function() {
-    mock.reset()
-  });
+function teardown() {
+	mockAxios.reset()
+}
 
-  // asserting rendered result by actually rendering the vm
-  it('should call the messages api and set the store on load', function (done) {
-    mock.onGet(api.messages.url).reply(200, {
-      data: "This came from the test"
-    });
-    spyOn(api.messages, 'find').and.callThrough();
-    const vm = load(home, '/')
-    expect(vm.$store.message).toBe('Welcome to Front-Vue')
-    setTimeout(function() {
-      expect(api.messages.find).toHaveBeenCalled();
-      expect(vm.$store.message).toBe('This came from the test')
-      done()
-    })
+const testing = prepareTests(setup, teardown)
+
+testing('home.vue - should call the messages api and set the store on load', async function(t) {
+
+	mockAxios.onGet(api.messages.url).reply(200, {
+	  data: "This came from the test"
+	});
+
+	sinon.spy(api.messages, 'find')
+
+	var vm = await load(home, '/')
+
+  t.equal(vm.$store.message, 'Welcome to Front-Vue')
+
+  setTimeout(function() {
+    t.equal(api.messages.find.callCount, 1)
+    t.equal(vm.$store.message, 'This came from the test')
+    t.end()
   })
-  
+	
 })

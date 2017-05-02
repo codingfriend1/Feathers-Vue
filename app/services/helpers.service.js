@@ -1,7 +1,7 @@
 const Vue = require('vue')
 const _ = require('lodash')
 
-if(!Vue.prototype.$isServer) {
+if(typeof window !== 'undefined') {
   global.schemas = require('../../src/schemas').schemas
 }
 

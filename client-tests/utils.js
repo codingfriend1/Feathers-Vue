@@ -1,41 +1,118 @@
-import Vue from 'vue'
+/**
+ * Prepare Environment
+ */
+const test = require('tape')
+const tapSpec = require('tap-spec')
 
-import store from '../app/boot/store-reconciliation'
-import router from '../app/boot/router'
+test.createStream()
+  .pipe(tapSpec())
+  .pipe(process.stdout)
 
-import api from '../app/services/api.service'
-import '../app/services/helpers.service'
-import '../app/services/notification.service'
+test.onFinish(() => process.exit(0))
 
-import '../app/components'
+// Prepare window, dom, and browser-mongoose
+require('jsdom-global')()
+global.mongoose = require('./mockMongoose.js')
 
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
-var mock = new MockAdapter(axios);
 
-import VueStash from 'vue-stash'
+/**
+ * Prepare boot
+ */
+const Vue = require('vue')
+const store = require('../app/boot/store-reconciliation')
+const router = require('./mockRouting.js')
 
-Vue.use(VueStash)
+/**
+ * Prepare services
+ */
+require('../app/services/sync-list.service')
+require('../app/services/auth.service')
+require('../app/services/api.service')
+require('../app/services/notification.service')
+require('../app/services/helpers.service')
 
+/**
+ * Prepare vue components
+ */
+const App = require('../app/views/app.vue')
+require('../app/components')
+
+
+/**
+ * Prepare mock api
+ */
+const MockedSocket = require('socket.io-mock')
+global.window.io = new MockedSocket();
+const axios = require('axios')
+const MockAdapter = require('axios-mock-adapter')
+var mockAxios = new MockAdapter(axios)
+
+
+/**
+ * Prepare Helper Functions
+ */
+
+// Initiates a component within the root component
 function load(component, route) {
-  const vm = new Vue({
-    router,
-    data: { store: _.clone(store, true) },
-    template: '<div><c ref="testComponentReference"></c></div>',
-    components: {
-      c: component
-    }
-  }).$mount()
 
-  if(route) {
-    router.push(route)
-  }
+  return new Promise((resolve, reject) => {
 
-  return vm.$refs.testComponentReference
+    var vm = new Vue({
+      router,
+      data: { store: _.cloneDeep(store) },
+      template: '<div><c ref="testComponentReference"></c></div>',
+      components: {
+        c: component
+      }
+    })
+
+    global.prepareSyncList(vm.store)
+
+    vm.$mount()
+
+    if(route) { router.push(route) }
+
+    Vue.nextTick(() => {
+      resolve(vm.$refs.testComponentReference)
+    })
+    
+  })
 }
 
-window.Vue = Vue
-window.load = load
-window.mock = mock
+// Returns the initiated root component
+function root() {
+  var vm = new Vue(Object.assign({
+    router,
+    data: { store: _.clone(store, true) },
+  }, App))
 
-export { Vue, router, store, mock, api, load }
+  global.prepareSyncList(vm.store)
+
+  vm.$mount()
+
+  return vm
+}
+
+// Wraps tape tests with the setup and teardown method provided
+function prepareTests(setup, teardown) {
+  return function testing (description, fn) {
+    test(description, async function (t) {
+      setup();
+      await fn(t);
+      teardown();
+    });
+  }
+}
+
+global.window.Vue = Vue
+global.window.load = load
+global.window.mockAxios = mockAxios
+
+module.exports = { 
+  router, 
+  store, 
+  mockAxios, 
+  load, 
+  root, 
+  prepareTests 
+}

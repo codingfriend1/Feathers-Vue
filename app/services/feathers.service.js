@@ -1,5 +1,4 @@
 const { url } = require('./config.service')
-const Vue  = require('vue')
 const feathers = require('feathers/client')
 const hooks = require('feathers-hooks')
 
@@ -12,7 +11,7 @@ var localstorage
 var socketio
 var io
 
-if(!Vue.prototype.$isServer) {
+if(typeof window !== 'undefined') {
   localstorage = require('feathers-localstorage')
   socketio = require('feathers-socketio/client')
   io = require('socket.io-client')
@@ -23,8 +22,7 @@ if(!Vue.prototype.$isServer) {
 const app = feathers()
   .configure(hooks())
 
-
-if(Vue.prototype.$isServer) {
+if(typeof window === 'undefined') {
   app
     .configure(rest(url.replace('/api/', '')).axios(axios))
 } else {

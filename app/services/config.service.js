@@ -8,7 +8,7 @@ const productionConfig = require('../../config/production.json')
 
 var correctConfig = config
 var url
-if(Vue.prototype.$isServer) {
+if(typeof window === 'undefined') {
   var isProd = process.env.NODE_ENV === 'production'
   if(isProd) {
     correctConfig = Object.assign(config, productionConfig)

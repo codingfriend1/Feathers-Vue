@@ -2,20 +2,16 @@ const Vue = require('vue')
 const store = require('./store-reconciliation')
 const router = require('./router')
 
-const prepareSyncList = require('../services/sync-list.service')
-require('../services/api.service')
-require('../services/notification.service')
-require('../services/helpers.service')
-
 require('../components')
 require('../views')
-const App = require('../views/app.vue')
+require('../filters')
 
-const filters = require('../filters')
-// register global utility filters
-Object.keys(filters).forEach(key => {
-  Vue.filter(key, filters[key])
-})
+require('../services/api.service')
+require('../services/notification.service')
+const { prepareConfirm } = require('../services/helpers.service')
+const prepareSyncList = require('../services/sync-list.service')
+
+const App = require('../views/app.vue')
 
 const app = new Vue(Object.assign({
   router,
@@ -35,4 +31,4 @@ if(Vue.prototype.$isServer) {
     .catch(err => app.$mount('#app'))
 }
 
-module.exports = { app, router, store, syncList }
+module.exports = { app, router, store }

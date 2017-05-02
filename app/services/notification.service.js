@@ -27,7 +27,11 @@ try {
     },
 
     debug: (title, err) => {
-      console.log(title, JSON.stringify(err || {}, null, 2))
+      if(err) {
+        console.log(title, JSON.stringify(err || {}, null, 2))
+      } else {
+        console.log(title)
+      }
     },
 
     clear: (...args) => {
