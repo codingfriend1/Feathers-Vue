@@ -26,7 +26,7 @@ Features
 
 Getting up and running is as easy as 1, 2, 3, 4.
 
-1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
+1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed. Feathers-Vue requires version 7.4 or higher, I recommend 7.6 since it natively supports async functions.
 2. Install your dependencies
 
     ```
