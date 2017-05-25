@@ -53,10 +53,10 @@ Getting up and running is as easy as 1, 2, 3, 4.
 
 In production run
 
-    ```
-      npm run production
+    
+      npm run build
       npm start
-    ```
+    
 
 If you want emails to work using gmail add the following environment variables
   ```
