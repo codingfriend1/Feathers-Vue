@@ -1,6 +1,6 @@
 # Feathers-Vue
 
-> A Vue and FeathersJS fullstack app with authentication, email verification, and email support.&#34;
+> A Vue 2 and FeathersJS 2 fullstack app with authentication, email verification, and email support.&#34;
 
 ## About
 
@@ -29,7 +29,7 @@ Getting up and running is as easy as 1, 2, 3, 4.
 2. Install your dependencies
 
     ```
-    cd path/to/Feathers-Vue-Two; npm install
+    cd path/to/Feathers-Vue; npm install
     ```
 3. Run your build or watch
 
