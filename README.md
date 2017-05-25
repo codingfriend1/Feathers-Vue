@@ -15,12 +15,11 @@ Features
   - ES6, ES7, and ES8
   - Webpack
   - Vue Stash - For Redux Store
-  - Jasmine with Karma for client side and mocha server side
   - Bootstrap
   - Lodash
   - jQuery
   - FontAwesome
-  - Separate admin and app
+  - Validate client side data with mongoose schemas
 
 ## Getting Started
 
@@ -81,20 +80,6 @@ $ feathers generate hook                  # Generate a new Hook
 $ feathers generate model                 # Generate a new Model
 $ feathers help                           # Show all commands
 ```
-
-## Schemas go in shared/schemas
-If you want the same schema to validate both client and server side put the schema in ./shared/schemas as it's own file with the file name being the name of the schema and resulting model.
-
-You can use `pattern` and `patternMessage` directly in the schema and it will be converted to
-```
-validate: {
-  validator: function(v) {
-    return pattern.test(v)
-  },
-  message: patternMessage
-}
-```
-for you.
 
 ## Docker-compose
 You may run
