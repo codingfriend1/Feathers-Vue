@@ -1,4 +1,4 @@
-# Feathers-Vue-Two
+# Feathers-Vue
 
 > A Vue and FeathersJS fullstack app with authentication, email verification, and email support.&#34;
 
