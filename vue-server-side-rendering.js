@@ -36,7 +36,7 @@ module.exports = function(context) {
       } catch(err) {}
     }
 
-    return Promise.all([])
+    return Promise.all(promises)
   })).then(() => {
     context.initialState = app.$store
     context.meta = meta

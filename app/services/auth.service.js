@@ -1,18 +1,77 @@
-require('./helpers.service')
-require('./notification.service')
-require('./feathers.service')
-require('./api.service')
+/**
+ * Dream Code Auth Service
+ * 
+ * Client-Side Authentication and Authorization Service
+ * 
+ * Creates a global `auth` constant
+ * Methods
+ * 
+ * - __authenticate({ email, password }) - internal method
+ * 
+ * - login({ email, password })
+ * 
+ * - logout()
+ * 
+ * - signup({ email, name, password })
+ * 
+ * - changePassword({ oldPassword, newPassword })
+ * 
+ * - changeMyIdentity( password, { email, name }) - Must be logged in
+ * 
+ * - verifySignUp( verifyToken )
+ * 
+ * - verifyChanges( verifyToken )
+ * 
+ * - resendVerification( email )
+ * 
+ * - sendResetPassword( email )
+ * 
+ * - resetPassword( email )
+ * 
+ * - getToken()
+ * 
+ * - isLoggedIn()
+ * 
+ * - hasPermission( permissionName ) - 
+ *     Checks user permissions against a single permission string 
+ *     but waits for login request to finish
+ *      
+ * - hasPermissionSync( permissionName )
+ * 
+ * Properties
+ * - currentUser - Containers the current user definition
+ */
 
 const auth = {
-  currentUser: undefined,
+  currentUser: null,
+  __authenticate: user => {
+
+    user = user ? Object.assign(user, { strategy: 'local' }): undefined
+
+    return feathers.authenticate( user )
+    .then(response => {
+      if(window.location.hostname.indexOf('localhost') > -1) {
+        notify.log('Access Token: ', response.accessToken)
+      }
+
+      return feathers.passport.verifyJWT(response.accessToken)
+    })
+    .then(payload => {
+      return feathers.service('/api/users').get(payload.userId)
+    })
+    .then(user => {
+      feathers.set('user', user)
+      auth.currentUser = feathers.get('user')
+      return auth.currentUser
+    })
+
+  },
 
   login: async user => {
-    var [err, foundUser] = await to(feathers.authenticate(user))
+    var [err, foundUser] = await to( auth.__authenticate(user) )
 
     if(!err) {
-      foundUser = foundUser.data
       notify.success(`Hello ${foundUser.name || foundUser.email}`)
-      auth.currentUser = foundUser
       return auth.currentUser
     } else {
       notify.warning(err.message)
@@ -24,7 +83,7 @@ const auth = {
 
   logout: async user => {
     feathers.logout()
-    auth.currentUser = undefined
+    auth.currentUser = null
   },
 
   signup: async user => {
@@ -42,13 +101,11 @@ const auth = {
         password: user.password
       }
 
-      let [authFail, currentUser] = await to(feathers.authenticate(user))
-
-      currentUser = currentUser.data
+      let [authFail, currentUser] = await to( auth.__authenticate(user) )
 
       if(!authFail) {
         notify.success(`Hello ${currentUser.name || currentUser.email}. Please check your email and verify so we can protect your account.`)
-        return auth.currentUser = currentUser
+        return auth.currentUser
       } else {
         notify.error(parseErrors(authFail), 'Error signing up')
         return false
@@ -89,7 +146,7 @@ const auth = {
     }
   },
 
-  changeIdentity: async function(user, password, changes) {
+  changeMyIdentity: async function(password, changes) {
     if(!_.get(auth, 'currentUser.email')) {
       notify.warning('You must be logged in to update your account.')
       return false
@@ -136,7 +193,7 @@ const auth = {
       notify.success('Your email has been verified. We can now protect your account.')
     } else {
       notify.error('Sorry, but we could not verify your email.')
-      notify.debug("Verify Email Error: ", err);
+      notify.debug("Verify Email Error: ", err)
     }
 
     return response
@@ -153,7 +210,7 @@ const auth = {
       notify.success('You have approved the changes to your account. You may now sign in under the new email.')
     } else {
       notify.error('Sorry, but we could not approved the changes to your account.')
-      notify.debug("Verify Changes Error: ", err);
+      notify.debug("Verify Changes Error: ", err)
     }
   },
 
@@ -222,12 +279,12 @@ const auth = {
   getToken: () => feathers.get('token'),
 
   isLoggedIn: () => {
-    return feathers.authenticate().then(response => {
+    return auth.__authenticate().then(response => {
       auth.currentUser = feathers.get('user')
       return auth.currentUser
     }, err => {
-      notify.debug("Currently not logged in");
-    });
+      notify.debug("Currently not logged in")
+    })
   },
 
   hasPermission: permissionName => {
@@ -238,15 +295,12 @@ const auth = {
       return this.isLoggedIn().then(isLoggedIn => {
         if(!isLoggedIn) { return false }
 
-          auth.currentUser = feathers.get('user');
+          auth.currentUser = feathers.get('user')
 
           let privs = _.get(auth, 'currentUser.permissions')
 
-          if(!privs || (!privs.includes(permissionName) && _.get(auth, 'currentUser.role') !== 'admin')) {
-            return false
-          } else {
-            return true
-          }
+          return !privs || (!privs.includes(permissionName) && _.get(auth, 'currentUser.role') !== 'admin')
+
       }, err => {
         return false
       })
@@ -263,13 +317,7 @@ const auth = {
 
     let privs = _.get(auth, 'currentUser.permissions')
 
-    if(
-        !privs || (!privs.includes(permissionName) && _.get(auth, 'currentUser.role') !== 'admin')
-    ) {
-      return false
-    }
-
-    return true
+    return !privs || (!privs.includes(permissionName) && _.get(auth, 'currentUser.role') !== 'admin')
   }
 
 }

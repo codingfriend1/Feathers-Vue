@@ -28,7 +28,7 @@
 
 <script>
 
-const feathers = require('../services/feathers.service')
+// const feathers = require('../services/api/feathers.service')
 const _ = require('lodash')
 const Vue = require('vue')
 
@@ -36,12 +36,13 @@ module.exports = {
 	data: () => ({
 		newMessage: {
 			text: '',
+			userId: null,
 			errors: {}
 		},
 		newMessageText: '',
 		errorsSummary: ''
 	}),
-	store: ['message', 'currentUser', 'currentModal', 'messages', 'api', 'validateLive'],
+	store: ['message', 'auth', 'currentModal', 'messages', 'api', 'validateLive'],
 
 	// beforeCreate and create are both run on the server before the html is sent. The api library used, "axios", is isomorphic so it works both on client and server
 	beforeCreate: async function() {
@@ -70,18 +71,18 @@ module.exports = {
 		},
 
 		sendMessage: async function(data) {
-      if(!_.get(this, 'currentUser._id')) {
+      if(!_.get(this, 'auth.currentUser._id')) {
         this.errorsSummary = "You must be logged in."
         return false;
       }
 
-      data.userId = _.get(this, 'currentUser._id');
+      data.userId = _.get(this, 'auth.currentUser._id');
 
 			let valid = await checkValid(data, 'message')
 
 			if(valid) {
 				this.errorsSummary = ''
-				await to( api.messages.upsert(data) )
+				var [err, success] = await api.messages.upsert(data)
 			} else {
 				this.errorsSummary = _.map(data.errors, err => err).join('<br>')
 			}

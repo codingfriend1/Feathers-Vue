@@ -17,7 +17,7 @@ const folders = {
   node_modules: path.resolve(__dirname, 'node_modules'),
   client_tests: path.resolve(__dirname, 'client-tests'),
   bundle: path.resolve(__dirname, 'public'),
-  src: path.resolve(__dirname, 'src'),
+  server: path.resolve(__dirname, 'server'),
   renderer: path.resolve(__dirname, 'vue-server-side-rendering.js'),
   serve: path.resolve(__dirname, 'public', '/'),
   app: path.resolve(__dirname, 'app'),
@@ -77,6 +77,7 @@ const modules = {
       {
         test: /\.styl$/,
         loader: ExtractTextPlugin.extract("style", "css!stylus"),
+        exclude: node,
         include: [
           folders.app,
           folders.renderer
@@ -144,7 +145,7 @@ configs[1] = Object.assign({
   entry: ['babel-polyfill', path.join(folders.root, 'vue-server-side-rendering.js')],
   output: {
     libraryTarget: 'commonjs2',
-    path: path.join(folders.root, 'src'),
+    path: path.join(folders.root, 'server'),
     filename: 'compiled-ssr.js'
   }
 }, modules)

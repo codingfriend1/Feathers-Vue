@@ -24,11 +24,13 @@ module.exports = {
 		}
 	},
   beforeMount: function() {
+  	
+  	this.$store.auth = auth
+  	this.$store.api = api
+
     if(!this.$isServer) {
-      this.$store.currentUser = auth.currentUser
-      this.$store.api = api
       this.$store.validateLive = validateLive
-      syncList('/api/messages', 'messages')
+      syncList('/api/message', 'messages')
     }
   },
   metaInfo: {

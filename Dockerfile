@@ -7,7 +7,7 @@ COPY package.json /var/www/
 ENV NODE_ENV=production
 RUN npm install
 COPY public/ /var/www/public
-COPY src/ /var/www/src
+COPY src/ /var/www/server
 COPY config/ /var/www/config
 # RUN chmod -R 755 /var/www
 ################## END DIRECTORIES ######################
@@ -16,4 +16,4 @@ COPY config/ /var/www/config
 EXPOSE 80
 VOLUME /var/www
 
-CMD ["pm2", "start", "src", "--no-daemon"]
+CMD ["pm2", "start", "server", "--no-daemon"]

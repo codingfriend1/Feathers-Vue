@@ -32,6 +32,7 @@
 							i.fa.fa-twitter
 			.login-form-login-button(@click="login(user)") Login
 			.login-form-forgot-password(@click="auth.sendResetPassword(user.email)") Forgot your password?
+			.login-form-forgot-password(@click="auth.logout()" v-show="auth.currentUser") Logout
 		.signup-form(v-show="showing === 'signup'")
 			.login-form-group
 				.login-form-name-icon.login-form-icon
@@ -59,7 +60,7 @@
 			.alert.alert-danger(v-show="errorsSummary" v-html="errorsSummary")
 			.login-form-login-button(@click="signup(user)") Sign Up
 			.login-form-forgot-password(@click="auth.resendVerification(user.email)") Resend Verification Email
-		.change-password-form(v-show="showing === 'changePassword' && currentUser")
+		.change-password-form(v-show="showing === 'changePassword' && auth.currentUser")
 			.login-form-group
 				.login-form-password-icon.login-form-icon
 					i.fa.fa-lock
@@ -77,7 +78,7 @@
 				input.login-form-password-input.login-form-input(type='password', placeholder='new password' v-model="user.password")
 			.login-form-warning-text
 			.login-form-change-password-btn(@click="resetPassword(user.password)") Reset Password
-		.change-email-form(v-show="showing === 'changeEmail' && currentUser")
+		.change-email-form(v-show="showing === 'changeEmail' && auth.currentUser")
 			.login-form-group
 				.login-form-email-icon.login-form-icon
 					i.fa.fa-envelope
@@ -87,16 +88,15 @@
 					i.fa.fa-lock
 				input.login-form-password-input.login-form-input(type='password', placeholder='current password' v-model="user.password")
 			.login-form-warning-text
-			.login-form-change-email-btn(@click="auth.changeIdentity(user, user.password, {email: user.newEmail})") Update Email
+			.login-form-change-email-btn(@click="auth.changeMyIdentity(user.password, {email: user.newEmail})") Update Email
 </template>
 
 <script>
 	module.exports =  {
-		store: ['currentUser'],
+		store: [ 'auth' ],
 		data: () => ({
 			showing: 'login',
 			accountTitle: 'Login',
-			auth: {},
 			errorsSummary: '',
 			user: {
 				email: '',
@@ -109,8 +109,8 @@
 		}),
 		methods: {
 			login: async function(user) {
-				let [err, result] = await to(auth.login(user))
-				if(!err) { this.$router.push('/') }
+				let result = await auth.login(user)
+				if( result ) { this.$router.push('/') }
 			},
 			signup: async function(user) {
 				user.role = 'willBeReplaced'
@@ -118,8 +118,8 @@
 
 				if(valid) {
 					this.errorsSummary = ''
-					let [err, result] = await to(auth.signup(user))
-					if(!err) { this.$router.push('/') }
+					let result = await auth.signup(user)
+					if( result ) { this.$router.push('/') }
 				} else {
 					this.errorsSummary = _.map(user.errors, err => err).join('<br>')
 				}
@@ -143,7 +143,6 @@
 			}
 		},
 		mounted: function() {
-			this.auth = auth
 
 			switch (this.$route.params.type) {
 
@@ -158,14 +157,14 @@
 					this.showing = 'reset'
 					break;
 				case 'changePassword':
-					if(this.$store.currentUser) {
+					if(this.$store.auth.currentUser) {
 						this.accountTitle = 'Change Password'
 						this.showing = 'changePassword'
 					}
 
 					break;
 				case 'changeEmail':
-					if(this.$store.currentUser) {
+					if(this.$store.auth.currentUser) {
 						this.accountTitle = 'Change Email'
 						this.showing = 'changeEmail'
 					}

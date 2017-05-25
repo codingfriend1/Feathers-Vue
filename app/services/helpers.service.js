@@ -2,7 +2,7 @@ const Vue = require('vue')
 const _ = require('lodash')
 
 if(typeof window !== 'undefined') {
-  global.schemas = require('../../src/schemas').schemas
+  global.schemas = require('../../server/schemas');
 }
 
 
@@ -81,9 +81,9 @@ const isValid = function isValid(schema, data, field) {
  */
 const checkValid = async function checkValid(data, schema, field) {
 
-  let foundSchema = typeof schema === 'string'? _.get(schemas, `${schema}.schema`): schema.schema
+  let foundSchema = typeof schema === 'string'? _.get(schemas, schema): schema
 
-  let [validationErrors] = await to( isValid(foundSchema, data, field) )
+  let [validationErrors, wow] = await to( isValid(foundSchema, data, field) )
 
   if(validationErrors) {
     if(!data.errors) {

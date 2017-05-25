@@ -25,11 +25,7 @@ const router = require('./mockRouting.js')
 /**
  * Prepare services
  */
-require('../app/services/sync-list.service')
-require('../app/services/auth.service')
-require('../app/services/api.service')
-require('../app/services/notification.service')
-require('../app/services/helpers.service')
+require('../app/services')
 
 /**
  * Prepare vue components

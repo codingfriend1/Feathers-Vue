@@ -5,11 +5,7 @@ const router = require('./router')
 require('../components')
 require('../views')
 require('../filters')
-
-require('../services/api.service')
-require('../services/notification.service')
-const { prepareConfirm } = require('../services/helpers.service')
-const prepareSyncList = require('../services/sync-list.service')
+require('../services')
 
 const App = require('../views/app.vue')
 

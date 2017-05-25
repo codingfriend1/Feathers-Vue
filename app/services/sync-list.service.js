@@ -1,7 +1,7 @@
 /**
  * Uses Socket.io to detect updates, deletions, and creations and updates a property on the store with the changes
  */
-const feathers = require('./feathers.service')
+const feathers = require('./api/feathers.service')
 
 // The id property to identify list items by
 const idProperty = '_id'

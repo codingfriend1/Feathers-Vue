@@ -5,6 +5,5 @@ module.exports = {
   currentModal: '',
   modalConfig: {},
   message: 'Welcome to Front-Vue',
-  currentUser: null,
   messages: {}
 }
