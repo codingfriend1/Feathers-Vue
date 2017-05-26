@@ -29,12 +29,10 @@ module.exports = {
   before: {
     all: [],
     find: [
-      authenticate('jwt'),
-      isEnabled(),
+      
     ],
     get: [
-      authenticate('jwt'),
-      isEnabled(),
+      
     ],
     create: [
       authenticate('jwt'),
