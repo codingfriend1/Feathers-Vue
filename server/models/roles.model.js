@@ -4,6 +4,7 @@
 // for more of what you can do here.
 
 const validatePattern = require('../utils/validate-pattern');
+const schemas = require('../schemas');
 
 const sitePermissions = [
   'email',
@@ -18,27 +19,7 @@ const sitePermissions = [
 
 module.exports = function (app) {
   const mongooseClient = app.get('mongooseClient');
-  const roles = new mongooseClient.Schema({
-	  role: {
-	  	type: String,
-	  	required: true,
-	  	unique: true,
-	  	trim: true,
-	    validate: validatePattern('isTitle'),
-	  },
-	  permissions: [{
-	    type: String,
-	    enum: sitePermissions
-	  }],
-	  createdAt: {
-	    type: Date,
-	    'default': Date.now
-	  },
-	  updatedAt: {
-	    type: Date,
-	    'default': Date.now
-	  }
-	});
+  const roles = new mongooseClient.Schema(schemas.roles);
 
   return mongooseClient.model('roles', roles);
 };

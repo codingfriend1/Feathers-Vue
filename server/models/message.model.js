@@ -4,29 +4,11 @@
 // for more of what you can do here.
 
 const validatePattern = require('../utils/validate-pattern');
+const schemas = require('../schemas');
 
 module.exports = function (app) {
   const mongooseClient = app.get('mongooseClient');
-  const message = new mongooseClient.Schema({
-	  text: {
-	    type: String,
-	    required: true,
-	    validate: validatePattern('isTitle')
-	  },
-	  userId: {
-	    type: mongooseClient.Schema.ObjectId,
-	    ref: 'user',
-	    required: true
-	  },
-	  createdAt: {
-	    type: Date,
-	    'default': Date.now
-	  },
-	  updatedAt: {
-	    type: Date,
-	    'default': Date.now
-	  }
-	});
+  const message = new mongooseClient.Schema(schemas.message);
 
   return mongooseClient.model('message', message);
 };
