@@ -33,9 +33,6 @@ api.use(helmet());
 api.use(compress());
 api.use(bodyParser.json());
 api.use(bodyParser.urlencoded({ extended: true }));
-api.use(favicon(path.join(api.get('public'), 'favicon.ico')));
-// Host the public folder
-api.use('/', feathers.static(api.get('public')));
 
 // Set up Plugins and providers
 api.configure(hooks());
@@ -55,7 +52,9 @@ api.hooks(appHooks);
 const app = feathers()
   .configure(configuration(path.join(__dirname, '..')))
   .use('/api', api)
-  .use(favicon( path.join(api.get('public'), 'favicon.ico') ))
+  .use(favicon(path.join(api.get('public'), 'favicon.ico')))
+  // Host the public folder
+  .use('/', feathers.static(api.get('public')))
   .configure(routes)
 
 app.set('view engine', 'jade');
