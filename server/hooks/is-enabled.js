@@ -13,7 +13,7 @@ module.exports = function isEnabled(options = {}) { // eslint-disable-line no-un
 
     if(!_.get(hook, 'params.user') || _.isEmpty(hook.params.user)) {
 
-      throw new errors.NotAuthenticated(`Cannot check if the user is enabled. The current user is missing. You must not be authenticated.`);
+      throw new errors.NotAuthenticated(`Cannot check if the user is enabled. You must not be authenticated.`);
 
     } else if(!_.get(hook, 'params.user.isEnabled')) {
 

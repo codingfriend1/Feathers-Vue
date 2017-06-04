@@ -6,7 +6,7 @@ const isEnabled = require('./is-enabled');
 const isUserOwner = require('./is-user-owner');
 const hasPermissionBoolean = require('./has-permission-boolean');
 
-const { iff, isNot } = require('feathers-hooks-common');
+const { unless } = require('feathers-hooks-common');
 const errors = require('feathers-errors');
 const _ = require('lodash');
 
@@ -16,10 +16,12 @@ module.exports = function ({ service, permission }) { // eslint-disable-line no-
   return [
 	  authenticate('jwt'),
 	  isEnabled(),
-	  iff(
-	    isNot( isUserOwner({ service }) ),
-	    iff(
-	      isNot( hasPermissionBoolean(permission) ),
+	  unless(
+	  	isUserOwner({ service }),
+
+	    unless(
+	      hasPermissionBoolean(permission),
+
 	      function(hook) {
 
 	        // Get the user's name or email
