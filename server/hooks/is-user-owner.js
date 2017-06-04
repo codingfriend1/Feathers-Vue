@@ -38,8 +38,6 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
           data = data.toObject();
         }
 
-        console.log('data', data);
-
         let field = data[options.ownerField];
 
         // Handle nested Sequelize or Mongoose models

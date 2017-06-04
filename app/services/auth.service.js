@@ -50,24 +50,25 @@ const auth = {
 
     return feathers.authenticate( user )
     .then(response => {
+
       if(window.location.hostname.indexOf('localhost') > -1) {
         notify.log('Access Token: ', response.accessToken)
+        notify.log('User: ', response.user)
       }
 
-      return feathers.passport.verifyJWT(response.accessToken)
-    })
-    .then(payload => {
-      return feathers.service('/api/users').get(payload.userId)
-    })
-    .then(user => {
-      feathers.set('user', user)
+      feathers.set('user', response.user)
       auth.currentUser = feathers.get('user')
       return auth.currentUser
+
+      // return feathers.passport.verifyJWT(response.accessToken)
     })
 
   },
 
   login: async user => {
+
+    auth.logout()
+
     var [err, foundUser] = await to( auth.__authenticate(user) )
 
     if(!err) {
@@ -83,6 +84,7 @@ const auth = {
 
   logout: async user => {
     feathers.logout()
+    feathers.set('user', null)
     auth.currentUser = null
   },
 
@@ -91,6 +93,8 @@ const auth = {
       notify.error('Please fill out the user information')
       return false
     }
+
+    auth.logout()
 
     let [err, result] = await api.users.create(user)
 

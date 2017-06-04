@@ -1,3 +1,5 @@
+
+const _ = require('lodash');
 const { authenticate } = require('feathers-authentication').hooks;
 const commonHooks = require('feathers-hooks-common');
 const { restrictToOwner } = require('feathers-authentication-hooks');
@@ -38,7 +40,7 @@ const schema = {
 
 const serializeSchema = {
   computed: {
-    permissions: (item, hook) => item.access.permissions,
+    permissions: (item, hook) => _.get(item, 'access.permissions'),
   },
   exclude: ['access', '_include']
 };

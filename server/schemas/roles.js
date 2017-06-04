@@ -7,6 +7,7 @@ const sitePermissions = [
   'update',
   'read',
   'manageUsers',
+  'manageMessages',
   'manageRoles',
   'manageSettings'
 ]

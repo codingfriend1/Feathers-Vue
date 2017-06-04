@@ -1,29 +1,12 @@
 const { authenticate } = require('feathers-authentication').hooks;
 const isEnabled = require('../../hooks/is-enabled');
-const isUserOwner = require('../../hooks/is-user-owner');
-const ownerOrRestrict = require('../../hooks/owner-or-restrict');
-const hasPermissionBoolean = require('../../hooks/has-permission-boolean');
 const associateCurrentUser = require('../../hooks/associate-current-user');
+const ownerOrPermission = require('../../hooks/owner-or-permission');
 
 const { iff, isNot, discard, setCreatedAt, setUpdatedAt } = require('feathers-hooks-common');
 
-const ownerOrPermission = [
-  authenticate('jwt'),
-  isEnabled(),
-  iff(
-    isNot( isUserOwner({ service: 'message' }) ),
-    [
-      iff(
-        isNot( hasPermissionBoolean('manageMessages') ),
-        [
-          function(hook) {
-            console.log('hook.data', hook.data);
-          }
-        ]
-      )
-    ]
-  )
-];
+const errors = require('feathers-errors');
+const _ = require('lodash');
 
 module.exports = {
   before: {
@@ -41,15 +24,15 @@ module.exports = {
       associateCurrentUser()
     ],
     update: [
-      ...ownerOrPermission,
+      ...ownerOrPermission({ service: 'message', permission: 'manageMessages'}),
       setUpdatedAt()
     ],
     patch: [
-      ...ownerOrPermission,
+      ...ownerOrPermission({ service: 'message', permission: 'manageMessages'}),
       setUpdatedAt()
     ],
     remove: [
-      ...ownerOrPermission
+      ...ownerOrPermission({ service: 'message', permission: 'manageMessages'})
     ]
   },
 

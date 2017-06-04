@@ -6,6 +6,9 @@ const GoogleStrategy = require('passport-google-oauth20');
 const FacebookStrategy = require('passport-facebook');
 const GithubStrategy = require('passport-github');
 
+const errors = require('feathers-errors');
+const _ = require('lodash');
+
 module.exports = function () {
   const app = this;
   const config = app.get('authentication');
@@ -36,10 +39,25 @@ module.exports = function () {
   app.service('authentication').hooks({
     before: {
       create: [
-        authentication.hooks.authenticate(config.strategies)
+        authentication.hooks.authenticate(config.strategies),
       ],
       remove: [
         authentication.hooks.authenticate('jwt')
+      ]
+    },
+    after: {
+      create: [
+        hook => {
+
+          if(!_.get(hook, 'params.user')) {
+            return Promise.reject(new errors.Forbidden('Credentials incorrect'));
+          }
+
+          hook.result.user = hook.params.user;
+
+          // Don't expose sensitive information.
+          delete hook.result.user.password;
+        }
       ]
     }
   });

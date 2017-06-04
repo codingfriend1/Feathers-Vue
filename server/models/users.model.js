@@ -26,7 +26,7 @@ const colors = [
 
 module.exports = function (app) {
   const mongooseClient = app.get('mongooseClient');
-  const users = new mongooseClient.Schema(schemas.users);
+  const users = new mongooseClient.Schema(schemas.user);
 
   return mongooseClient.model('users', users);
 };

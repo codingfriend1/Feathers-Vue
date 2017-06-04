@@ -5,7 +5,7 @@ module.exports = function hasPermissionBoolean(permission) {
 
   return function(hook) {
 
-    if (!hook.params.provider) { return Promise.resolve(true); }
+    if (!hook.params.provider) { return true; }
 
     if(
         !_.get(hook, 'params.user.role') === 'admin' || 
@@ -15,12 +15,12 @@ module.exports = function hasPermissionBoolean(permission) {
         !hook.params.user.permissions.includes(permission)
 
       ) {
-      
-      return Promise.resolve(false);
+
+      return false;
 
     } else {
 
-      return Promise.resolve(true);
+      return true;
 
     }
   }
