@@ -2,10 +2,10 @@ const Vue = require('vue')
 const store = require('./store-reconciliation')
 const router = require('./router')
 
+require('../services')
+require('../filters')
 require('../components')
 require('../views')
-require('../filters')
-require('../services')
 
 const App = require('../views/app.vue')
 
