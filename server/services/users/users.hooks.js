@@ -20,12 +20,10 @@ const restrict = [
   isEnabled(),
   commonHooks.iff(
     commonHooks.isNot(hasPermissionBoolean('manageUsers')),
-    [
-      restrictToOwner({
-        idField: '_id',
-        ownerField: '_id'
-      })
-    ]
+    restrictToOwner({
+      idField: '_id',
+      ownerField: '_id'
+    })
   )
 ];
 
