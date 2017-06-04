@@ -1,4 +1,6 @@
 {
-  "host": "Feathers-Vue-Two-app.feathersjs.com",
-  "port": "PORT"
+  "host": "feathersvue.feathersjs.com",
+  "port": "PORT",
+  "protocal": "https",
+  "mongodb": "DATABASE_URL"
 }
