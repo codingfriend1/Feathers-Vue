@@ -39,7 +39,7 @@
  * - hasPermissionSync( permissionName )
  * 
  * Properties
- * - currentUser - Containers the current user definition
+ * - currentUser - Contains the current user definition
  */
 
 const auth = {
@@ -59,8 +59,7 @@ const auth = {
       feathers.set('user', response.user)
       auth.currentUser = feathers.get('user')
       return auth.currentUser
-
-      // return feathers.passport.verifyJWT(response.accessToken)
+      
     })
 
   },
