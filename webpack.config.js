@@ -4,8 +4,6 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const AsyncAwaitPlugin = require('webpack-async-await')
 const TapWebpackPlugin = require('tap-webpack-plugin')
 
-
-
 const configs = []
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -27,13 +25,16 @@ const folders = {
 const modules = {
   module : {
     preLoaders: [
-      { test: /\.json$/, loader: 'json'},
+      { 
+        test: /\.json$/, 
+        loader: 'json'
+      },
     ],
     loaders : [
-      {
-        test: /node_modules[\/\\]jsdom[\/\\]lib[\/\\]jsdom[\/\\]living[\/\\]generated[\/\\]MutationEvent\.js$/, 
-        loader: "ignore-loader"
-      },
+      // {
+      //   test: /node_modules[\/\\]jsdom[\/\\]lib[\/\\]jsdom[\/\\]living[\/\\]generated[\/\\]MutationEvent\.js$/, 
+      //   loader: "ignore-loader"
+      // },
       {
         test: /mongoose/,
         loader: 'null'
@@ -71,7 +72,7 @@ const modules = {
         include: [
           folders.app,
           folders.renderer,
-          folders.node_modules
+          // folders.node_modules
         ]
       },
       {
@@ -149,28 +150,5 @@ configs[1] = Object.assign({
     filename: 'compiled-ssr.js'
   }
 }, modules)
-
-configs[2] = Object.assign({
-  target: 'node',
-
-  entry: ['./client-tests'],
-
-  output: {
-    path: folders.client_tests,
-    filename: 'test.js'
-  },
-
-  resolve: {
-    modules: ['node_modules'],
-    alias: {
-      vue: 'vue/dist/vue.js'
-    }
-  },
-
-  plugins: [
-    new TapWebpackPlugin()
-  ]
-}, modules)
-
 
 module.exports = configs
