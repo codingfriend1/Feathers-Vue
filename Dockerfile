@@ -1,11 +1,20 @@
 FROM gzlock/node-pm2
 
 ################## ESTABLISH DIRECTORIES ######################
+
+# Establish our webfolder root
 RUN rm -rf /var/www/
 WORKDIR /var/www/
 COPY package.json /var/www/
+
+
+# Install and cache npm dependencies unless package.json changes
+
 ENV NODE_ENV=production
-RUN npm install
+ADD package.json /tmp/package.json
+RUN cd /tmp && npm install
+RUN cp -a /tmp/node_modules /var/www/
+
 COPY public/ /var/www/public
 COPY server/ /var/www/server
 COPY config/ /var/www/config
