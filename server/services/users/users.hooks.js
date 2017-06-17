@@ -65,8 +65,7 @@ module.exports = {
       preventDisabledAdmin()
     ],
     patch: [ 
-      ...restrict, 
-      hashPassword(),
+      ...restrict,
       preventDisabledAdmin()
     ],
     remove: [ 
