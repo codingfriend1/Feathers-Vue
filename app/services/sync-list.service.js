@@ -21,36 +21,33 @@ function convertStoreArrayToHash(store, storeProperty, idProperty) {
   }
 }
 
+/**
+ * Receives the item(s) being updated and updates them by id in an existing list. First converts the list to a hashmap if not already.
+ * @param {array|object} items A single item or multiple items to updat
+ * @return {nothing} 
+ */
+function updateLocalItems(items, store, storeProperty, idProperty) {
+  items = _.castArray(items)
+
+  convertStoreArrayToHash(store, storeProperty, idProperty)
+
+  store[storeProperty] = Object.assign({}, store[storeProperty], _.keyBy(items, idProperty))
+}
+
 function liveSyncWithServer(service, storeProperty, store) {
 
   if(typeof window === 'undefined') { return false }
 
+  const updateItemsInStore = _.partialRight(updateLocalItems, store, storeProperty, idProperty)
+
   // Adds items to the local list that were added to the server
-  feathers.service(service).on('created', items => {
-    items = _.castArray(items)
-
-    convertStoreArrayToHash(store, storeProperty, idProperty)
-
-    store[storeProperty] = Object.assign({}, store[storeProperty], _.keyBy(items, idProperty))
-  })
+  feathers.service(service).on('created', updateItemsInStore)
 
   // Updates items in local list that were patched from the server
-  feathers.service(service).on('patched', items => {
-    items = _.castArray(items)
-    
-    convertStoreArrayToHash(store, storeProperty, idProperty)
-
-    store[storeProperty] = Object.assign({}, store[storeProperty], _.keyBy(items, idProperty))
-  })
+  feathers.service(service).on('patched', updateItemsInStore)
 
   // Updates items in local list that were updated from the server
-  feathers.service(service).on('updated', items => {
-    items = _.castArray(items)
-
-    convertStoreArrayToHash(store, storeProperty, idProperty)
-
-    store[storeProperty] = Object.assign({}, store[storeProperty], _.keyBy(items, idProperty))
-  })
+  feathers.service(service).on('updated', updateItemsInStore)
 
   // Removes items from local list that were removed from the server
   feathers.service(service).on('removed', items => {
