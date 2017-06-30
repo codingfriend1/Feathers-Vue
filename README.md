@@ -31,24 +31,14 @@ Getting up and running is as easy as 1, 2, 3, 4.
     ```
     cd path/to/Feathers-Vue; npm install
     ```
-3. Run your build or watch
-
-    ```
-      npm run build
-    ```
-
-    ```
-      npm run watch
-    ```
-
-4. Start your app locally
+3. Start your app locally
 
     ```
     mongod
     ```
 
     ```
-    npm run serve
+    npm run dev
     ```
 
 In production run
@@ -56,6 +46,8 @@ In production run
     
       npm run build
       npm start
+
+
     
 
 If you want emails to work using gmail add the following environment variables
