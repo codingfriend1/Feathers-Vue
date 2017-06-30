@@ -10,6 +10,7 @@ const configuration = require('feathers-configuration');
 const hooks = require('feathers-hooks');
 const rest = require('feathers-rest');
 const socketio = require('feathers-socketio');
+const sync = require('feathers-sync');
 
 const middleware = require('./middleware');
 const services = require('./services');
@@ -39,6 +40,11 @@ api.configure(hooks());
 api.configure(mongodb);
 api.configure(rest());
 api.configure(socketio());
+
+api.configure(sync({
+  db: api.get('mongodb'),
+  collection: 'syncEvents'
+}));
 
 api.configure(authentication);
 

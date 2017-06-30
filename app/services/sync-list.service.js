@@ -36,8 +36,10 @@ function updateLocalItems(items, store, storeProperty, idProperty) {
 
 function liveSyncWithServer(service, storeProperty, store) {
 
+  // This line disables the service from running server side when doing things like SSR with Vue
   if(typeof window === 'undefined') { return false }
 
+  // Pre-inputs the store, storeProperty and idProperty values since the event listeners won't provide that data
   const updateItemsInStore = _.partialRight(updateLocalItems, store, storeProperty, idProperty)
 
   // Adds items to the local list that were added to the server
