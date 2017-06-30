@@ -26,7 +26,8 @@
     "start": "pm2 start server/ --no-daemon",
     "build": "gulp && webpack",
     "watch": "gulp && webpack -w",
-    "serve": "node server/",
+    "serve": "nodemon server/",
+    "dev": "npm-run-all --parallel watch serve",
     "mocha": "mocha test/ --recursive"
   },
   "dependencies": {
@@ -90,6 +91,8 @@
     "mocha": "^3.2.0",
     "node-loader": "^0.6.0",
     "node-sass": "^4.3.0",
+    "nodemon": "^1.11.0",
+    "npm-run-all": "^4.0.2",
     "null-loader": "^0.1.1",
     "proxyquire": "^1.7.11",
     "request": "^2.79.0",

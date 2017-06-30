@@ -14,50 +14,49 @@ const idProperty = '_id'
  * @param {object} store The store to update with
  * @return {nothing}
  */
+
+function convertStoreArrayToHash(store, storeProperty, idProperty) {
+  if(store[storeProperty] && Array.isArray(store[storeProperty])) {
+    store[storeProperty] = _.keyBy(store[storeProperty], idProperty)
+  }
+}
+
 function liveSyncWithServer(service, storeProperty, store) {
 
   if(typeof window === 'undefined') { return false }
 
   // Adds items to the local list that were added to the server
   feathers.service(service).on('created', items => {
-    if(!Array.isArray(items)) { items = [items] }
+    items = _.castArray(items)
 
-    if(store[storeProperty] && Array.isArray(store[storeProperty])) {
-      store[storeProperty] = _.keyBy(store[storeProperty], idProperty)
-    }
+    convertStoreArrayToHash(store, storeProperty, idProperty)
 
     store[storeProperty] = Object.assign({}, store[storeProperty], _.keyBy(items, idProperty))
   })
 
   // Updates items in local list that were patched from the server
   feathers.service(service).on('patched', items => {
-    if(!Array.isArray(items)) { items = [items] }
-
-    if(store[storeProperty] && Array.isArray(store[storeProperty])) {
-      store[storeProperty] = _.keyBy(store[storeProperty], idProperty)
-    }
+    items = _.castArray(items)
+    
+    convertStoreArrayToHash(store, storeProperty, idProperty)
 
     store[storeProperty] = Object.assign({}, store[storeProperty], _.keyBy(items, idProperty))
   })
 
   // Updates items in local list that were updated from the server
   feathers.service(service).on('updated', items => {
-    if(!Array.isArray(items)) { items = [items] }
+    items = _.castArray(items)
 
-    if(store[storeProperty] && Array.isArray(store[storeProperty])) {
-      store[storeProperty] = _.keyBy(store[storeProperty], idProperty)
-    }
+    convertStoreArrayToHash(store, storeProperty, idProperty)
 
     store[storeProperty] = Object.assign({}, store[storeProperty], _.keyBy(items, idProperty))
   })
 
   // Removes items from local list that were removed from the server
   feathers.service(service).on('removed', items => {
-    if(!Array.isArray(items)) { items = [items] }
+    items = _.castArray(items)
 
-    if(store[storeProperty] && Array.isArray(store[storeProperty])) {
-      store[storeProperty] = _.keyBy(store[storeProperty], idProperty)
-    }
+    convertStoreArrayToHash(store, storeProperty, idProperty)
 
     let itemsHash = _.keyBy(items, idProperty)
 
