@@ -74,6 +74,8 @@ $ feathers help                           # Show all commands
 ```
 
 ## Docker-compose
+Create an environments file, `environment.env` in the project root that you can store production environment variables in. These will contain things like your app secret, gmail, app password, and such. Don't include this file in your repo as you may expose sensitive information.
+
 You may run
 ```
 docker-compose up
