@@ -13,7 +13,7 @@ module.exports = {
   },
 
   after: {
-    all: [ logger() ],
+    // all: [ logger() ],
     find: [],
     get: [],
     create: [],

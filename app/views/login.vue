@@ -116,7 +116,7 @@
 		methods: {
 			login: async function(user) {
 				let result = await auth.login(user)
-				if( result ) { this.$router.push('/') }
+				if( result ) { this.$router.load({ url: '/'}) }
 			},
 			signup: async function(user) {
 				user.role = 'willBeReplaced'
@@ -125,7 +125,7 @@
 				if(valid) {
 					this.errorsSummary = ''
 					let result = await auth.signup(user)
-					if( result ) { this.$router.push('/') }
+					if( result ) { this.$router.load({ url: '/'}) }
 				} else {
 					this.errorsSummary = _.map(user.errors, err => err).join('<br>')
 				}

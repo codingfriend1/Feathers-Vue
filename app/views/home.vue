@@ -39,7 +39,7 @@ module.exports = {
 	created: async function() {
 			let [err, result] = await api.messages.find({})
 			if(!err) {
-				this.$store.messages = result.data
+				this.$store.messages = result
 			}
 	},
 	methods: {
