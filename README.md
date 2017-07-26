@@ -89,6 +89,8 @@ For more information on all the things you can do with Feathers visit [docs.feat
 ## Looking for mobile?
 I'm working on a cordova starter with feathers 2, Vue 2, and Framework 7. Visit the `cordova` branch of this repo.
 
+[Cordova Branch](https://github.com/codingfriend1/Feathers-Vue/tree/cordova)
+
 ## License
 
 Copyright (c) 2016
