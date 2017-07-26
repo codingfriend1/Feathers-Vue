@@ -42,3 +42,5 @@ lib/seed
 server/compiled-ssr.js
 client-tests/test.js
 server/style.css
+platforms/
+www/

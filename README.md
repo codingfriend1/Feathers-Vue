@@ -86,6 +86,9 @@ to build a docker-virtual machine instance.
 
 For more information on all the things you can do with Feathers visit [docs.feathersjs.com](http://docs.feathersjs.com).
 
+## Looking for mobile?
+I'm working on a cordova starter with feathers 2, Vue 2, and Framework 7. Visit the `cordova` branch of this repo.
+
 ## License
 
 Copyright (c) 2016
