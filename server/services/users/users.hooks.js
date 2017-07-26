@@ -47,10 +47,12 @@ module.exports = {
   before: {
     all: [],
     find: [ 
-      ...restrict 
+      authenticate('jwt'),
+      isEnabled(),
     ],
     get: [ 
-      ...restrict
+      authenticate('jwt'),
+      isEnabled(),
     ],
     create: [ 
       hashPassword(),
@@ -78,7 +80,12 @@ module.exports = {
       commonHooks.when(
         hook => hook.params.provider,
         commonHooks.discard('password', '_computed', 'verifyExpires', 'resetExpires', 'verifyChanges')
-      )
+      ),
+      function(hook) {
+        _.castArray( commonHooks.getItems(hook) ).forEach(item => { 
+            item.initials = _.get(item, 'name', '').match(/\b(\w)/g).join(''); 
+        })
+      }
     ],
     find: [
       commonHooks.populate({ schema }),

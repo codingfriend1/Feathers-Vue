@@ -1,23 +1,31 @@
 <template lang="jade">
-	f7-page.toolbar-fixed
+	.page.toolbar-fixed
 		f7-navbar(sliding='')
 			f7-nav-center Feathers-Vue
 			f7-nav-right
 				f7-link(icon='icon-bars', open-panel='left')
 
-		f7-messages
+		f7-messagebar(ref="messageBar", placeholder='Message', send-link='Send', @submit='sendMessage')
+	
+		.page-content.messages-content
+			.messages
 
-			f7-message(
-				:class="{'message-sent': m.user._id === auth.currentUser._id, 'message-received': m.user._id !== auth.currentUser._id }", 
+				.message.message-with-avatar(
+					:class="{'message-sent': m.user._id === auth.currentUser._id, 'message-received': m.user._id !== auth.currentUser._id }", 
+					v-for="m in messages",
+					@click="showTime(m)"
+				)
+					// Sender name
+					.message-name {{m.user.name || m.user.email}}
+					// Bubble with text
+					.message-text {{m.text}}
+					// Sender avatar
+					.message-avatar(:style="{'background-color': m.user.color}")
+						.initials {{m.user.initials}}
 
-				v-for="m in messages", 
-				:name='m.user.name || m.user.email', 
-				:text='m.text', 
-				:time="m.updatedAt | moment('h:mmA')", 
-				:day="m.updatedAt | moment('dddd')"
-			)
-			f7-messagebar(placeholder='Message', send-link='Send', @submit='sendMessage')
-
+					.messages-date(v-show="m.showTime")
+						| {{m.updatedAt | moment('dddd')}} 
+						span  {{m.updatedAt | moment('h:mmA')}}
 </template>
 
 <script>
@@ -31,6 +39,7 @@ module.exports = {
 			userId: null,
 			errors: {}
 		},
+		myMessages: {},
 		newMessageText: '',
 		errorsSummary: ''
 	}),
@@ -39,10 +48,30 @@ module.exports = {
 	created: async function() {
 			let [err, result] = await api.messages.find({})
 			if(!err) {
+				result.forEach(m => {
+					m.showTime = false
+				})
 				this.$store.messages = result
 			}
+
+			this.myMessages = this.$f7.messages('.messages', {
+			    scrollMessagesOnlyOnEdge: true,
+			    scrollMessages: true
+			})
+			
+			Vue.nextTick(() => {
+				this.myMessages.scrollMessages()
+			})
+					
 	},
 	methods: {
+		showTime: function(selected) {
+			_.forOwn(this.$store.messages, m => {
+				if(m !== selected)
+				m.showTime = false
+			})
+			selected.showTime = !selected.showTime
+		},
 		updateMessage: async function(m) {
 			let mes = _.cloneDeep(m)
 			mes.text = mes.textChanges
@@ -76,6 +105,11 @@ module.exports = {
 			if(valid) {
 				this.errorsSummary = ''
 				var [err, success] = await api.messages.upsert(data)
+				if(!err) {
+					this.$refs.messageBar.clear()
+					console.log('scrolling messages');
+					this.myMessages.scrollMessages()
+				}
 			} else {
 				this.errorsSummary = _.map(data.errors, err => err).join('<br>')
 				notify.error(this.errorsSummary)
@@ -87,5 +121,29 @@ module.exports = {
 </script>
 
 <style lang="stylus">
-
+	.message-text 
+		padding: 1em
+		font-size: 1.2em
+	.message-sent
+		.message-text
+			background-color: white
+		.message-text:before
+			border-bottom-color: white
+	.message-name
+		margin-bottom 6px
+		font-size 15px
+		font-weight bold
+		text-align left
+		
+	.initials
+		position absolute
+		font-size 1.2em
+		color white
+		top 50%
+		left 50%
+		-webkit-transform translate(-50%, -50%)
+		transform translate(-50%, -50%)
+		
+	.messages-date
+		font-size 13px
 </style>
