@@ -1,26 +1,29 @@
-const views = {
-  // inject views
-  home: require("./views/home.vue"),
-  login: require("./views/login.vue"),
-  // end inject views
-}
-
+// The component names are the global vue component names
+/**
+ * Example
+ *   Vue.component('home', require("./home.vue"))
+ *   In this case 'home' refers to home.vue
+ */
 
 module.exports = [
   {
-    path: '/',
-    name: 'Home',
-    component: views.home,
-    meta: {
-      subtitle: 'Welcome to Front-Vue!'
-    }
+    "path": '/',
+    "component": "home"
   },
   {
-    path: '/login/:type?/:slug?',
-    name: 'Login',
-    component: views.login,
-    meta: {
-      subtitle: ''
-    }
+    "path": "/left-panel",
+    "component": "left_panel"
+  },
+  {
+    "path": "/right-panel",
+    "component": "right_panel"
+  },
+  {
+    "path": '/login',
+    "component": "login"
+  },
+  {
+    "path": '/login/:type/:slug',
+    "component": "login"
   }
 ]

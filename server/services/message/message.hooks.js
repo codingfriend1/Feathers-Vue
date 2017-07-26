@@ -4,9 +4,19 @@ const associateCurrentUser = require('../../hooks/associate-current-user');
 const ownerOrPermission = require('../../hooks/owner-or-permission');
 
 const { iff, isNot, discard, setCreatedAt, setUpdatedAt } = require('feathers-hooks-common');
+const commonHooks = require('feathers-hooks-common');
 
 const errors = require('feathers-errors');
 const _ = require('lodash');
+
+const schema = {
+  include: [{
+    service: 'users',
+    nameAs: 'user',
+    parentField: 'userId',
+    childField: '_id'
+  }],
+};
 
 module.exports = {
   before: {
@@ -37,9 +47,15 @@ module.exports = {
   },
 
   after: {
-    all: [],
-    find: [],
-    get: [],
+    all: [
+      commonHooks.populate({ schema }),
+    ],
+    find: [
+
+    ],
+    get: [
+
+    ],
     create: [],
     update: [],
     patch: [],

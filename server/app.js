@@ -10,7 +10,7 @@ const configuration = require('feathers-configuration');
 const hooks = require('feathers-hooks');
 const rest = require('feathers-rest');
 const socketio = require('feathers-socketio');
-const sync = require('feathers-sync');
+// const sync = require('feathers-sync');
 
 const middleware = require('./middleware');
 const services = require('./services');
@@ -19,10 +19,7 @@ const appHooks = require('./app.hooks');
 const mongodb = require('./mongodb');
 
 const authentication = require('./authentication');
-
-const routes = require('./routes');
 const seed = require('./seed');
-
 
 const api = feathers();
 
@@ -41,10 +38,10 @@ api.configure(mongodb);
 api.configure(rest());
 api.configure(socketio());
 
-api.configure(sync({
-  db: api.get('mongodb'),
-  collection: 'syncEvents'
-}));
+// api.configure(sync({
+//   db: api.get('mongodb'),
+//   collection: 'syncEvents'
+// }));
 
 api.configure(authentication);
 
@@ -61,7 +58,6 @@ const app = feathers()
   .use(favicon(path.join(api.get('public'), 'favicon.ico')))
   // Host the public folder
   .use('/', feathers.static(api.get('public')))
-  .configure(routes)
 
 app.set('view engine', 'jade');
 

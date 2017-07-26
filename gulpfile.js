@@ -114,7 +114,9 @@ gulp.task('inject-vue', function() {
       folders.app + '/views/**/*.vue',
       '!' + folders.app + '/views/app.vue'
     ],
-    'inject vue'
+    'globalize vue views',
+    'vueGlobal',
+    true
   )
 })
 
@@ -145,7 +147,7 @@ gulp.task('inject-views', function() {
       '!' + folders.views + '/**/app.vue',
     ],
     'inject views',
-    'require',
+    'vueGlobal',
     true
   )
 })

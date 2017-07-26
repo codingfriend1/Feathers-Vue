@@ -121,11 +121,6 @@ const confirm = function confirm(message, store) {
   })
 }
 
-const prepareConfirm =  function prepareConfirm(store) {
-  global.confirm = _.partialRight(confirm, store)
-  return global.confirm
-}
-
 global.radio = radio
 global.to = to
 global.parseErrors = parseErrors
@@ -133,8 +128,6 @@ global.isValid = isValid
 global.checkValid = checkValid
 global.validateLive = validateLive
 global.a_or_an = a_or_an
-global.confirm = confirm
-global.prepareConfirm = prepareConfirm
 
 module.exports = {
   to,
@@ -143,6 +136,4 @@ module.exports = {
   isValid,
   validateLive,
   a_or_an,
-  confirm,
-  prepareConfirm
 }

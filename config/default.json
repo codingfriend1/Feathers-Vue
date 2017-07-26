@@ -2,7 +2,7 @@
   "host": "localhost",
   "port": 3030,
   "protocal": "http",
-  "public": "../public/",
+  "public": "../www/",
   "src": "../server/",
   "GMAIL": "GMAIL",
   "GMAIL_PASSWORD": "GMAIL_PASSWORD",

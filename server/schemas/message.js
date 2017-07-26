@@ -1,10 +1,7 @@
-const validatePattern = require('../utils/validate-pattern');
-
 module.exports = {
   text: {
     type: String,
-    required: true,
-    validate: validatePattern('isTitle')
+    required: true
   },
   userId: {
     type: global.mongoose.Schema.ObjectId,

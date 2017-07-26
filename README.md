@@ -1,29 +1,28 @@
 # Feathers-Vue
 
-> A Vue 2 and FeathersJS 2 fullstack app with authentication, email verification, and email support.&#34;
+> A Vue 2, Cordova, and FeathersJS 2 app with authentication, email verification, and email support.&#34;
 
 ## About
 
-This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications and Vue 2 with Server Side Rendering.
+My favorite frameworks are Vue and Feathersjs. As for mobile frameworks, framework 7 may be one of the best frameworks out there. This boilerplate provides a starter place for high-quality apps for both desktop and mobile with an organized structure and several commonly used services and helpers in large apps pre-included. If you find other generic helpers that you find yourself using in many apps feel free to send a pull request.
 
-This project is not finished but if you are can be ready to use if you are content with what it offers.
+__NOTE:__ This project is not finished yet but is worth using.
 
 Features
+  - Cordova
+  - Framework 7
+  - Validate client side data with mongoose schemas
+  - Vue Stash - For Redux Store
+  - FontAwesome
+  - Material Icons
   - SASS
   - Stylus
   - Jade
   - ES6, ES7, and ES8
   - Webpack
-  - Vue Stash - For Redux Store
-  - Bootstrap
   - Lodash
-  - jQuery
-  - FontAwesome
-  - Validate client side data with mongoose schemas
 
 ## Getting Started
-
-Getting up and running is as easy as 1, 2, 3, 4.
 
 1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
 2. Install your dependencies
@@ -31,7 +30,23 @@ Getting up and running is as easy as 1, 2, 3, 4.
     ```
     cd path/to/Feathers-Vue; npm install
     ```
-3. Start your app locally
+
+3. Setup your development server api. This could be hosted or just existing locally. If local, get your local environment's ip number so your mobile device can connect to web sockets. [Guide to get your ip](http://www.wikihow.com/Find-Your-IP-Address-on-a-Mac)
+    
+    ```
+      ifconfig | grep "inet " | grep -v 127.0.0.1
+    ```
+
+    or for windows:
+
+    ```
+    ipconfig
+    ```
+
+4. Write your address in the `app/services/api/feathers.service.js`.
+
+5. Start your app locally
+
 
     ```
     mongod
@@ -41,14 +56,22 @@ Getting up and running is as easy as 1, 2, 3, 4.
     npm run dev
     ```
 
+Visit `localhost:3030`
+
 In production run
 
-    
       npm run build
       npm start
 
+6. For android testing, run
 
-    
+    ```
+    cordova build android
+    ```
+
+7. Send the .apk file from `platforms/android/build/outputs/apk/android-debug.apk` to your phone and install it.
+
+8. Make sure the development server is running on your laptop under the correct ip name or hosting.
 
 If you want emails to work using gmail add the following environment variables
   ```
@@ -72,6 +95,8 @@ $ feathers generate hook                  # Generate a new Hook
 $ feathers generate model                 # Generate a new Model
 $ feathers help                           # Show all commands
 ```
+
+I structure schemas differently than the feathers defaults, this allows you to use the same schema in different contexts such as client-side validation. When you add a feathers service move the schema into the `server/schemas/` folder following the examples.
 
 ## Docker-compose
 Create an environments file, `environment.env` in the project root that you can store production environment variables in. These will contain things like your app secret, gmail, app password, and such. Don't include this file in your repo as you may expose sensitive information.

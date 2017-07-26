@@ -13,13 +13,11 @@ const node = /node_modules/
 const folders = {
   root: path.resolve(__dirname),
   node_modules: path.resolve(__dirname, 'node_modules'),
-  client_tests: path.resolve(__dirname, 'client-tests'),
-  bundle: path.resolve(__dirname, 'public'),
+  bundle: path.resolve(__dirname, 'www'),
   server: path.resolve(__dirname, 'server'),
   renderer: path.resolve(__dirname, 'vue-server-side-rendering.js'),
-  serve: path.resolve(__dirname, 'public', '/'),
-  app: path.resolve(__dirname, 'app'),
-  styles: path.resolve(__dirname, 'app/styles.js')
+  serve: path.resolve(__dirname, 'www', '/'),
+  app: path.resolve(__dirname, 'app')
 }
 
 const modules = {
@@ -67,6 +65,15 @@ const modules = {
         ]
       },
       {
+        test: /\.css/,
+        loader: ExtractTextPlugin.extract("style", "css"),
+        include: [
+          folders.app,
+          folders.renderer,
+          folders.node_modules
+        ]
+      },
+      {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract("style", "css!sass"),
         include: [
@@ -89,7 +96,7 @@ const modules = {
         loader: "url"
       },
       {
-        test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
+        test: /\.(ttf|eot|svg|png)(\?[\s\S]+)?$/,
         loader: 'file'
       }
     ]
@@ -125,7 +132,7 @@ const modules = {
 
 configs[0] = Object.assign({
   // entry: ['babel-polyfill', path.join(folders.app, 'app.js')],
-  entry: [path.join(folders.app, 'app.js')],
+  entry: [path.join(folders.app)],
   output: {
     path: path.join(folders.bundle, 'app'),
     pathinfo: true,
@@ -140,15 +147,5 @@ configs[0] = Object.assign({
     }
   }
 }, modules);
-
-configs[1] = Object.assign({
-  target: 'node',
-  entry: ['babel-polyfill', path.join(folders.root, 'vue-server-side-rendering.js')],
-  output: {
-    libraryTarget: 'commonjs2',
-    path: path.join(folders.root, 'server'),
-    filename: 'compiled-ssr.js'
-  }
-}, modules)
 
 module.exports = configs

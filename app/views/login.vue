@@ -1,95 +1,101 @@
 <template lang="jade">
-.login-form-container
-	header.login-form-header
-		.login-form-title {{accountTitle}}
-		.login-form-add-account-button(@click="toggleLogin()", v-show="showing === 'login'")
-			i.fa.fa-plus
-		.login-form-back-button(@click="toggleLogin()" v-show="showing === 'signup'")
-			i.fa.fa-times
-	.login-form-body
-		.login-form(v-show="showing === 'login'")
-			.login-form-group
-				.login-form-email-icon.login-form-icon
-					i.fa.fa-envelope
-				input.login-form-email-input.login-form-input(type='email', placeholder='email' v-model="user.email")
-			.login-form-group
-				.login-form-password-icon.login-form-icon
-					i.fa.fa-lock
-				input.login-form-password-input.login-form-input(type='password', placeholder='password' v-model="user.password")
-			.login-form-warning-text
-			.login-form-social-logins
-				.login-form-third-column
-					a(href="/api/auth/facebook")
-						.login-form-social-login-icon.login-form-facebook-icon
-							i.fa.fa-facebook
-				.login-form-third-column
-					a(href="/api/auth/google")
-						.login-form-social-login-icon.login-form-google-icon
-							i.fa.fa-google
-				.login-form-third-column
-					a(href="/api/auth/twitter")
-						.login-form-social-login-icon.login-form-twitter-icon
-							i.fa.fa-twitter
-			.login-form-login-button(@click="login(user)") Login
-			.login-form-forgot-password(@click="auth.sendResetPassword(user.email)") Forgot your password?
-			.login-form-forgot-password(@click="auth.logout()" v-show="auth.currentUser") Logout
-		.signup-form(v-show="showing === 'signup'")
-			.login-form-group
-				.login-form-name-icon.login-form-icon
-					i.fa.fa-user
-				input.login-form-name-input.login-form-input(type='text', placeholder='name' v-model="user.name")
-			.login-form-group
-				.login-form-email-icon.login-form-icon
-					i.fa.fa-envelope
-				input.login-form-email-input.login-form-input(type='email', placeholder='email' v-model="user.email")
-			.login-form-group
-				.login-form-password-icon.login-form-icon
-					i.fa.fa-lock
-				input.login-form-password-input.login-form-input(type='password', placeholder='password' v-model="user.password")
-			.login-form-warning-text
-			.login-form-social-logins
-				.login-form-third-column
-					.login-form-social-login-icon.login-form-facebook-icon
-						i.fa.fa-facebook
-				.login-form-third-column
-					.login-form-social-login-icon.login-form-google-icon
-						i.fa.fa-google
-				.login-form-third-column
-					.login-form-social-login-icon.login-form-twitter-icon
-						i.fa.fa-twitter
-			.alert.alert-danger(v-show="errorsSummary" v-html="errorsSummary")
-			.login-form-login-button(@click="signup(user)") Sign Up
-			.login-form-forgot-password(@click="auth.resendVerification(user.email)") Resend Verification Email
-		.change-password-form(v-show="showing === 'changePassword' && auth.currentUser")
-			.login-form-group
-				.login-form-password-icon.login-form-icon
-					i.fa.fa-lock
-				input.login-form-password-input.login-form-input(type='password', placeholder='old password' v-model="user.password")
-			.login-form-group
-				.login-form-password-icon.login-form-icon
-					i.fa.fa-lock
-				input.login-form-password-input.login-form-input(type='password', placeholder='new password' v-model="user.newPassword")
-			.login-form-warning-text
-			.login-form-change-password-btn(@click="auth.changePassword(user.password, user.newPassword)") Change Password
-		.reset-password-form(v-show="showing === 'reset'")
-			.login-form-group
-				.login-form-password-icon.login-form-icon
-					i.fa.fa-lock
-				input.login-form-password-input.login-form-input(type='password', placeholder='new password' v-model="user.password")
-			.login-form-warning-text
-			.login-form-change-password-btn(@click="resetPassword(user.password)") Reset Password
-		.change-email-form(v-show="showing === 'changeEmail' && auth.currentUser")
-			.login-form-group
-				.login-form-email-icon.login-form-icon
-					i.fa.fa-envelope
-				input.login-form-email-input.login-form-input(type='email', placeholder='new email' v-model="user.newEmail")
-			.login-form-group
-				.login-form-password-icon.login-form-icon
-					i.fa.fa-lock
-				input.login-form-password-input.login-form-input(type='password', placeholder='current password' v-model="user.password")
-			.login-form-warning-text
-			.login-form-change-email-btn(@click="auth.changeMyIdentity(user.password, {email: user.newEmail})") Update Email
-</template>
+	f7-page
+		f7-navbar(back-link='Back', sliding='')
+			f7-nav-center Login
+			f7-nav-right
+				f7-link(icon='icon-bars', open-panel='left')
+		f7-block(inner='')
+			.login-form-container
+				header.login-form-header
+					.login-form-title {{accountTitle}}
+					.login-form-add-account-button(@click="toggleLogin()", v-show="showing === 'login'")
+						i.fa.fa-plus
+					.login-form-back-button(@click="toggleLogin()" v-show="showing === 'signup'")
+						i.fa.fa-times
+				.login-form-body
+					.login-form(v-show="showing === 'login'")
+						.login-form-group
+							.login-form-email-icon.login-form-icon
+								i.fa.fa-envelope
+							input.login-form-email-input.login-form-input(type='email', placeholder='email' v-model="user.email")
+						.login-form-group
+							.login-form-password-icon.login-form-icon
+								i.fa.fa-lock
+							input.login-form-password-input.login-form-input(type='password', placeholder='password' v-model="user.password")
+						.login-form-warning-text
+						.login-form-social-logins
+							.login-form-third-column
+								a(href="/api/auth/facebook")
+									.login-form-social-login-icon.login-form-facebook-icon
+										i.fa.fa-facebook
+							.login-form-third-column
+								a(href="/api/auth/google")
+									.login-form-social-login-icon.login-form-google-icon
+										i.fa.fa-google
+							.login-form-third-column
+								a(href="/api/auth/twitter")
+									.login-form-social-login-icon.login-form-twitter-icon
+										i.fa.fa-twitter
+						.login-form-login-button(@click="login(user)") Login
+						.login-form-forgot-password(@click="auth.sendResetPassword(user.email)") Forgot your password?
+						.login-form-forgot-password(@click="auth.logout()" v-show="auth.currentUser") Logout
+					.signup-form(v-show="showing === 'signup'")
+						.login-form-group
+							.login-form-name-icon.login-form-icon
+								i.fa.fa-user
+							input.login-form-name-input.login-form-input(type='text', placeholder='name' v-model="user.name")
+						.login-form-group
+							.login-form-email-icon.login-form-icon
+								i.fa.fa-envelope
+							input.login-form-email-input.login-form-input(type='email', placeholder='email' v-model="user.email")
+						.login-form-group
+							.login-form-password-icon.login-form-icon
+								i.fa.fa-lock
+							input.login-form-password-input.login-form-input(type='password', placeholder='password' v-model="user.password")
+						.login-form-warning-text
+						.login-form-social-logins
+							.login-form-third-column
+								.login-form-social-login-icon.login-form-facebook-icon
+									i.fa.fa-facebook
+							.login-form-third-column
+								.login-form-social-login-icon.login-form-google-icon
+									i.fa.fa-google
+							.login-form-third-column
+								.login-form-social-login-icon.login-form-twitter-icon
+									i.fa.fa-twitter
+						.alert.alert-danger(v-show="errorsSummary" v-html="errorsSummary")
+						.login-form-login-button(@click="signup(user)") Sign Up
+						.login-form-forgot-password(@click="auth.resendVerification(user.email)") Resend Verification Email
+					.change-password-form(v-show="showing === 'changePassword' && auth.currentUser")
+						.login-form-group
+							.login-form-password-icon.login-form-icon
+								i.fa.fa-lock
+							input.login-form-password-input.login-form-input(type='password', placeholder='old password' v-model="user.password")
+						.login-form-group
+							.login-form-password-icon.login-form-icon
+								i.fa.fa-lock
+							input.login-form-password-input.login-form-input(type='password', placeholder='new password' v-model="user.newPassword")
+						.login-form-warning-text
+						.login-form-change-password-btn(@click="auth.changePassword(user.password, user.newPassword)") Change Password
+					.reset-password-form(v-show="showing === 'reset'")
+						.login-form-group
+							.login-form-password-icon.login-form-icon
+								i.fa.fa-lock
+							input.login-form-password-input.login-form-input(type='password', placeholder='new password' v-model="user.password")
+						.login-form-warning-text
+						.login-form-change-password-btn(@click="resetPassword(user.password)") Reset Password
+					.change-email-form(v-show="showing === 'changeEmail' && auth.currentUser")
+						.login-form-group
+							.login-form-email-icon.login-form-icon
+								i.fa.fa-envelope
+							input.login-form-email-input.login-form-input(type='email', placeholder='new email' v-model="user.newEmail")
+						.login-form-group
+							.login-form-password-icon.login-form-icon
+								i.fa.fa-lock
+							input.login-form-password-input.login-form-input(type='password', placeholder='current password' v-model="user.password")
+						.login-form-warning-text
+						.login-form-change-email-btn(@click="auth.changeMyIdentity(user.password, {email: user.newEmail})") Update Email
+	</template>
 
 <script>
 	module.exports =  {
@@ -172,9 +178,6 @@
 				default:
 					break;
 			}
-		},
-		metaInfo: {
-			title: 'Login',
 		}
 	}
 </script>

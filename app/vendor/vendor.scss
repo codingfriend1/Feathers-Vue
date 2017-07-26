@@ -1,9 +1,4 @@
-$icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
-
 $fa-font-path: "~font-awesome/fonts";
 @import "~font-awesome/scss/font-awesome";
-
-@import "~toastr/toastr.scss";
 
 @import './flexgrid.scss';

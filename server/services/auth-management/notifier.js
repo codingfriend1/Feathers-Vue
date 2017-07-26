@@ -13,7 +13,7 @@ module.exports = function(app) {
     var host = (app.get('host') === 'HOST')? 'localhost': app.get('host')
     var protocal = (app.get('protocal') === 'PROTOCAL')? 'http': app.get('protocal')
     protocal += "://"
-    return `${protocal}${host}${port}/login/${type}/${hash}`
+    return `${protocal}${host}${port}/#/login/${type}/${hash}`
   }
 
   function sendEmail(email) {

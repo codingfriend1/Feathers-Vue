@@ -1,35 +1,27 @@
 <template lang="jade">
-	.row
-		.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
-			p
-				| Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error, repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus, minus!
-			h3 Messages
-			ul
-				li(v-for="m in messages")
-					div {{m.text}}
-					simple_input(
-						v-model="m.textChanges",
-						@keyup.enter="updateMessage(m)",
-						:error="m.errors? m.errors.text: ''"
-					)
-					button.btn.btn-warning(@click="updateMessage(m)") Update
-					button.btn.btn-danger(@click="api.messages.deleteOne(m._id)") Delete
-			simple_input(
-				label="Message",
-				v-model="newMessage.text",
-				:error="newMessage.errors.text",
-				@keyup.enter="sendMessage(newMessage)",
-				@keydown="validateLive(newMessage, 'message', 'text')"
+	f7-page.toolbar-fixed
+		f7-navbar(sliding='')
+			f7-nav-center Feathers-Vue
+			f7-nav-right
+				f7-link(icon='icon-bars', open-panel='left')
+
+		f7-messages
+
+			f7-message(
+				:class="{'message-sent': m.user._id === auth.currentUser._id, 'message-received': m.user._id !== auth.currentUser._id }", 
+
+				v-for="m in messages", 
+				:name='m.user.name || m.user.email', 
+				:text='m.text', 
+				:time="m.updatedAt | moment('h:mmA')", 
+				:day="m.updatedAt | moment('dddd')"
 			)
-			.alert.alert-danger(v-show="errorsSummary" v-html="errorsSummary")
-			button.btn.btn-success(@click="sendMessage(newMessage)") Add Message
+			f7-messagebar(placeholder='Message', send-link='Send', @submit='sendMessage')
 
 </template>
 
 <script>
 
-// const feathers = require('../services/api/feathers.service')
-const _ = require('lodash')
 const Vue = require('vue')
 
 module.exports = {
@@ -42,17 +34,13 @@ module.exports = {
 		newMessageText: '',
 		errorsSummary: ''
 	}),
-	store: ['message', 'auth', 'currentModal', 'messages', 'api', 'validateLive'],
+	store: ['auth', 'messages'],
 
-	// beforeCreate and create are both run on the server before the html is sent. The api library used, "axios", is isomorphic so it works both on client and server
 	created: async function() {
 			let [err, result] = await api.messages.find({})
 			if(!err) {
 				this.$store.messages = result.data
 			}
-	},
-	metaInfo: {
-		title: 'Home',
 	},
 	methods: {
 		updateMessage: async function(m) {
@@ -60,21 +48,28 @@ module.exports = {
 			mes.text = mes.textChanges
 
 			let valid = await checkValid(mes, 'message')
+
 			if(valid) {
 				let [err, message] = await api.messages.upsert(mes)
-        if(err) { notify.error(parseErrors(err)); }
+				if(err) { notify.error(parseErrors(err)) }
 			} else {
 				Vue.set(m, 'errors', mes.errors)
+				notify.error(mes.errors.text)
 			}
 		},
 
-		sendMessage: async function(data) {
-      if(!_.get(this, 'auth.currentUser._id')) {
-        this.errorsSummary = "You must be logged in."
-        return false;
-      }
+		sendMessage: async function(message) {
 
-      data.userId = _.get(this, 'auth.currentUser._id');
+			var data = {
+				text: message
+			}
+
+			if(!_.get(this, 'auth.currentUser._id')) {
+				this.errorsSummary = "You must be logged in."
+				return false
+			}
+
+			data.userId = _.get(this, 'auth.currentUser._id')
 
 			let valid = await checkValid(data, 'message')
 
@@ -83,6 +78,7 @@ module.exports = {
 				var [err, success] = await api.messages.upsert(data)
 			} else {
 				this.errorsSummary = _.map(data.errors, err => err).join('<br>')
+				notify.error(this.errorsSummary)
 			}
 
 		}

@@ -7,19 +7,27 @@
 
 // Client side notifications
 try {
-  const toastr = require('toastr');
-  window.toastr = toastr
+
+  const holdingTime = 5000
+
+  const notificationDefaults = { 
+    closeIcon: true,
+    closeOnClick: true,
+    hold: holdingTime
+  }
+  
   window.notify = {
-    warning: (...args) => {
-      toastr.warning(...args)
+    warning: (message) => {
+      window.f7.addNotification(Object.assign(notificationDefaults, { message }))
     },
 
     success: (message) => {
-      toastr.success(message)
+      window.f7.addNotification(Object.assign(notificationDefaults, { message }))
     },
 
-    error: (...args) => {
-      toastr.error(...args)
+    error: (message) => {
+      console.log('message', message);
+      window.f7.addNotification(Object.assign(notificationDefaults, { message }))
     },
 
     log: (...args) => {
@@ -35,7 +43,7 @@ try {
     },
 
     clear: (...args) => {
-      toastr.clear()
+      // toastr.clear()
     }
   }
 } catch(err) {}
