@@ -24,6 +24,8 @@ Features
 
 ## Getting Started
 
+#### Development
+
 1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
 2. Install your dependencies
 
@@ -56,22 +58,42 @@ Features
     npm run dev
     ```
 
-Visit `localhost:3030`
+6. Visit `localhost:3030`
 
-In production run
+#### Production
 
+1. For production server run or use docker-compose
+
+    ```
       npm run build
       npm start
+    ```
 
-6. For android testing, run
+    or
+
+    ```
+    docker-compose up
+    ```
+2. Build your app
+
+    ```
+      cordova build --release android ios browser
+    ```
+3. Deploy your .apk file from `platforms/android/build/outputs/apk/android-debug.apk`
+
+#### Mobile Testing
+
+1. For android testing, run
 
     ```
     cordova build android
     ```
 
-7. Send the .apk file from `platforms/android/build/outputs/apk/android-debug.apk` to your phone and install it.
+2. Send the .apk file from `platforms/android/build/outputs/apk/android-debug.apk` to your phone and install it.
 
-8. Make sure the development server is running on your laptop under the correct ip name or hosting.
+3. Make sure the development server is running on your laptop under the correct ip name or hosting.
+
+## Email Verification
 
 If you want emails to work using gmail add the following environment variables
   ```
@@ -79,9 +101,10 @@ If you want emails to work using gmail add the following environment variables
   export GMAIL_PASS=yourpassword or app-password
   ```
 _See [How to set an app password](https://support.google.com/accounts/answer/185833)_
+
 ## Testing
 
-Simply run `npm test` and all your tests in the `test/` directory to run server side unit test or run  `npm test-client` to run client side tests.
+Simply run `npm test` and all your tests in the `test/` directory to run server side unit tests.
 
 ## Scaffolding
 
@@ -96,7 +119,9 @@ $ feathers generate model                 # Generate a new Model
 $ feathers help                           # Show all commands
 ```
 
-I structure schemas differently than the feathers defaults, this allows you to use the same schema in different contexts such as client-side validation. When you add a feathers service move the schema into the `server/schemas/` folder following the examples.
+
+
+__NOTE:__ I structure schemas differently than the feathers defaults, this allows you to use the same schema in different contexts such as client-side validation. When you add a feathers service move the schema into the `server/schemas/` folder following the examples.
 
 ## Docker-compose
 Create an environments file, `environment.env` in the project root that you can store production environment variables in. These will contain things like your app secret, gmail, app password, and such. Don't include this file in your repo as you may expose sensitive information.
