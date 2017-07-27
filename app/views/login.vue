@@ -1,7 +1,6 @@
 <template lang="jade">
 	f7-page
 		f7-navbar(back-link='Back', sliding='')
-			f7-nav-center Login
 			f7-nav-right
 				f7-link(icon='icon-bars', open-panel='left')
 		f7-block(inner='')
@@ -191,6 +190,7 @@
 		box-shadow: 5px 5px 17px -8px rgba(0,0,0,0.66);
 		font-family: sans-serif;
 		border-radius: 3px;
+		font-size: 1.2em;
 	}
 
 	.login-form-header {
