@@ -22,11 +22,16 @@ const schema = {
   }],
 };
 
+/**
+ * IMPORTANT
+ * `permissionOrOwner` hook should be the last hook in the "before" chain if used in the "get" method
+ */
+
 module.exports = {
   before: {
     all: [],
     find: [
-      
+
     ],
     get: [
 

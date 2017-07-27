@@ -7,6 +7,8 @@ const isEnabled = require('./is-enabled');
 const hasPermissionBoolean = require('./has-permission-boolean');
 const { checkContext } = require('feathers-hooks-common');
 
+const { to } = require('../utils/to')
+
 const _ = require('lodash')
 
 const { unless } = require('feathers-hooks-common');
@@ -24,19 +26,29 @@ module.exports = function ({ permission, options }) { // eslint-disable-line no-
   return [
 	  authenticate('jwt'),
 	  isEnabled(),
-	  function useFindInsteadOfGet(hook) {
-
-	  	checkContext(hook, 'before', ['get', 'patch', 'put', 'remove'], 'useFindInsteadOfGet');
-
-	  	if(hook.id) {
-	  		_.set(hook.params.query, settings.idField, hook.id);
-	  		hook.id = null;
-	  		hook.params.wasGET = true;
-	  	}
-	  },
     unless(
       hasPermissionBoolean(permission),
-    	queryWithCurrentUser(settings)
+    	function useFindInsteadOfGet(hook) {
+
+    		checkContext(hook, 'before', ['get', 'find', 'patch', 'put', 'remove'], 'useFindInsteadOfGet');
+
+    		queryWithCurrentUser(settings)(hook);
+
+    		if(hook.id) {
+
+    			_.set(hook.params.query, settings.idField, hook.id);
+    			hook.id = null;
+
+    			if(hook.method === 'get') {
+    				return hook.service.find(hook.params).then(results => { 
+    						hook.result = _.get(results, 'data[0]', _.get(results, '0'));
+    						return hook;
+    				 })
+    			}
+    			
+    		}
+    		return hook;
+    	}
     )
   ]
 };
