@@ -60,13 +60,25 @@ module.exports = {
       preventDisabledAdmin()
     ],
     update: [ 
-      ...restrict, 
-      hashPassword(),
-      preventDisabledAdmin()
+      commonHooks.disallow('external')
     ],
     patch: [ 
       ...restrict,
-      preventDisabledAdmin()
+      preventDisabledAdmin(),
+      commonHooks.iff(
+        commonHooks.isProvider('external'), 
+        commonHooks.preventChanges(
+          'email',
+          'isVerified',
+          'verifyToken',
+          'verifyShortToken',
+          'verifyExpires',
+          'verifyChanges',
+          'resetToken',
+          'resetShortToken',
+          'resetExpires'
+        )
+      ),
     ],
     remove: [ 
       ...restrict
