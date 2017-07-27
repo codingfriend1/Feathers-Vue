@@ -47,6 +47,7 @@ module.exports = {
 	store: ['auth', 'messages'],
 
 	created: async function() {
+		if(auth.currentUser) {
 			let [err, result] = await api.messages.find({})
 			if(!err) {
 				result.forEach(m => {
@@ -64,7 +65,7 @@ module.exports = {
 			Vue.nextTick(() => {
 				this.myMessages.scrollMessages()
 			})
-					
+		}			
 	},
 	watch: {
 		messages: function(currentMessages) {

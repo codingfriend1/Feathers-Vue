@@ -11,7 +11,7 @@ const sendVerificationEmail = require('../../hooks/send-verification-email');
 const hasPermissionsBoolean = require('../../hooks/has-permissions-boolean');
 const preventDisabledAdmin = require('../../hooks/prevent-disabled-admin');
 const verifyHooks = require('feathers-authentication-management').hooks;
-const setUserInitials = require('../../hooks/set-user-initials')
+const loopItems = require('../../hooks/loop-items')
 
 
 const { hashPassword } = require('feathers-authentication-local').hooks;
@@ -27,6 +27,16 @@ const restrict = [
     })
   )
 ];
+
+function setUserInitials(item) {
+  if(item.name) {
+    item.initials = _.get(item, 'name', '')
+      .match(/\b(\w)/g)
+      .join('')
+      .slice(0, 2)
+      .toUpperCase();
+  }
+}
 
 const schema = {
   include: [{
@@ -61,19 +71,19 @@ module.exports = {
       setDefaultRole(),
       setFirstUserToRole({role: 'admin'}),
       preventDisabledAdmin(),
-      setUserInitials()
+      loopItems(setUserInitials)
       
     ],
     update: [ 
       ...restrict, 
       hashPassword(),
       preventDisabledAdmin(),
-      setUserInitials()
+      loopItems(setUserInitials)
     ],
     patch: [ 
       ...restrict,
       preventDisabledAdmin(),
-      setUserInitials()
+      loopItems(setUserInitials)
     ],
     remove: [ 
       ...restrict
@@ -82,18 +92,18 @@ module.exports = {
 
   after: {
     all: [
+      commonHooks.populate({ schema }),
+      commonHooks.serialize(serializeSchema),
       commonHooks.when(
         hook => hook.params.provider,
         commonHooks.discard('password', '_computed', 'verifyExpires', 'resetExpires', 'verifyChanges')
       ),
     ],
     find: [
-      commonHooks.populate({ schema }),
-      commonHooks.serialize(serializeSchema),
+      
     ],
     get: [
-      commonHooks.populate({ schema }),
-      commonHooks.serialize(serializeSchema),
+      
     ],
     create: [
       sendVerificationEmail(),

@@ -6,6 +6,7 @@ const hasPermissions = require('../../hooks/has-permissions');
 
 const { iff, isNot, discard, setCreatedAt, setUpdatedAt } = require('feathers-hooks-common');
 const commonHooks = require('feathers-hooks-common');
+const loopItems = require('../../hooks/loop-items')
 
 const errors = require('feathers-errors');
 const _ = require('lodash');
@@ -60,6 +61,16 @@ module.exports = {
   after: {
     all: [
       commonHooks.populate({ schema }),
+      loopItems(item => {
+        if(!item.user) {
+          item.user = {
+            name: 'Deleted User',
+            _id: '',
+            color: 'black',
+            initials: 'X'
+          }
+        }
+      })
     ],
     find: [
 
