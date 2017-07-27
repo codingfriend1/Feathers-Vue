@@ -1,7 +1,8 @@
 const { authenticate } = require('feathers-authentication').hooks;
 const isEnabled = require('../../hooks/is-enabled');
 const associateCurrentUser = require('../../hooks/associate-current-user');
-const permissionOrOwner = require('../../hooks/permission-or-owner');
+const permissionsOrOwner = require('../../hooks/permission-or-owner');
+const hasPermissions = require('../../hooks/has-permissions');
 
 const { iff, isNot, discard, setCreatedAt, setUpdatedAt } = require('feathers-hooks-common');
 const commonHooks = require('feathers-hooks-common');
@@ -16,22 +17,23 @@ const schema = {
     parentField: 'userId',
     childField: '_id',
     query: {
-      $select: ['name', '_id', 'color', 'initials'],
-      $sort: {createdAt: -1}
+      $select: ['name', '_id', 'color', 'initials']
     },
   }],
 };
 
 /**
  * IMPORTANT
- * `permissionOrOwner` hook should be the last hook in the "before" chain if used in the "get" method
+ * `permissionsOrOwner` hook should be the last hook in the "before" chain if used in the "get" method
  */
+
+const permissions = [ 'manageMessages' ];
 
 module.exports = {
   before: {
     all: [],
     find: [
-
+      
     ],
     get: [
 
@@ -43,15 +45,15 @@ module.exports = {
       associateCurrentUser()
     ],
     update: [
-      ...permissionOrOwner({ permission: 'manageMessages' }),
+      ...permissionsOrOwner({ permissions }),
       setUpdatedAt()
     ],
     patch: [
-      ...permissionOrOwner({ permission: 'manageMessages' }),
+      ...permissionsOrOwner({ permissions }),
       setUpdatedAt()
     ],
     remove: [
-      ...permissionOrOwner({ permission: 'manageMessages' })
+      ...permissionsOrOwner({ permissions })
     ]
   },
 

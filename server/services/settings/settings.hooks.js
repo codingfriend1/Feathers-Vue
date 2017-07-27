@@ -1,5 +1,5 @@
 const { authenticate } = require('feathers-authentication').hooks;
-const hasPermission = require('../../hooks/has-permission');
+const hasPermissions = require('../../hooks/has-permissions');
 const isEnabled = require('../../hooks/is-enabled');
 
 module.exports = {
@@ -7,7 +7,7 @@ module.exports = {
     all: [ 
       authenticate('jwt'),
       isEnabled(),
-      hasPermission('manageSettings')
+      hasPermissions('manageSettings')
     ],
     find: [],
     get: [],

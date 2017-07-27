@@ -8,7 +8,7 @@ const isEnabled = require('../../hooks/is-enabled');
 const setDefaultRole = require('../../hooks/set-default-role');
 const setFirstUserToRole = require('../../hooks/set-first-user-to-role');
 const sendVerificationEmail = require('../../hooks/send-verification-email');
-const hasPermissionBoolean = require('../../hooks/has-permission-boolean');
+const hasPermissionsBoolean = require('../../hooks/has-permissions-boolean');
 const preventDisabledAdmin = require('../../hooks/prevent-disabled-admin');
 const verifyHooks = require('feathers-authentication-management').hooks;
 const setUserInitials = require('../../hooks/set-user-initials')
@@ -20,7 +20,7 @@ const restrict = [
   authenticate('jwt'),
   isEnabled(),
   commonHooks.unless(
-    hasPermissionBoolean('manageUsers'),
+    hasPermissionsBoolean('manageUsers'),
     restrictToOwner({
       idField: '_id',
       ownerField: '_id'

@@ -4,7 +4,7 @@
 const { authenticate } = require('feathers-authentication').hooks;
 const { queryWithCurrentUser } = require('feathers-authentication-hooks');
 const isEnabled = require('./is-enabled');
-const hasPermissionBoolean = require('./has-permission-boolean');
+const hasPermissionsBoolean = require('./has-permissions-boolean');
 const { checkContext } = require('feathers-hooks-common');
 
 const { to } = require('../utils/to')
@@ -19,15 +19,17 @@ const defaults = {
 }
 
 // For a given service, if the user is the owner of the item, `userId` matches, allow an update, otherwise the the user must have the given permission to update the item
-module.exports = function ({ permission, options }) { // eslint-disable-line no-unused-vars
+module.exports = function ({ permissions, options }) { // eslint-disable-line no-unused-vars
 
 	const settings = Object.assign({}, defaults, options);
+
+	permissions = _.castArray(permissions)
 
   return [
 	  authenticate('jwt'),
 	  isEnabled(),
     unless(
-      hasPermissionBoolean(permission),
+      hasPermissionsBoolean(...permissions),
     	function useFindInsteadOfGet(hook) {
 
     		checkContext(hook, 'before', ['get', 'find', 'patch', 'put', 'remove'], 'useFindInsteadOfGet');
