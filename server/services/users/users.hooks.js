@@ -72,16 +72,23 @@ module.exports = {
       setFirstUserToRole({role: 'admin'}),
       preventDisabledAdmin(),
       loopItems(setUserInitials)
-      
     ],
     update: [ 
-      ...restrict, 
-      hashPassword(),
-      preventDisabledAdmin(),
-      loopItems(setUserInitials)
+      commonHooks.disallow('external')
     ],
     patch: [ 
       ...restrict,
+      commonHooks.iff(commonHooks.isProvider('external'), commonHooks.preventChanges(
+        'email',
+        'isVerified',
+        'verifyToken',
+        'verifyShortToken',
+        'verifyExpires',
+        'verifyChanges',
+        'resetToken',
+        'resetShortToken',
+        'resetExpires'
+      )),
       preventDisabledAdmin(),
       loopItems(setUserInitials)
     ],
@@ -92,26 +99,35 @@ module.exports = {
 
   after: {
     all: [
-      commonHooks.populate({ schema }),
-      commonHooks.serialize(serializeSchema),
       commonHooks.when(
         hook => hook.params.provider,
         commonHooks.discard('password', '_computed', 'verifyExpires', 'resetExpires', 'verifyChanges')
       ),
     ],
     find: [
-      
+      commonHooks.populate({ schema }),
+      commonHooks.serialize(serializeSchema),
     ],
     get: [
-      
+      commonHooks.populate({ schema }),
+      commonHooks.serialize(serializeSchema),
     ],
     create: [
       sendVerificationEmail(),
       verifyHooks.removeVerification()
     ],
-    update: [],
-    patch: [],
-    remove: []
+    update: [
+      commonHooks.populate({ schema }),
+      commonHooks.serialize(serializeSchema),
+    ],
+    patch: [
+      commonHooks.populate({ schema }),
+      commonHooks.serialize(serializeSchema),
+    ],
+    remove: [
+      commonHooks.populate({ schema }),
+      commonHooks.serialize(serializeSchema),
+    ]
   },
 
   error: {

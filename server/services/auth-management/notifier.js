@@ -13,7 +13,7 @@ module.exports = function(app) {
     var host = (app.get('host') === 'HOST')? 'localhost': app.get('host')
     var protocal = (app.get('protocal') === 'PROTOCAL')? 'http': app.get('protocal')
     protocal += "://"
-    return `${protocal}${host}${port}/#/login/${type}/${hash}`
+    return `${protocal}${host}${port}/#!/${type}/${hash}`
   }
 
   function sendEmail(email) {
@@ -35,7 +35,7 @@ module.exports = function(app) {
       switch (type) {
         case 'resendVerifySignup': // send another email with link for verifying user's email addr
 
-          hashLink = getLink('verify', user.verifyToken)
+          hashLink = getLink('verify-account', user.verifyToken)
 
           templatePath = path.join(emailAccountTemplatesPath, 'verify-email.jade')
 
@@ -58,7 +58,7 @@ module.exports = function(app) {
           break
         case 'verifySignup': // inform that user's email is now confirmed
 
-          hashLink = getLink('verify', user.verifyToken)
+          hashLink = getLink('verify-account', user.verifyToken)
 
           templatePath = path.join(emailAccountTemplatesPath, 'email-verified.jade')
 
@@ -81,7 +81,7 @@ module.exports = function(app) {
           break
         case 'sendResetPwd': // inform that user's email is now confirmed
 
-          hashLink = getLink('reset', user.resetToken)
+          hashLink = getLink('reset-password', user.resetToken)
 
           templatePath = path.join(emailAccountTemplatesPath, 'reset-password.jade')
 
@@ -104,7 +104,7 @@ module.exports = function(app) {
           break
         case 'resetPwd': // inform that user's email is now confirmed
 
-          hashLink = getLink('reset', user.resetToken)
+          hashLink = getLink('reset-password', user.resetToken)
 
           templatePath = path.join(emailAccountTemplatesPath, 'password-was-reset.jade')
 
@@ -146,7 +146,7 @@ module.exports = function(app) {
 
           break
         case 'identityChange':
-          hashLink = getLink('verifyChanges', user.verifyToken)
+          hashLink = getLink('verify-account-changes', user.verifyToken)
 
           templatePath = path.join(emailAccountTemplatesPath, 'identity-change.jade')
 

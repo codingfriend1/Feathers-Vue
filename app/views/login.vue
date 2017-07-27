@@ -22,6 +22,8 @@
 								i.fa.fa-lock
 							input.login-form-password-input.login-form-input(type='password', placeholder='password' v-model="user.password")
 						.login-form-warning-text
+						
+						.login-form-login-button(@click="login(user)") Login
 						.login-form-social-logins
 							.login-form-third-column
 								a(href="/api/auth/facebook")
@@ -35,7 +37,6 @@
 								a(href="/api/auth/twitter")
 									.login-form-social-login-icon.login-form-twitter-icon
 										i.fa.fa-twitter
-						.login-form-login-button(@click="login(user)") Login
 						.login-form-forgot-password(@click="auth.sendResetPassword(user.email)") Forgot your password?
 						.login-form-forgot-password(@click="auth.logout()" v-show="auth.currentUser") Logout
 					.signup-form(v-show="showing === 'signup'")
@@ -52,6 +53,8 @@
 								i.fa.fa-lock
 							input.login-form-password-input.login-form-input(type='password', placeholder='password' v-model="user.password")
 						.login-form-warning-text
+						.alert.alert-danger(v-show="errorsSummary" v-html="errorsSummary")
+						.login-form-login-button(@click="signup(user)") Sign Up
 						.login-form-social-logins
 							.login-form-third-column
 								.login-form-social-login-icon.login-form-facebook-icon
@@ -62,8 +65,6 @@
 							.login-form-third-column
 								.login-form-social-login-icon.login-form-twitter-icon
 									i.fa.fa-twitter
-						.alert.alert-danger(v-show="errorsSummary" v-html="errorsSummary")
-						.login-form-login-button(@click="signup(user)") Sign Up
 						.login-form-forgot-password(@click="auth.resendVerification(user.email)") Resend Verification Email
 					.change-password-form(v-show="showing === 'changePassword' && auth.currentUser")
 						.login-form-group
@@ -149,33 +150,26 @@
 		},
 		mounted: function() {
 
-			switch (this.$route.params.type) {
-
-				case 'verify':
-					auth.verifySignUp(this.$route.params.slug)
-					break;
-				case 'verifyChanges':
-					auth.verifyChanges(this.$route.params.slug)
-					break;
-				case 'reset':
-					this.accountTitle = 'Reset Password'
-					this.showing = 'reset'
-					break;
-				case 'changePassword':
-					if(this.$store.auth.currentUser) {
-						this.accountTitle = 'Change Password'
-						this.showing = 'changePassword'
-					}
-
-					break;
-				case 'changeEmail':
-					if(this.$store.auth.currentUser) {
-						this.accountTitle = 'Change Email'
-						this.showing = 'changeEmail'
-					}
-					break;
-				default:
-					break;
+			if(this.$route.path.includes('change-email')) {
+				if(this.$store.auth.currentUser) {
+					this.accountTitle = 'Change Email'
+					this.showing = 'changeEmail'
+				}
+			} else if(this.$route.path.includes('change-password')) {
+				if(this.$store.auth.currentUser) {
+					this.accountTitle = 'Change Password'
+					this.showing = 'changePassword'
+				}
+			} else if(this.$route.path.includes('reset-password')) {
+				this.accountTitle = 'Reset Password'
+				this.showing = 'reset'
+			} else if(this.$route.path.includes('verify-account-changes')) {
+				auth.verifyChanges(this.$route.params.slug)
+			} else if(this.$route.path.includes('verify-account')) {
+				auth.verifySignUp(this.$route.params.slug)
+			} else if(this.$route.path.includes('sign-up')) {
+				this.showing = 'signup'
+				this.accountTitle = 'Sign Up'
 			}
 		}
 	}
@@ -279,8 +273,8 @@
 	}
 
 	.login-form-social-logins {
-		margin-top: 1.5em;
-		margin-bottom: 1.5em;
+		margin-top: 1.25em;
+		margin-bottom: 0.5em;
 	}
 
 	.login-form-social-login-icon {
@@ -325,10 +319,12 @@
 		color: #EBEBEB;
 		padding: 1em;
 		margin: 0.5em;
+		margin-top: 0.75em;
 		box-sizing: border-box;
 		border-radius: 3px;
 		text-align: center;
 		text-transform: uppercase;
+		cursor: pointer;
 	}
 
 	.login-form-forgot-password {
@@ -357,10 +353,4 @@
 		background-color: #2980b9;
 		cursor: pointer;
 	}
-
-	/*.change-email-form,
-	.change-password-form,
-	.reset-password-form {
-		display: none;
-	}*/
 </style>
