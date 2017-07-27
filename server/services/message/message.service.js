@@ -7,10 +7,12 @@ const filters = require('./message.filters');
 module.exports = function () {
   const app = this;
   const Model = createModel(app);
+  const paginate = app.get('paginate');
 
   const options = {
     name: 'message',
-    Model
+    Model,
+    // paginate
   };
 
   // Initialize our service with any options it requires

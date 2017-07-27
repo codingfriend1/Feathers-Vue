@@ -1,7 +1,7 @@
 const { authenticate } = require('feathers-authentication').hooks;
 const isEnabled = require('../../hooks/is-enabled');
 const associateCurrentUser = require('../../hooks/associate-current-user');
-const ownerOrPermission = require('../../hooks/owner-or-permission');
+const permissionOrOwner = require('../../hooks/permission-or-owner');
 
 const { iff, isNot, discard, setCreatedAt, setUpdatedAt } = require('feathers-hooks-common');
 const commonHooks = require('feathers-hooks-common');
@@ -25,7 +25,7 @@ module.exports = {
       
     ],
     get: [
-      
+
     ],
     create: [
       authenticate('jwt'),
@@ -34,15 +34,15 @@ module.exports = {
       associateCurrentUser()
     ],
     update: [
-      ...ownerOrPermission({ service: 'message', permission: 'manageMessages'}),
+      ...permissionOrOwner({ permission: 'manageMessages' }),
       setUpdatedAt()
     ],
     patch: [
-      ...ownerOrPermission({ service: 'message', permission: 'manageMessages'}),
+      ...permissionOrOwner({ permission: 'manageMessages' }),
       setUpdatedAt()
     ],
     remove: [
-      ...ownerOrPermission({ service: 'message', permission: 'manageMessages'})
+      ...permissionOrOwner({ permission: 'manageMessages' })
     ]
   },
 

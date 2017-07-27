@@ -41,7 +41,8 @@ module.exports = {
 		},
 		myMessages: {},
 		newMessageText: '',
-		errorsSummary: ''
+		errorsSummary: '',
+		messagesLength: 0
 	}),
 	store: ['auth', 'messages'],
 
@@ -52,6 +53,7 @@ module.exports = {
 					m.showTime = false
 				})
 				this.$store.messages = result
+				this.messagesLength = result.length
 			}
 
 			this.myMessages = this.$f7.messages('.messages', {
@@ -63,6 +65,16 @@ module.exports = {
 				this.myMessages.scrollMessages()
 			})
 					
+	},
+	watch: {
+		messages: function(currentMessages) {
+			if(Object.keys(currentMessages).length > this.messagesLength) {
+				this.messagesLength = Object.keys(currentMessages).length
+				Vue.nextTick(() => {
+					this.myMessages.scrollMessages()
+				})
+			}
+		}
 	},
 	methods: {
 		showTime: function(selected) {
@@ -107,8 +119,6 @@ module.exports = {
 				var [err, success] = await api.messages.upsert(data)
 				if(!err) {
 					this.$refs.messageBar.clear()
-					console.log('scrolling messages');
-					this.myMessages.scrollMessages()
 				}
 			} else {
 				this.errorsSummary = _.map(data.errors, err => err).join('<br>')

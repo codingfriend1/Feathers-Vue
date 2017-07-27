@@ -1,5 +1,6 @@
 // Application hooks that run for every service
 const logger = require('./hooks/logger');
+const onlyOneIfId = require('./hooks/only-one-if-id');
 
 module.exports = {
   before: {
@@ -13,7 +14,10 @@ module.exports = {
   },
 
   after: {
-    // all: [ logger() ],
+    all: [ 
+      // logger(),
+      onlyOneIfId()
+    ],
     find: [],
     get: [],
     create: [],
