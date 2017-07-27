@@ -58,7 +58,6 @@ module.exports = {
     required: false,
     type: String,
     trim: true,
-    enum: colors,
     default: function() {
       return colors[Math.floor(Math.random()*colors.length)]
     }

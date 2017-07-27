@@ -11,6 +11,7 @@ const sendVerificationEmail = require('../../hooks/send-verification-email');
 const hasPermissionBoolean = require('../../hooks/has-permission-boolean');
 const preventDisabledAdmin = require('../../hooks/prevent-disabled-admin');
 const verifyHooks = require('feathers-authentication-management').hooks;
+const setUserInitials = require('../../hooks/set-user-initials')
 
 
 const { hashPassword } = require('feathers-authentication-local').hooks;
@@ -60,24 +61,19 @@ module.exports = {
       setDefaultRole(),
       setFirstUserToRole({role: 'admin'}),
       preventDisabledAdmin(),
-      function(hook) {
-        _.castArray(commonHooks.getItems(hook))
-          .forEach(item => {
-            item.initials = _.get(item, 'name', '')
-              .match(/\b(\w)/g)
-              .join('')
-              .slice(0, 2);
-          })
-      }
+      setUserInitials()
+      
     ],
     update: [ 
       ...restrict, 
       hashPassword(),
-      preventDisabledAdmin()
+      preventDisabledAdmin(),
+      setUserInitials()
     ],
     patch: [ 
       ...restrict,
-      preventDisabledAdmin()
+      preventDisabledAdmin(),
+      setUserInitials()
     ],
     remove: [ 
       ...restrict
