@@ -79,7 +79,7 @@ Features
     ```
       cordova build --release android ios browser
     ```
-3. Deploy your .apk file from `platforms/android/build/outputs/apk/android-debug.apk`
+3. Deploy your .apk file from `platforms/android/build/outputs/apk/android-release... .apk`
 
 #### Mobile Testing
 
@@ -92,6 +92,9 @@ Features
 2. Send the .apk file from `platforms/android/build/outputs/apk/android-debug.apk` to your phone and install it.
 
 3. Make sure the development server is running on your laptop under the correct ip name or hosting.
+
+#### Alternate Mobile Testing
+Find the ip address of your computer and load it in your mobile web browser. Ex: `http://192.168.1.45:3030`
 
 ## Email Verification
 
