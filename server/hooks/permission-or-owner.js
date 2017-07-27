@@ -26,7 +26,7 @@ module.exports = function ({ permission, options }) { // eslint-disable-line no-
 	  isEnabled(),
 	  function useFindInsteadOfGet(hook) {
 
-	  	checkContext(hook, 'before', ['find', 'update', 'patch', 'delete'], 'useFindInsteadOfGet');
+	  	checkContext(hook, 'before', ['get', 'patch', 'put', 'remove'], 'useFindInsteadOfGet');
 
 	  	if(hook.id) {
 	  		_.set(hook.params.query, settings.idField, hook.id);

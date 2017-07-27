@@ -59,7 +59,16 @@ module.exports = {
       verifyHooks.addVerification(),
       setDefaultRole(),
       setFirstUserToRole({role: 'admin'}),
-      preventDisabledAdmin()
+      preventDisabledAdmin(),
+      function(hook) {
+        _.castArray(commonHooks.getItems(hook))
+          .forEach(item => {
+            item.initials = _.get(item, 'name', '')
+              .match(/\b(\w)/g)
+              .join('')
+              .slice(0, 2);
+          })
+      }
     ],
     update: [ 
       ...restrict, 
@@ -81,11 +90,6 @@ module.exports = {
         hook => hook.params.provider,
         commonHooks.discard('password', '_computed', 'verifyExpires', 'resetExpires', 'verifyChanges')
       ),
-      function(hook) {
-        _.castArray( commonHooks.getItems(hook) ).forEach(item => { 
-            item.initials = _.get(item, 'name', '').match(/\b(\w)/g).join(''); 
-        })
-      }
     ],
     find: [
       commonHooks.populate({ schema }),

@@ -14,7 +14,11 @@ const schema = {
     service: 'users',
     nameAs: 'user',
     parentField: 'userId',
-    childField: '_id'
+    childField: '_id',
+    query: {
+      $select: ['name', '_id', 'color', 'initials'],
+      $sort: {createdAt: -1}
+    },
   }],
 };
 

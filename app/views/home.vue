@@ -134,6 +134,7 @@ module.exports = {
 	.message-text 
 		padding: 1em
 		font-size: 1.2em
+		line-height: 1.4em
 	.message-sent
 		.message-text
 			background-color: white
