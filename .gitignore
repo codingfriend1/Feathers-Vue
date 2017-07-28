@@ -33,3 +33,4 @@ www/admin/
 www/app/
 public/
 platforms/
+server/compiled-ssr.js
