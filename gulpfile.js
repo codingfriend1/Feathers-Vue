@@ -3,11 +3,13 @@ const path = require('path')
 const fs = require('fs')
 const inject = require('gulp-inject');
 const runSequence = require('run-sequence')
+const _ = require('lodash')
 
 const folders = {
   app: path.resolve(__dirname, 'app'),
   components: path.resolve(__dirname, 'app', 'components'),
   schemas: path.resolve(__dirname, 'shared', 'schemas'),
+  hooks: path.resolve(__dirname, 'server', 'hooks'),
   css: path.resolve(__dirname, 'app', 'css'),
   views: path.resolve(__dirname, 'app', 'views'),
   root: path.resolve(__dirname)
@@ -26,7 +28,7 @@ function generateInject(injectTo, outputFolder, arrayOfFilesToInject, startTag, 
           var title = filepath.replace(/^.*[\\\/]/, '')
 
           
-          title = title.substr(0, title.lastIndexOf('.')).replace('-', '_')
+          title = _.camelCase(title.substr(0, title.lastIndexOf('.')))
 
           if(importStatement === 'vueGlobal') {
             var path
@@ -167,6 +169,20 @@ gulp.task('inject-schemas', function() {
   )
 })
 
+gulp.task('inject-hooks', function() {
+  return generateInject(
+    path.join(folders.hooks, 'index.js'),
+    folders.hooks,
+    [
+      folders.hooks + '/**/*.js',
+      '!' + folders.hooks + '/**/index.js',
+    ],
+    'inject hooks',
+    'require',
+    true
+  )
+})
+
 gulp.task('globalize-vue-components', function() {
   return generateInject(
     path.join(folders.components, 'index.js'),
@@ -182,5 +198,5 @@ gulp.task('globalize-vue-components', function() {
 })
 
 gulp.task('default', function(done) {
-  runSequence('inject-css', 'inject-component-js', 'inject-vue', 'inject-views', 'globalize-vue-components', done)
+  runSequence('inject-css', 'inject-component-js', 'inject-vue', 'inject-views', 'inject-hooks', 'globalize-vue-components', done)
 })

@@ -14,11 +14,11 @@ module.exports = [
   },
   {
     "path": "left-panel",
-    "component": "left_panel"
+    "component": "leftPanel"
   },
   {
     "path": "right-panel",
-    "component": "right_panel"
+    "component": "rightPanel"
   },
   {
     "path": 'login',

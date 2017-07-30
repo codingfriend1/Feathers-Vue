@@ -1,12 +1,15 @@
 const { authenticate } = require('feathers-authentication').hooks;
-const isEnabled = require('../../hooks/is-enabled');
-const associateCurrentUser = require('../../hooks/associate-current-user');
-const permissionsOrOwner = require('../../hooks/permission-or-owner');
-const hasPermissions = require('../../hooks/has-permissions');
 
 const { iff, isNot, discard, setCreatedAt, setUpdatedAt } = require('feathers-hooks-common');
 const commonHooks = require('feathers-hooks-common');
-const loopItems = require('../../hooks/loop-items')
+
+const {
+  loopItems,
+  hasPermissions,
+  permissionsOrOwner,
+  associateCurrentUser,
+  isEnabled
+} = require('../../hooks')
 
 const errors = require('feathers-errors');
 const _ = require('lodash');

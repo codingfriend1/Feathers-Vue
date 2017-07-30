@@ -5,13 +5,15 @@ const { authenticate } = require('feathers-authentication').hooks;
 const { queryWithCurrentUser } = require('feathers-authentication-hooks');
 const isEnabled = require('./is-enabled');
 const hasPermissionsBoolean = require('./has-permissions-boolean');
-const { checkContext } = require('feathers-hooks-common');
+
+const { 
+  checkContext, 
+  unless 
+} = require('feathers-hooks-common');
 
 const { to } = require('../utils/to')
 
 const _ = require('lodash')
-
-const { unless } = require('feathers-hooks-common');
 
 const defaults = {
 	idField: '_id',

@@ -1,17 +1,22 @@
 
 const _ = require('lodash');
 const { authenticate } = require('feathers-authentication').hooks;
+
 const commonHooks = require('feathers-hooks-common');
+
 const { restrictToOwner } = require('feathers-authentication-hooks');
 
-const isEnabled = require('../../hooks/is-enabled');
-const setDefaultRole = require('../../hooks/set-default-role');
-const setFirstUserToRole = require('../../hooks/set-first-user-to-role');
-const sendVerificationEmail = require('../../hooks/send-verification-email');
-const hasPermissionsBoolean = require('../../hooks/has-permissions-boolean');
-const preventDisabledAdmin = require('../../hooks/prevent-disabled-admin');
 const verifyHooks = require('feathers-authentication-management').hooks;
-const loopItems = require('../../hooks/loop-items')
+
+const {
+  isEnabled,
+  setDefaultRole,
+  setFirstUserToRole,
+  sendVerificationEmail,
+  hasPermissionsBoolean,
+  preventDisabledAdmin,
+  loopItems,
+} = require('../../hooks');
 
 
 const { hashPassword } = require('feathers-authentication-local').hooks;
@@ -43,7 +48,8 @@ const schema = {
     service: 'roles',
     nameAs: 'access',
     parentField: 'role',
-    childField: 'role'
+    childField: 'role',
+    provider: undefined
   }],
 };
 
@@ -69,7 +75,7 @@ module.exports = {
       hashPassword(),
       verifyHooks.addVerification(),
       setDefaultRole(),
-      setFirstUserToRole({role: 'admin'}),
+      setFirstUserToRole({ role: 'admin' }),
       preventDisabledAdmin(),
       loopItems(setUserInitials)
     ],
@@ -103,30 +109,28 @@ module.exports = {
         hook => hook.params.provider,
         commonHooks.discard('password', '_computed', 'verifyExpires', 'resetExpires', 'verifyChanges')
       ),
+      commonHooks.populate({ schema }),
+      commonHooks.serialize(serializeSchema),
     ],
     find: [
-      commonHooks.populate({ schema }),
-      commonHooks.serialize(serializeSchema),
+      
     ],
     get: [
-      commonHooks.populate({ schema }),
-      commonHooks.serialize(serializeSchema),
+      
     ],
     create: [
       sendVerificationEmail(),
-      verifyHooks.removeVerification()
+      verifyHooks.removeVerification(),
+      
     ],
     update: [
-      commonHooks.populate({ schema }),
-      commonHooks.serialize(serializeSchema),
+      
     ],
     patch: [
-      commonHooks.populate({ schema }),
-      commonHooks.serialize(serializeSchema),
+      
     ],
     remove: [
-      commonHooks.populate({ schema }),
-      commonHooks.serialize(serializeSchema),
+      
     ]
   },
 

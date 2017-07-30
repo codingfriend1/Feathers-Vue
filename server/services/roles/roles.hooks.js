@@ -1,7 +1,10 @@
 const { authenticate } = require('feathers-authentication').hooks;
-const hasPermissions = require('../../hooks/has-permissions');
-const hasAnyPermission = require('../../hooks/has-any-permission');
-const isEnabled = require('../../hooks/is-enabled');
+
+const {
+  isEnabled,
+  hasAnyPermission,
+  hasPermissions,
+} = require('../../hooks');
 
 module.exports = {
   before: {
