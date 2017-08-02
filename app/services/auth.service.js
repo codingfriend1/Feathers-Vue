@@ -81,8 +81,13 @@ const auth = {
     }
   },
 
-  logout: async user => {
-    feathers.logout()
+  logout: async message => {
+    const {err, success} = await to( feathers.logout() )
+    
+    if(!err && message) {
+      notify.success(message)
+    }
+
     feathers.set('user', null)
     auth.currentUser = null
   },

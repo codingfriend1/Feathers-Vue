@@ -32,7 +32,7 @@
 							i.fa.fa-twitter
 			.login-form-login-button(@click="login(user)") Login
 			.login-form-forgot-password(@click="auth.sendResetPassword(user.email)") Forgot your password?
-			.login-form-forgot-password(@click="auth.logout()" v-show="auth.currentUser") Logout
+			.login-form-forgot-password(@click="auth.logout('You have logged out.')" v-show="auth.currentUser") Logout
 		.signup-form(v-show="showing === 'signup'")
 			.login-form-group
 				.login-form-name-icon.login-form-icon
