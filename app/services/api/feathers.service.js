@@ -27,7 +27,8 @@ if(typeof window === 'undefined') {
 } else {
   app
     .configure(socketio(socket))
-    .configure(authentication({ storage: window.localStorage, localEndpoint: '/api/auth/local', tokenEndpoint: '/api/auth/token' }))
+    // .configure(rest(url).axios(axios))
+    .configure(authentication({ storage: window.localStorage, path: '/api/authentication' }))
 }
 
 global.feathers = app
