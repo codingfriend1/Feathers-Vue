@@ -20,11 +20,11 @@ if(typeof window === 'undefined') {
 
   const port = (correctConfig.port !== 80 || correctConfig.port !== "80")? ":" + correctConfig.port: ''
 
-  url = `${correctConfig.protocal}://${correctConfig.host}${port}/api/`
+  url = `${correctConfig.protocal}://${correctConfig.host}${port}`
 
 } else {
   if(typeof window !== undefined) {
-    url = window.location.origin + '/api/'
+    url = window.location.origin
   }
 }
 

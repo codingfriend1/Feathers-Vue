@@ -16,7 +16,6 @@ if(typeof window !== 'undefined') {
   socketio = require('feathers-socketio/client')
   io = require('socket.io-client')
   var socket = io(url)
-  socket = io(window.location.origin)
 }
 
 const app = feathers()
@@ -24,7 +23,7 @@ const app = feathers()
 
 if(typeof window === 'undefined') {
   app
-    .configure(rest(url.replace('/api/', '')).axios(axios))
+    .configure(rest(url).axios(axios))
 } else {
   app
     .configure(socketio(socket))

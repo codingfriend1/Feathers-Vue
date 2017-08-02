@@ -1,7 +1,6 @@
 const isProd = process.env.NODE_ENV === 'production';
 const path = require('path');
 const fs = require('fs');
-const express = require('express');
 const serverRenderer = require('vue-server-renderer');
 
 const options = isProd? {
@@ -18,8 +17,6 @@ module.exports = function() {
   const rendererPath = path.join( app.get('src'), 'compiled-ssr.js' );
   const indexPath = path.join(app.get('public'), 'index.html');
   const indexHTML = fs.readFileSync(indexPath, 'utf8');
-
-  app.use('/public', express.static( app.get('public') ) );
 
   app.get('/*', (req, res) => {
 

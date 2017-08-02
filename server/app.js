@@ -60,7 +60,7 @@ const app = feathers()
   .use('/api', api)
   .use(favicon(path.join(api.get('public'), 'favicon.ico')))
   // Host the public folder
-  .use('/', feathers.static(api.get('public')))
+  .use('/public', feathers.static(api.get('public')))
   .configure(routes)
 
 app.set('view engine', 'jade');

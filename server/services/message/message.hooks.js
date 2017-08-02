@@ -23,6 +23,7 @@ const schema = {
     query: {
       $select: ['name', '_id', 'color', 'initials']
     },
+    provider: undefined
   }],
 };
 
