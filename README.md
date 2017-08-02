@@ -91,6 +91,10 @@ I'm working on a cordova starter with feathers 2, Vue 2, and Framework 7. Visit 
 
 [Cordova Branch](https://github.com/codingfriend1/Feathers-Vue/tree/cordova)
 
+## Changelog
+
+Latest change contains a breaking change with gulp auto-importing. Before the first hyphen was converted to _, now named injected files use camelCase convention.
+
 ## License
 
 Copyright (c) 2016

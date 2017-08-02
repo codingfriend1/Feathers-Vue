@@ -7,14 +7,14 @@
 			ul
 				li(v-for="m in messages")
 					div {{m.text}}
-					simple_input(
+					simpleInput(
 						v-model="m.textChanges",
 						@keyup.enter="updateMessage(m)",
 						:error="m.errors? m.errors.text: ''"
 					)
 					button.btn.btn-warning(@click="updateMessage(m)") Update
 					button.btn.btn-danger(@click="api.messages.deleteOne(m._id)") Delete
-			simple_input(
+			simpleInput(
 				label="Message",
 				v-model="newMessage.text",
 				:error="newMessage.errors.text",

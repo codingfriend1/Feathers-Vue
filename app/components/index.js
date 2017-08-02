@@ -9,5 +9,5 @@ Vue.component('foot', require("./foot.vue"))
 Vue.component('heading', require("./heading.vue"))
 Vue.component('modal', require("./modal.vue"))
 Vue.component('navigation', require("./navigation.vue"))
-Vue.component('simple_input', require("./simple-input.vue"))
+Vue.component('simpleInput', require("./simple-input.vue"))
 // end globalize vue components
