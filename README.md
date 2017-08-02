@@ -91,9 +91,11 @@ I'm working on a cordova starter with feathers 2, Vue 2, and Framework 7. Visit 
 
 [Cordova Branch](https://github.com/codingfriend1/Feathers-Vue/tree/cordova)
 
-## Changelog
+## Breaking Changes
 
-Latest change contains a breaking change with gulp auto-importing. Before the first hyphen was converted to _, now named injected files use camelCase convention.
+  - Latest change contains a breaking change with gulp auto-importing. Before the first hyphen was converted to _, now named injected files use camelCase convention.
+  - `hasPermission` hook is changed to `hasPermissions` and allows multiple permission names to be passed in.
+  - Various other hooks have been updated.
 
 ## License
 
