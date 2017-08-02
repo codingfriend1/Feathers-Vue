@@ -5,6 +5,7 @@ const oauth2 = require('feathers-authentication-oauth2');
 const GoogleStrategy = require('passport-google-oauth20');
 const FacebookStrategy = require('passport-facebook');
 const GithubStrategy = require('passport-github');
+const verifyHooks = require('feathers-authentication-management').hooks;
 
 const errors = require('feathers-errors');
 const _ = require('lodash');
@@ -40,6 +41,7 @@ module.exports = function () {
     before: {
       create: [
         authentication.hooks.authenticate(config.strategies),
+        // verifyHooks.isVerified()
       ],
       remove: [
         authentication.hooks.authenticate('jwt')

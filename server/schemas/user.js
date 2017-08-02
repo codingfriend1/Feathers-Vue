@@ -64,6 +64,13 @@ module.exports = {
     }
   },
 
+  initials: {
+    required: false,
+    type: String,
+    trim: true,
+    maxlength: 2
+  },
+
   createdAt: { type: Date, 'default': Date.now },
   updatedAt: { type: Date, 'default': Date.now },
 

@@ -1,7 +1,10 @@
 const _ = require('lodash');
 const errors = require('feathers-errors');
 
-module.exports = function hasPermission(permission) {
+module.exports = function hasPermissions(permission) {
+
+  const permissions = Array.from(arguments) || [];
+
   return function(hook) {
 
     if (!hook.params.provider) { return hook; }
@@ -18,7 +21,7 @@ module.exports = function hasPermission(permission) {
 
       throw new errors.GeneralError(`${name} does not have any permissions.`);
 
-    } else if(!hook.params.user.permissions.includes(permission)) {
+    } else if(!permissions.every(p => hook.params.user.permissions.includes(p))) {
 
       throw new errors.Forbidden(`${name} does not have permission to do that.`);
 

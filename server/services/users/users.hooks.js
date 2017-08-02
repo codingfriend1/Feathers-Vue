@@ -1,16 +1,22 @@
 
 const _ = require('lodash');
 const { authenticate } = require('feathers-authentication').hooks;
+
 const commonHooks = require('feathers-hooks-common');
+
 const { restrictToOwner } = require('feathers-authentication-hooks');
 
-const isEnabled = require('../../hooks/is-enabled');
-const setDefaultRole = require('../../hooks/set-default-role');
-const setFirstUserToRole = require('../../hooks/set-first-user-to-role');
-const sendVerificationEmail = require('../../hooks/send-verification-email');
-const hasPermissionBoolean = require('../../hooks/has-permission-boolean');
-const preventDisabledAdmin = require('../../hooks/prevent-disabled-admin');
 const verifyHooks = require('feathers-authentication-management').hooks;
+
+const {
+  isEnabled,
+  setDefaultRole,
+  setFirstUserToRole,
+  sendVerificationEmail,
+  hasPermissionsBoolean,
+  preventDisabledAdmin,
+  loopItems,
+} = require('../../hooks');
 
 
 const { hashPassword } = require('feathers-authentication-local').hooks;
@@ -19,7 +25,7 @@ const restrict = [
   authenticate('jwt'),
   isEnabled(),
   commonHooks.unless(
-    hasPermissionBoolean('manageUsers'),
+    hasPermissionsBoolean('manageUsers'),
     restrictToOwner({
       idField: '_id',
       ownerField: '_id'
@@ -27,12 +33,23 @@ const restrict = [
   )
 ];
 
+function setUserInitials(item) {
+  if(item.name) {
+    item.initials = _.get(item, 'name', '')
+      .match(/\b(\w)/g)
+      .join('')
+      .slice(0, 2)
+      .toUpperCase();
+  }
+}
+
 const schema = {
   include: [{
     service: 'roles',
     nameAs: 'access',
     parentField: 'role',
-    childField: 'role'
+    childField: 'role',
+    provider: undefined
   }],
 };
 
@@ -47,38 +64,39 @@ module.exports = {
   before: {
     all: [],
     find: [ 
-      ...restrict 
+      authenticate('jwt'),
+      isEnabled(),
     ],
     get: [ 
-      ...restrict
+      authenticate('jwt'),
+      isEnabled(),
     ],
     create: [ 
       hashPassword(),
       verifyHooks.addVerification(),
       setDefaultRole(),
-      setFirstUserToRole({role: 'admin'}),
-      preventDisabledAdmin()
+      setFirstUserToRole({ role: 'admin' }),
+      preventDisabledAdmin(),
+      loopItems(setUserInitials)
     ],
     update: [ 
       commonHooks.disallow('external')
     ],
     patch: [ 
       ...restrict,
+      commonHooks.iff(commonHooks.isProvider('external'), commonHooks.preventChanges(
+        'email',
+        'isVerified',
+        'verifyToken',
+        'verifyShortToken',
+        'verifyExpires',
+        'verifyChanges',
+        'resetToken',
+        'resetShortToken',
+        'resetExpires'
+      )),
       preventDisabledAdmin(),
-      commonHooks.iff(
-        commonHooks.isProvider('external'), 
-        commonHooks.preventChanges(
-          'email',
-          'isVerified',
-          'verifyToken',
-          'verifyShortToken',
-          'verifyExpires',
-          'verifyChanges',
-          'resetToken',
-          'resetShortToken',
-          'resetExpires'
-        )
-      ),
+      loopItems(setUserInitials)
     ],
     remove: [ 
       ...restrict
@@ -90,23 +108,30 @@ module.exports = {
       commonHooks.when(
         hook => hook.params.provider,
         commonHooks.discard('password', '_computed', 'verifyExpires', 'resetExpires', 'verifyChanges')
-      )
+      ),
+      commonHooks.populate({ schema }),
+      commonHooks.serialize(serializeSchema),
     ],
     find: [
-      commonHooks.populate({ schema }),
-      commonHooks.serialize(serializeSchema),
+      
     ],
     get: [
-      commonHooks.populate({ schema }),
-      commonHooks.serialize(serializeSchema),
+      
     ],
     create: [
       sendVerificationEmail(),
-      verifyHooks.removeVerification()
+      verifyHooks.removeVerification(),
+      
     ],
-    update: [],
-    patch: [],
-    remove: []
+    update: [
+      
+    ],
+    patch: [
+      
+    ],
+    remove: [
+      
+    ]
   },
 
   error: {

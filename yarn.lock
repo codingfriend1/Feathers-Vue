@@ -1858,9 +1858,22 @@ feathers-authentication-jwt@^0.3.1:
     lodash.pick "^4.4.0"
     passport-jwt "^2.2.1"
 
-feathers-authentication-local@0.3.4, feathers-authentication-local@^0.3.4:
+feathers-authentication-local@0.3.4:
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/feathers-authentication-local/-/feathers-authentication-local-0.3.4.tgz#80e02a8bd9257861af3846d46fee19c53bd1814e"
+  dependencies:
+    bcryptjs "^2.3.0"
+    debug "^2.2.0"
+    feathers-errors "^2.4.0"
+    lodash.get "^4.4.2"
+    lodash.merge "^4.6.0"
+    lodash.omit "^4.5.0"
+    lodash.pick "^4.4.0"
+    passport-local "^1.0.0"
+
+feathers-authentication-local@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/feathers-authentication-local/-/feathers-authentication-local-0.4.3.tgz#8ff73c812f007c67b27e972f555ed2d38b41bc7b"
   dependencies:
     bcryptjs "^2.3.0"
     debug "^2.2.0"
@@ -1892,9 +1905,9 @@ feathers-authentication-oauth2@^0.2.4:
     feathers-rest "^1.5.2"
     lodash.merge "^4.6.0"
 
-feathers-authentication@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/feathers-authentication/-/feathers-authentication-1.2.4.tgz#c0d65d16b37c853bb54485d8beb753713d3ee099"
+feathers-authentication@^1.2.7:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/feathers-authentication/-/feathers-authentication-1.2.7.tgz#8cc5c0047f04fabfafcdf6eb392c72038817bf05"
   dependencies:
     debug "^2.2.0"
     feathers-authentication-client "^0.3.1"
@@ -3131,6 +3144,7 @@ jade@^1.11.0:
     jstransformer "0.0.2"
     mkdirp "~0.5.0"
     transformers "2.1.0"
+    uglify-js "^2.4.19"
     void-elements "~2.0.1"
     with "~4.0.0"
 
@@ -6518,7 +6532,7 @@ vue-server-renderer@^2.3.3:
     source-map "0.5.6"
 
 vue-stash@^2.0.1-beta:
-  version v2.0.1-beta
+  version "2.0.1-beta"
   resolved "https://registry.yarnpkg.com/vue-stash/-/vue-stash-2.0.1-beta.tgz#3b46ccab3670e1eddfda8aa711247e6f887691de"
 
 vue-style-loader@^2.0.0:

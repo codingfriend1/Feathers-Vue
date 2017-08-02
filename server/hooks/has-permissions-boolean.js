@@ -1,7 +1,9 @@
 const _ = require('lodash');
 const errors = require('feathers-errors');
 
-module.exports = function hasPermissionBoolean(permission) {
+module.exports = function hasPermissionsBoolean() {
+
+  const permissions = Array.from(arguments) || [];
 
   return function(hook) {
 
@@ -12,7 +14,7 @@ module.exports = function hasPermissionBoolean(permission) {
 
         !_.get(hook, 'params.user.permissions') || 
 
-        !hook.params.user.permissions.includes(permission)
+        !permissions.every(p => hook.params.user.permissions.includes(p))
 
       ) {
 
