@@ -7,7 +7,7 @@
  * If doing local development I recommend your development server address or personal computer ip and port 3030.
  * If in production change this value to your server
  */
-const url = `http://localhost:3030/`
+const url = `http://localhost:3030/api`
 /**
  * =================================
  * IMPORTANT
@@ -30,8 +30,9 @@ const socket = io(url)
 
 const app = feathers()
   .configure(hooks())
+  // .configure(rest(url).axios(axios))
   .configure(socketio(socket))
-  .configure(authentication({ storage: window.localStorage, localEndpoint: '/api/auth/local', tokenEndpoint: '/api/auth/token' }))
+  .configure(authentication({ storage: window.localStorage }))
 
 global.feathers = app
 module.exports = app

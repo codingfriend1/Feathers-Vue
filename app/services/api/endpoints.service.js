@@ -24,14 +24,7 @@ const _ = require('lodash')
 	 * @return {nothing}
 	 */
 	function endpoints(endpoint = '') {
-    this.endpoint = endpoint
-
-		if(endpoint.indexOf('http://') > -1 || endpoint.indexOf('https://') > -1) {
-			this.url = endpoint; // If the url is a full address then don't modify it
-		} else { // else prefix it with /api/ so it calls our server api
-			this.url = '/api/' + this.endpoint;
-      // this.url = domain + endpoint
-		}
+    this.endpoint = this.url = endpoint
 	}
 
 	/**
