@@ -30,15 +30,30 @@ deploy:
   stage: deploy
   image: docker:latest
   services:
-  - docker:dind
+    - docker:dind
+  variables:
+    # The Gitlab Registry
+    GL: "registry.gitlab.com"
+    # Docker Hub Image Name
+    IMG: "$CI_PROJECT_PATH"
+    # Experimental: test the overlayfs docker driver.
+    DOCKER_DRIVER: "overlay"
+
   before_script:
     - apk add --update python py-pip python-dev && pip install docker-compose # install docker-compose
     - docker version
     - docker-compose version
+    - "docker info"
+    - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $GL"
   script:
+    - printf "DATABASE_URL=${DATABASE_URL}\nPORT=${PORT}\n" > environment.env
     - docker-compose stop
     - docker-compose build web --no-cache
-    - docker-compose up -d
+    - "docker push $GL/$IMG:latest"
+  after_script:
+    - "docker images"
+    - "docker logout $GL"
+
 
 variables:
   # STAGING_REGISTRY: "my-docker-hub"
