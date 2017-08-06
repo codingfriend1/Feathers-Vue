@@ -17,7 +17,7 @@ module.exports = function isEnabled(options = {}) { // eslint-disable-line no-un
 
     } else if(!_.get(hook, 'params.user.isEnabled')) {
 
-      var name = _.get(hook, 'params.user.name') || _.get(hook, 'params.user.email') || 'This user ';
+      var name = _.get(hook, 'params.user.name') || _.get(hook, 'params.user.email') || 'This user';
 
       throw new errors.Forbidden(`${name} is disabled.`);
     }

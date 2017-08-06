@@ -65,4 +65,4 @@ const app = feathers()
 
 app.set('view engine', 'jade');
 
-module.exports = app;
+module.exports = { app, api };

@@ -1,9 +1,9 @@
 const assert = require('assert');
-const app = require('../../server/app');
+const { api } = require('../../server/app');
 
-describe('\'messages\' service', () => {
+describe('\'email\' service', () => {
   it('registered the service', () => {
-    const service = app.service('messages');
+    const service = api.service('emails');
 
     assert.ok(service, 'Registered the service');
   });
