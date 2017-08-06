@@ -1,4 +1,4 @@
-image: weisjohn/gitlab-ci-runner-node
+image: docker:latest
 
 services:
 - docker:dind
@@ -7,16 +7,18 @@ before_script:
   - apk add --update python py-pip python-dev && pip install docker-compose # install docker-compose
   - docker version
   - docker-compose version
-  - npm install
 
 test:
+  image: gzlock/node-pm2
   stage: test
   script:
     - npm run mocha
 
 build:
+  image: gzlock/node-pm2
   stage: build
   script:
+    - npm install
     - npm run build
 
 # deploy:
