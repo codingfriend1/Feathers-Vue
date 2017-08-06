@@ -2,6 +2,12 @@ image: node:latest
 
 services:
 - docker:dind
+- mongo
+
+cache:
+  key: "$CI_BUILD_REF_NAME"
+  paths:
+  - node_modules/
 
 before_script:
   # - apk add --update python py-pip python-dev && pip install docker-compose # install docker-compose
