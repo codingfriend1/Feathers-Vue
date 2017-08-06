@@ -50,7 +50,7 @@ deploy:
     - "docker push $CI_REGISTRY/$CI_PROJECT_PATH:latest"
   after_script:
     - "docker images"
-    - "docker logout $CI_REGISTRY"
+    - "docker logout"
 
 
 variables:
