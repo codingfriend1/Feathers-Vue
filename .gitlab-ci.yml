@@ -1,0 +1,29 @@
+image: docker:latest
+
+services:
+- docker:dind
+
+before_script:
+- apk add --update python py-pip python-dev && pip install docker-compose # install docker-compose
+- docker version
+- docker-compose version
+
+test:
+  stage: test
+  script:
+    - npm run mocha
+
+build:
+  stage: build
+  script:
+    - npm run build
+
+# deploy:
+#   stage: deploy
+#   script:
+#     - npm run docker
+
+# variables:
+#   STAGING_REGISTRY: "my-docker-hub"
+#   CONTAINER_TEST_IMAGE: ${STAGING_REGISTRY}/${CI_PROJECT_NAME}:${CI_BUILD_REF_NAME}_${CI_BUILD_REF}_test
+#   CONTAINER_RELEASE_IMAGE: ${STAGING_REGISTRY}/${CI_PROJECT_NAME}:${CI_BUILD_REF_NAME}_${CI_BUILD_REF}

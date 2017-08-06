@@ -44,4 +44,4 @@ client-tests/test.js
 server/style.css
 platforms/
 www/
-.gitlab-ci.yml
+# .gitlab-ci.yml
