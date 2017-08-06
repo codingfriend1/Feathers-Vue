@@ -1,5 +1,5 @@
 {
-  "name": "Feathers-Vue-Two",
+  "name": "feathers-vue-two",
   "description": "A boiler plate template using Feathers 2 with Email Verification, Vue 2 with Server Side Rendering, stylus, scss, jade, babel, webpack, ES 6-8, login form, user authorization, and SEO",
   "version": "0.0.0",
   "homepage": "",
