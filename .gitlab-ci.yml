@@ -1,8 +1,3 @@
-# image: node:latest
-
-# services:
-# - docker:dind
-
 cache:
   key: "$CI_BUILD_REF_NAME"
   paths:
@@ -19,14 +14,13 @@ build:
     paths:
      - server/
      - public/
-     # - node_modules/
 
 test:
   stage: test
+  image: node:latest
   variables:
     DATABASE_URL: "mongodb://mongo/FeathersVueTest"
     NODE_ENV: "test"
-  image: node:latest
   services:
     - mongo
   script:
@@ -35,6 +29,8 @@ test:
 deploy:
   stage: deploy
   image: docker:latest
+  services:
+  - docker:dind
   before_script:
     - apk add --update python py-pip python-dev && pip install docker-compose # install docker-compose
     - docker version
