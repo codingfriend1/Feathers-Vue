@@ -1,4 +1,4 @@
-image: gzlock/node-pm2
+image: node:latest
 
 services:
 - docker:dind
