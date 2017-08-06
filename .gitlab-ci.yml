@@ -12,25 +12,27 @@ cache:
 before_script:
   - npm install
 
-test:
-  stage: test
-  script:
-    - npm run build
-    - npm run mocha
-
 build:
   stage: build
   script:
     - npm run build
+  artifacts:
+    paths:
+     - server/
+     - public/
+
+test:
+  stage: test
+  script:
+    - npm run mocha
 
 deploy:
   before_script:
     - apk add --update python py-pip python-dev && pip install docker-compose # install docker-compose
-    - docker version
+    # - docker version
     - docker-compose version
   stage: deploy
   script:
-    - npm run build
     - npm run docker
 
 variables:
