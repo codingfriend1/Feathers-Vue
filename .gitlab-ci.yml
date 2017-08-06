@@ -10,7 +10,7 @@ cache:
 
 build:
   stage: build
-  services:
+  image:
     - node:latest
   before_script:
     - npm install
@@ -27,9 +27,9 @@ test:
   variables:
     DATABASE_URL: "mongodb://mongo/FeathersVueTest"
     NODE_ENV: "test"
+  image: node:latest
   services:
     - mongo
-    - node:latest
   script:
     - npm run mocha
 
