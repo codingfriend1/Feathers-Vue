@@ -24,4 +24,4 @@ COPY config/ /var/www/config
 EXPOSE 80
 VOLUME /var/www
 
-CMD ["pm2", "start", "server", "--no-daemon"]
+# CMD ["pm2", "start", "server", "--no-daemon"]
