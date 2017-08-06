@@ -45,12 +45,10 @@ deploy:
     - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
   script:
     - printf "DATABASE_URL=${DATABASE_URL}\nPORT=${PORT}\n" > environment.env
-    - docker-compose stop
     - docker-compose build -t "$CI_REGISTRY/$CI_PROJECT_PATH" .
     - "docker push $CI_REGISTRY/$CI_PROJECT_PATH:latest"
   after_script:
-    - "docker images"
-    - "docker logout"
+    - "docker logout $CI_REGISTRY"
 
 
 variables:
