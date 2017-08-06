@@ -18,6 +18,7 @@ before_script:
 test:
   stage: test
   script:
+    - npm run build
     - npm run mocha
 
 build:
