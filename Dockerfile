@@ -18,8 +18,6 @@ RUN cp -a /tmp/node_modules /var/www/
 COPY public/ /var/www/public
 COPY server/ /var/www/server
 COPY config/ /var/www/config
-COPY certs/ /var/www/certs
-# RUN chmod -R 755 /var/www
 ################## END DIRECTORIES ######################
 
 # Expose the default port
