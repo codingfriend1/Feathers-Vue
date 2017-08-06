@@ -46,7 +46,7 @@ deploy:
   script:
     - printf "DATABASE_URL=${DATABASE_URL}\nPORT=80\n" > environment.env
     - ls
-    - docker build -t "$CI_REGISTRY/$CI_PROJECT_PATH" .
+    - "docker build -f Dockerfile -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest --pull ."
     - "docker push $CI_REGISTRY/$CI_PROJECT_PATH:latest"
   after_script:
     - "docker logout $CI_REGISTRY"
