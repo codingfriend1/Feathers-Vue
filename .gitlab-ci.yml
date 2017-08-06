@@ -32,8 +32,6 @@ deploy:
   services:
     - docker:dind
   variables:
-    # The Gitlab Registry
-    GL: "registry.gitlab.com"
     # Docker Hub Image Name
     IMG: "$CI_PROJECT_PATH"
     # Experimental: test the overlayfs docker driver.
@@ -44,15 +42,15 @@ deploy:
     - docker version
     - docker-compose version
     - "docker info"
-    - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $GL"
+    - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
   script:
     - printf "DATABASE_URL=${DATABASE_URL}\nPORT=${PORT}\n" > environment.env
     - docker-compose stop
-    - docker-compose build web --no-cache
-    - "docker push $GL/$IMG:latest"
+    - docker-compose build
+    - "docker push $CI_REGISTRY/$CI_PROJECT_PATH:latest"
   after_script:
     - "docker images"
-    - "docker logout $GL"
+    - "docker logout $CI_REGISTRY"
 
 
 variables:
