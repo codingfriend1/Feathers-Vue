@@ -10,8 +10,7 @@ cache:
 
 build:
   stage: build
-  image:
-    - node:latest
+  image: node:latest
   before_script:
     - npm install
   script:
