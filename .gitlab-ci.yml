@@ -18,6 +18,8 @@ before_script:
 test:
   stage: test
   script:
+    - mkdir -p /data/db
+    - mongod
     - npm run mocha
 
 build:
