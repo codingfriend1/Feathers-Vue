@@ -10,9 +10,6 @@ cache:
   - node_modules/
 
 before_script:
-  # - apk add --update python py-pip python-dev && pip install docker-compose # install docker-compose
-  # - docker version
-  # - docker-compose version
   - npm install
 
 test:
@@ -26,10 +23,15 @@ build:
   script:
     - npm run build
 
-# deploy:
-#   stage: deploy
-#   script:
-#     - npm run docker
+deploy:
+  before_script:
+    - apk add --update python py-pip python-dev && pip install docker-compose # install docker-compose
+    - docker version
+    - docker-compose version
+  stage: deploy
+  script:
+    - npm run build
+    - npm run docker
 
 variables:
   DATABASE_URL: "mongodb://mongo/FeathersVueTest"
