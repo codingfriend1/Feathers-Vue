@@ -1,12 +1,13 @@
-image: docker:latest
+image: gzlock/node-pm2
 
 services:
 - docker:dind
 
 before_script:
-- apk add --update python py-pip python-dev && pip install docker-compose # install docker-compose
-- docker version
-- docker-compose version
+  - apk add --update python py-pip python-dev && pip install docker-compose # install docker-compose
+  - docker version
+  - docker-compose version
+  - npm install
 
 test:
   stage: test
