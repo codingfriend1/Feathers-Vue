@@ -1,4 +1,4 @@
-image: mvertes/gitlab-runner-node
+image: weisjohn/gitlab-ci-runner-node
 
 services:
 - docker:dind
