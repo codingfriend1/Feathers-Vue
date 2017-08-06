@@ -1,43 +1,51 @@
-image: node:latest
+# image: node:latest
 
-services:
-- docker:dind
-- mongo
+# services:
+# - docker:dind
 
 cache:
   key: "$CI_BUILD_REF_NAME"
   paths:
   - node_modules/
 
-before_script:
-  - npm install
-
 build:
   stage: build
+  services:
+    - node:latest
+  before_script:
+    - npm install
   script:
     - npm run build
   artifacts:
     paths:
      - server/
      - public/
+     # - node_modules/
 
 test:
   stage: test
+  variables:
+    DATABASE_URL: "mongodb://mongo/FeathersVueTest"
+    NODE_ENV: "test"
+  services:
+    - mongo
+    - node:latest
   script:
     - npm run mocha
 
 deploy:
+  stage: deploy
+  image: docker:latest
   before_script:
     - apk add --update python py-pip python-dev && pip install docker-compose # install docker-compose
-    # - docker version
+    - docker version
     - docker-compose version
-  stage: deploy
   script:
-    - npm run docker
+    - docker-compose stop
+    - docker-compose build web --no-cache
+    - docker-compose up -d
 
 variables:
-  DATABASE_URL: "mongodb://mongo/FeathersVueTest"
-  NODE_ENV: "test"
   # STAGING_REGISTRY: "my-docker-hub"
   # CONTAINER_TEST_IMAGE: ${STAGING_REGISTRY}/${CI_PROJECT_NAME}:${CI_BUILD_REF_NAME}_${CI_BUILD_REF}_test
   # CONTAINER_RELEASE_IMAGE: ${STAGING_REGISTRY}/${CI_PROJECT_NAME}:${CI_BUILD_REF_NAME}_${CI_BUILD_REF}
