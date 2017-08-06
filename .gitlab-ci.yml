@@ -1,4 +1,4 @@
-image: gzlock/node-pm2
+image: mvertes/gitlab-runner-node
 
 services:
 - docker:dind
