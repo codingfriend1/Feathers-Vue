@@ -1,0 +1,12 @@
+DATABASE_URL=mongodb://db/feathersvue
+COMPLAINT_EMAIL=codingfriend1@gmail.com
+FEATHERS_AUTH_SECRET=Abusl247Pwuaoxle9cme
+HOST=localhost
+GMAIL=codingfriend1@gmail.com
+GMAIL_PASSWORD=slsqlbvzjrlhjxft
+PORT=80
+NODE_ENV=production
+
+VIRTUAL_HOST=feathersvue.codingfriend.com
+LETSENCRYPT_HOST=feathersvue.codingfriend.com
+LETSENCRYPT_EMAIL=codingfriend1@gmail.com
