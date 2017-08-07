@@ -60,7 +60,7 @@ deploy:
    - apt-get update -y && apt-get install sshpass
   script:
     - printf "DATABASE_URL=${DATABASE_URL}\nPORT=80\n" > environment.env
-    - "scp -p $DEPLOYMENT_SERVER_PASS ./docker-compose.sh root@${DEPLOYMENT_SERVER_IP}:/"
-    - "scp -p $DEPLOYMENT_SERVER_PASS ./environment.env root@${DEPLOYMENT_SERVER_IP}:/"
+    - sshpass -p "$DEPLOYMENT_SERVER_PASS" scp -r root@${DEPLOYMENT_SERVER_IP}:/ ./environment.env
+    - sshpass -p "$DEPLOYMENT_SERVER_PASS" scp -r root@${DEPLOYMENT_SERVER_IP}:/ ./docker-compose.yml
     - "./deploy.sh $DEPLOYMENT_SERVER_PASS $DEPLOYMENT_SERVER_IP $CI_BUILD_TOKEN $CI_REGISTRY $CI_PROJECT_PATH"
     # - sshpass -p "${DEPLOYMENT_SERVER_PASS}" ssh root@${DEPLOYMENT_SERVER_IP} 'echo $HOME'
