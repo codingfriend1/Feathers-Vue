@@ -3,9 +3,6 @@ cache:
   paths:
   - node_modules/
 
-only:
-  - "feathers-2"
-
 stages:
   - build
   - test
@@ -63,10 +60,5 @@ deploy:
    - apt-get update -y && apt-get install sshpass
   script:
     # - printf "DATABASE_URL=${DATABASE_URL}\nPORT=80\n" > environment.env
-    - ./deploy.sh $DEPLOYMENT_SERVER_PASS $CI_BUILD_TOKEN "${CI_REGISTRY}/${CI_PROJECT_PATH}"
+    - "./deploy.sh $DEPLOYMENT_SERVER_PASS $CI_BUILD_TOKEN ${CI_REGISTRY}/${CI_PROJECT_PATH} DEPLOYMENT_SERVER_IP"
     # - sshpass -p "${DEPLOYMENT_SERVER_PASS}" ssh root@${DEPLOYMENT_SERVER_IP} 'echo $HOME'
-
-variables:
-  # STAGING_REGISTRY: "my-docker-hub"
-  # CONTAINER_TEST_IMAGE: ${STAGING_REGISTRY}/${CI_PROJECT_NAME}:${CI_BUILD_REF_NAME}_${CI_BUILD_REF}_test
-  # CONTAINER_RELEASE_IMAGE: ${STAGING_REGISTRY}/${CI_PROJECT_NAME}:${CI_BUILD_REF_NAME}_${CI_BUILD_REF}

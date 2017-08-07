@@ -1,4 +1,4 @@
-sshpass  -p $1 ssh -o StrictHostKeyChecking=no root@x.x.x.x <<-'ENDSSH'   
+sshpass  -p $1 ssh -o StrictHostKeyChecking=no root@$4 <<-'ENDSSH'   
    docker login -u gitlab-ci-token -p $2 registry.gitlab.com
    docker stop feathers-vue
    docker rm feathers-vue
