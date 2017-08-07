@@ -118,7 +118,8 @@ I'm working on a cordova starter with feathers 2, Vue 2, and Framework 7. Visit 
     DEPLOYMENT_SERVER_PASS=your_user_password
     DEPLOYMENT_SERVER_USER=your_server_user
   ```
-7. Push changes in git to gitlab.
+7. Update `docker-compose.autodeploy.yml` to point to your hosted image.
+8. Push changes in git to gitlab.
 
 ## Breaking Changes
 
