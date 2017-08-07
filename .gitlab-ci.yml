@@ -66,7 +66,7 @@ deploy:
   script:
     - printf "DATABASE_URL=${DATABASE_URL}\nPORT=80\n" > environment.env
     - echo "${DEPLOYMENT_SERVER_PASS}"
-    - sshpass -p "${DEPLOYMENT_SERVER_PASS}" scp -v -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ./environment.env root@${DEPLOYMENT_SERVER_IP}:~/
+    - sshpass -p "${DEPLOYMENT_SERVER_PASS}" scp -v ./environment.env root:${DEPLOYMENT_SERVER_PASS}@${DEPLOYMENT_SERVER_IP}:~/
     - sshpass -p "${DEPLOYMENT_SERVER_PASS}" scp -v -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ./docker-compose.yml root@${DEPLOYMENT_SERVER_IP}:~/
     - "./deploy.sh $DEPLOYMENT_SERVER_PASS $DEPLOYMENT_SERVER_IP $CI_BUILD_TOKEN $CI_REGISTRY $CI_PROJECT_PATH"
     # - sshpass -p "${DEPLOYMENT_SERVER_PASS}" ssh root@${DEPLOYMENT_SERVER_IP} 'echo $HOME'
