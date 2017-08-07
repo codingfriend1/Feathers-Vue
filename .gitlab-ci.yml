@@ -57,7 +57,7 @@ release:
 
 deploy:
   stage: deploy
-  image: docker:latest
+  image: gitlab/dind:latest
   services:
     - docker:dind
   only:
