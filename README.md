@@ -97,7 +97,6 @@ I'm working on a cordova starter with feathers 2, Vue 2, and Framework 7. Visit 
   ```
     sudo apt-get -y install python-pip
     sudo pip install docker-compose
-    reload ssh
   ```
 3. Edit `sshd_config`
 
