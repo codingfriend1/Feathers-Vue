@@ -3,6 +3,15 @@ cache:
   paths:
   - node_modules/
 
+only:
+  - "feathers-2"
+
+stages:
+  - build
+  - test
+  - release
+  - deploy
+
 build:
   stage: build
   image: node:latest
@@ -26,15 +35,12 @@ test:
   script:
     - npm run mocha
 
-deploy:
-  stage: deploy
+release:
+  stage: release
   image: docker:latest
   services:
     - docker:dind
   variables:
-    # Docker Hub Image Name
-    IMG: "$CI_PROJECT_PATH"
-    # Experimental: test the overlayfs docker driver.
     DOCKER_DRIVER: "overlay"
 
   before_script:
@@ -44,12 +50,21 @@ deploy:
     - "docker info"
     - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
   script:
-    - printf "DATABASE_URL=${DATABASE_URL}\nPORT=80\n" > environment.env
     - "docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest --pull ."
     - "docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest"
   after_script:
     - "docker logout ${CI_REGISTRY}"
 
+deploy:
+  stage: deploy
+  image: gitlab/dind:latest
+  environment: production
+  before_script:
+   - apt-get update -y && apt-get install sshpass
+  script:
+    # - printf "DATABASE_URL=${DATABASE_URL}\nPORT=80\n" > environment.env
+    - ./deploy.sh $DEPLOYMENT_SERVER_PASS $CI_BUILD_TOKEN "${CI_REGISTRY}/${CI_PROJECT_PATH}"
+    # - sshpass -p "${DEPLOYMENT_SERVER_PASS}" ssh root@${DEPLOYMENT_SERVER_IP} 'echo $HOME'
 
 variables:
   # STAGING_REGISTRY: "my-docker-hub"

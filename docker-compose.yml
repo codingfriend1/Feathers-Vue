@@ -5,7 +5,8 @@ db:
     - "37017"
   command: --smallfiles
 web:
-  build: .
+  # build: .
+  image: registry.gitlab.com/codingfriend/feathers-vue:latest
   ports:
     - "80:80"
   env_file:
