@@ -1,4 +1,4 @@
-sshpass  -p $1 ssh -o StrictHostKeyChecking=no $3@$2 <<-'ENDSSH'
+sshpass -p $1 ssh -o StrictHostKeyChecking=no $3@$2 '
 	echo $1
 	echo $2
 	echo $3
@@ -10,4 +10,4 @@ sshpass  -p $1 ssh -o StrictHostKeyChecking=no $3@$2 <<-'ENDSSH'
 	docker-compose rm
 	docker pull $5/$6
 	docker-compose up -d
-ENDSSH
+'
