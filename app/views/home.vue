@@ -55,7 +55,7 @@ module.exports = {
 		
 	},
 	metaInfo: {
-		title: 'Home Test',
+		title: 'Home',
 	},
 	methods: {
 		updateMessage: async function(m) {
