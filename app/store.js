@@ -4,6 +4,6 @@ module.exports = {
   routes,
   currentModal: '',
   modalConfig: {},
-  message: 'Welcome to Front-Vue!',
+  message: 'Welcome to Feathers-Vue',
   messages: {}
 }
