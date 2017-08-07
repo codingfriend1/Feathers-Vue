@@ -37,6 +37,7 @@ stages:
 #   image: docker:latest
 #   only:
 #     - "feathers-2"
+#     - "master"
 #   services:
 #     - docker:dind
 #   variables:
@@ -58,10 +59,11 @@ stages:
 deploy:
   stage: deploy
   image: gitlab/dind:latest
-  services:
-    - docker:dind
+  # services:
+  #   - docker:dind
   only:
     - "feathers-2"
+    - "master
   environment: production
   before_script:
    - apt-get update -y && apt-get install sshpass
