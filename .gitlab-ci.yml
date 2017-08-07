@@ -70,5 +70,5 @@ deploy:
     - sshpass -p "${DEPLOYMENT_SERVER_PASS}" scp -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ./docker-compose.yml ${DEPLOYMENT_SERVER_USER}@${DEPLOYMENT_SERVER_IP}:~/
     # - "./deploy.sh $DEPLOYMENT_SERVER_PASS $DEPLOYMENT_SERVER_IP $CI_BUILD_TOKEN $CI_REGISTRY $CI_PROJECT_PATH"
     - "echo 'build token: ${CI_BUILD_TOKEN}'"
-    - sshpass -p "${DEPLOYMENT_SERVER_PASS}" ssh -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ${DEPLOYMENT_SERVER_USER}@${DEPLOYMENT_SERVER_IP} 'docker login -u "gitlab-ci-token" -p${CI_BUILD_TOKEN} $CI_REGISTRY; docker-compose stop; docker-compose rm; docker pull "${CI_REGISTRY}/${CI_PROJECT_PATH}:latest"; docker-compose up -d'
+    - sshpass -p "${DEPLOYMENT_SERVER_PASS}" ssh -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ${DEPLOYMENT_SERVER_USER}@${DEPLOYMENT_SERVER_IP} 'docker login -u ${CI_REGISTRY_USER} -p${CI_REGISTRY_PASSWORD} $CI_REGISTRY; docker-compose stop; docker-compose rm; docker pull "${CI_REGISTRY}/${CI_PROJECT_PATH}:latest"; docker-compose up -d'
     # - sshpass -p "${DEPLOYMENT_SERVER_PASS}" ssh root@${DEPLOYMENT_SERVER_IP} 'echo $HOME'
