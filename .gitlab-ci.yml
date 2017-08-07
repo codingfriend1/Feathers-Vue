@@ -4,56 +4,56 @@ cache:
   - node_modules/
 
 stages:
-  - build
-  - test
-  - release
+  # - build
+  # - test
+  # - release
   - deploy
 
-build:
-  stage: build
-  image: node:latest
-  before_script:
-    - npm install
-  script:
-    - npm run build
-  artifacts:
-    paths:
-     - server/
-     - public/
+# build:
+#   stage: build
+#   image: node:latest
+#   before_script:
+#     - npm install
+#   script:
+#     - npm run build
+#   artifacts:
+#     paths:
+#      - server/
+#      - public/
 
-test:
-  stage: test
-  image: node:latest
-  variables:
-    DATABASE_TEST_URL: "mongodb://mongo/FeathersVueTest"
-    NODE_ENV: "test"
-  services:
-    - mongo
-  script:
-    - npm run mocha
+# test:
+#   stage: test
+#   image: node:latest
+#   variables:
+#     DATABASE_TEST_URL: "mongodb://mongo/FeathersVueTest"
+#     NODE_ENV: "test"
+#   services:
+#     - mongo
+#   script:
+#     - npm run mocha
 
-release:
-  stage: release
-  image: docker:latest
-  only:
-    - "feathers-2"
-  services:
-    - docker:dind
-  variables:
-    DOCKER_DRIVER: "overlay"
+# release:
+#   stage: release
+#   image: docker:latest
+#   only:
+#     - "feathers-2"
+#   services:
+#     - docker:dind
+#   variables:
+#     DOCKER_DRIVER: "overlay"
 
-  before_script:
-    - apk add --update python py-pip python-dev && pip install docker-compose # install docker-compose
-    - docker version
-    - docker-compose version
-    - "docker info"
-    - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
-  script:
-    - docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
-    - "docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest --pull ."
-    - "docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest"
-  after_script:
-    - "docker logout ${CI_REGISTRY}"
+#   before_script:
+#     - apk add --update python py-pip python-dev && pip install docker-compose # install docker-compose
+#     - docker version
+#     - docker-compose version
+#     - "docker info"
+#     - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
+#   script:
+#     - docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
+#     - "docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest --pull ."
+#     - "docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest"
+#   after_script:
+#     - "docker logout ${CI_REGISTRY}"
 
 deploy:
   stage: deploy
