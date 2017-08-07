@@ -25,4 +25,4 @@ COPY config/ /var/www/config
 EXPOSE 80
 VOLUME /var/www
 
-CMD ["node", "start"]
+CMD ["npm", "start"]
