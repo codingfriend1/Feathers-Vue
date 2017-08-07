@@ -49,6 +49,7 @@ release:
     - "docker info"
     - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
   script:
+    - docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
     - "docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest --pull ."
     - "docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest"
   after_script:
