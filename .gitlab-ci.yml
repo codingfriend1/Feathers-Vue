@@ -65,6 +65,8 @@ deploy:
     - "feathers-2"
     - "master"
   environment: production
+  services:
+    - docker:dind
   before_script:
    - apt-get update -y && apt-get install sshpass
   script:
