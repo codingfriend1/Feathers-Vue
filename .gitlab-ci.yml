@@ -25,7 +25,7 @@ test:
   stage: test
   image: node:latest
   variables:
-    DATABASE_URL: "mongodb://mongo/FeathersVueTest"
+    DATABASE_TEST_URL: "mongodb://mongo/FeathersVueTest"
     NODE_ENV: "test"
   services:
     - mongo
