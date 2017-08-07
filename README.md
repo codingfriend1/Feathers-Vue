@@ -91,6 +91,36 @@ I'm working on a cordova starter with feathers 2, Vue 2, and Framework 7. Visit 
 
 [Cordova Branch](https://github.com/codingfriend1/Feathers-Vue/tree/cordova)
 
+## Gitlab Auto Deployment
+1. Create a digitalocean instance from using the one-click docker instance.
+2. ssh into the instance and run
+  ```
+    sudo apt-get -y install python-pip
+    sudo pip install docker-compose
+    reload ssh
+  ```
+3. Edit `sshd_config`
+
+  ```
+    nano /etc/ssh/sshd_config
+  ```
+
+4. At the bottom of the file change `PasswordAuthentication` 
+
+  ```
+    PasswordAuthentication yes
+  ```
+5. Run `reload ssh`
+6. Set the secret environment variables in gitlab
+  
+  ```
+    DATABASE_URL=mongodb://db/feathersvue
+    DEPLOYMENT_SERVER_IP=your_ip_address
+    DEPLOYMENT_SERVER_PASS=your_user_password
+    DEPLOYMENT_SERVER_USER=your_server_user
+  ```
+7. Push changes in git to gitlab.
+
 ## Breaking Changes
 
   - Latest change contains a breaking change with gulp auto-importing. Before the first hyphen was converted to _, now named injected files use camelCase convention.
