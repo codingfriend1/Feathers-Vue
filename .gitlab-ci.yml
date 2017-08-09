@@ -52,17 +52,17 @@ release:
     - apk update
     - apk upgrade
     - apk add python python-dev py-pip build-base curl
-    - curl -L https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+    - curl -L https://github.com/docker/compose/releases/download/1.15.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
     - chmod +x /usr/local/bin/docker-compose
     - pip install docker-compose
-    
+
     - docker version
     - docker-compose version
     - "docker info"
     - "docker login -u $CI_REGISTRY_USER -p $CI_BUILD_TOKEN $CI_REGISTRY"
   script:
     - docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
-    - "docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest -f docker-compose.production.yml ."
+    - "docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest -f Dockerfile-production.yml ."
     - "docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest"
   after_script:
     - "docker logout ${CI_REGISTRY}"
