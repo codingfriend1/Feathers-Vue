@@ -61,7 +61,6 @@ release:
     - "docker info"
     - "docker login -u $CI_REGISTRY_USER -p $CI_BUILD_TOKEN $CI_REGISTRY"
   script:
-    - docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
     - "docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest -f Dockerfile-production ."
     - "docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest"
   after_script:
