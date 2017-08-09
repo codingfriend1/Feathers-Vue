@@ -1,5 +1,5 @@
 cache:
-  key: "$CI_BUILD_REF_NAME"
+  key: "${CI_BUILD_REF_NAME} node:8-alpine"
   paths:
   - node_modules/
 
