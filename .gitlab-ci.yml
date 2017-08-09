@@ -75,11 +75,18 @@ deploy:
   services:
     - docker:dind
   before_script:
-   - apt-get update -y && apt-get install sshpass
+   # - apt-get update -y && apt-get install sshpass
+   - mkdir -p ~/.ssh
+   - chmod 700 ~/.ssh
+   - ssh-keyscan -p 22 -H $DEPLOYMENT_SERVER_IP >> ~/.ssh/known_hosts
+   - echo $PRIVATE_KEY > ~/.ssh/gitlab-ci
   script:
     - printf "DATABASE_URL=${DATABASE_URL}\nPORT=80\n" > environment.env
-    - sshpass -p "${DEPLOYMENT_SERVER_PASS}" scp -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ./environment.env ${DEPLOYMENT_SERVER_USER}@${DEPLOYMENT_SERVER_IP}:~/
+    - scp -i ~/.ssh/gitlab-ci ./environment.env ${DEPLOYMENT_SERVER_USER}@${DEPLOYMENT_SERVER_IP}:~/
+    - scp -i ~/.ssh/gitlab-ci ./docker-compose.autodeploy.yml ${DEPLOYMENT_SERVER_USER}@${DEPLOYMENT_SERVER_IP}:~/
+    - ssh -i ~/.ssh/gitlab-ci $DEPLOYMENT_SERVER_USER@$DEPLOYMENT_SERVER_IP "echo ${DEPLOYMENT_SERVER_PASS} | sudo -S docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}; sudo docker-compose -f docker-compose.autodeploy.yml stop; sudo docker-compose -f docker-compose.autodeploy.yml rm --force; sudo docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest; sudo docker-compose -f docker-compose.autodeploy.yml up -d"
+    # - sshpass -p "${DEPLOYMENT_SERVER_PASS}" scp -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ./environment.env ${DEPLOYMENT_SERVER_USER}@${DEPLOYMENT_SERVER_IP}:~/
 
-    - sshpass -p "${DEPLOYMENT_SERVER_PASS}" scp -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ./docker-compose.autodeploy.yml ${DEPLOYMENT_SERVER_USER}@${DEPLOYMENT_SERVER_IP}:~/
+    # - sshpass -p "${DEPLOYMENT_SERVER_PASS}" scp -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ./docker-compose.autodeploy.yml ${DEPLOYMENT_SERVER_USER}@${DEPLOYMENT_SERVER_IP}:~/
 
-    - sshpass -p $DEPLOYMENT_SERVER_PASS ssh -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no $DEPLOYMENT_SERVER_USER@$DEPLOYMENT_SERVER_IP "echo ${DEPLOYMENT_SERVER_PASS} | sudo -S docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}; sudo docker-compose -f docker-compose.autodeploy.yml stop; sudo docker-compose -f docker-compose.autodeploy.yml rm --force; sudo docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest; sudo docker-compose -f docker-compose.autodeploy.yml up -d"
+    # - sshpass -p $DEPLOYMENT_SERVER_PASS ssh -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no $DEPLOYMENT_SERVER_USER@$DEPLOYMENT_SERVER_IP "echo ${DEPLOYMENT_SERVER_PASS} | sudo -S docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}; sudo docker-compose -f docker-compose.autodeploy.yml stop; sudo docker-compose -f docker-compose.autodeploy.yml rm --force; sudo docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest; sudo docker-compose -f docker-compose.autodeploy.yml up -d"
