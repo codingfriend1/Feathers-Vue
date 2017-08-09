@@ -80,7 +80,9 @@ deploy:
    - chmod 700 ~/.ssh
    - ssh-keyscan -p 22 -H $DEPLOYMENT_SERVER_IP >> ~/.ssh/known_hosts
    - echo $PRIVATE_KEY > ~/.ssh/gitlab-ci
-   - echo $PUBLIC_KEY > ~/.ssh/gitlab-ci.pub
+   - chmod 400 ~/.ssh/gitlab-ci
+   # - echo $PUBLIC_KEY > ~/.ssh/gitlab-ci.pub
+   # - chmod 400 ~/.ssh/gitlab-ci.pub
   script:
     - printf "DATABASE_URL=${DATABASE_URL}\nPORT=80\n" > environment.env
     - scp -i ~/.ssh/gitlab-ci ./environment.env ${DEPLOYMENT_SERVER_USER}@${DEPLOYMENT_SERVER_IP}:~/
