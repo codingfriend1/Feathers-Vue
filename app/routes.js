@@ -12,7 +12,7 @@ module.exports = [
     name: 'Home',
     component: views.home,
     meta: {
-      subtitle: 'Welcome to Feathers-Vue!'
+      subtitle: 'Welcome to Feathers-Vue'
     }
   },
   {
