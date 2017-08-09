@@ -1,7 +1,7 @@
-# cache:
-#   key: "$CI_BUILD_REF_NAME"
-#   paths:
-#   - node_modules/
+cache:
+  key: "$CI_BUILD_REF_NAME"
+  paths:
+  - node_modules/
 
 stages:
   - build
@@ -24,7 +24,6 @@ build:
     paths:
      - server/
      - public/
-     - node_modules/
 
 test:
   stage: test
