@@ -48,7 +48,6 @@ release:
     DOCKER_DRIVER: "overlay"
 
   before_script:
-    # - apk add --update python py-pip python-dev && pip install docker-compose
     - apk update
     - apk upgrade
     - apk add python python-dev py-pip build-base curl
