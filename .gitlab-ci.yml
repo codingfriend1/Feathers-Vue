@@ -48,7 +48,9 @@ release:
     DOCKER_DRIVER: "overlay"
 
   before_script:
-    - apk add --update python py-pip python-dev && pip install docker-compose
+    # - apk add --update python py-pip python-dev && pip install docker-compose
+    - bash -c 'curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose'
+    - chmod +x /usr/local/bin/docker-compose
     - docker version
     - docker-compose version
     - "docker info"
