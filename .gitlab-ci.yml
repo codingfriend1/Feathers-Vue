@@ -1,7 +1,7 @@
-cache:
-  key: "$CI_BUILD_REF_NAME"
-  paths:
-  - node_modules/
+# cache:
+#   key: "$CI_BUILD_REF_NAME"
+#   paths:
+#   - node_modules/
 
 stages:
   - build
@@ -15,7 +15,7 @@ build:
   variables:
     NODE_ENV: "development"
   before_script:
-    - apk add --update bash && rm -rf /var/cache/apk/*
+    - apk add --update bash
     - apk add --update git && rm -rf /tmp/* /var/cache/apk/*
     - npm install
   script:
@@ -24,6 +24,7 @@ build:
     paths:
      - server/
      - public/
+     - node_modules/
 
 test:
   stage: test
