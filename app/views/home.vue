@@ -50,9 +50,8 @@ module.exports = {
 			let [err, result] = await api.messages.find({})
 			if(!err) {
 				this.$store.messages = result.data
-			}
+			}		
 		}
-		
 	},
 	metaInfo: {
 		title: 'Home',
@@ -94,5 +93,5 @@ module.exports = {
 </script>
 
 <style lang="stylus">
-
+	
 </style>

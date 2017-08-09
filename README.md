@@ -25,6 +25,46 @@ Features
 
 Getting up and running is as easy as 1, 2, 3, 4.
 
+There are multiple ways to start/develop the app.
+
+### Develop with docker
+Don't install node_modules locally
+
+1. Create a `environment-dev.env` and `environment.env` file to hold your environment variables. These files are ignored by git. You'll want a DATABASE_URL and you gmail info for email verification
+
+  ```
+  DATABASE_URL=mongodb://db/feathersvuedevelopment
+  COMPLAINT_EMAIL=your_email@gmail.com
+  GMAIL=your_email@gmail.com
+  GMAIL_PASSWORD=your_pass_password
+  ```
+
+  _See [How to set an app password](https://support.google.com/accounts/answer/185833)_
+
+2. Run npm start
+
+  ```
+  npm start
+  ```
+2. To see production build locally
+  
+  ```
+  npm run build-qa
+  npm run qa
+  ```
+
+3. To switch back to development use 
+
+  ```
+  npm run build-dev
+  npm start
+  ```
+
+Switching contexts between production and development requires a full docker build with no cache.
+
+
+### Develop without docker
+
 1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
 2. Install your dependencies
 
@@ -41,13 +81,12 @@ Getting up and running is as easy as 1, 2, 3, 4.
     npm run dev
     ```
 
-In production run
+4. In production run
 
-    
-      npm run build
-      npm start
-
-
+    ```
+    npm run build
+    npm production
+    ```
     
 
 If you want emails to work using gmail add the following environment variables
@@ -56,6 +95,7 @@ If you want emails to work using gmail add the following environment variables
   export GMAIL_PASS=yourpassword or app-password
   ```
 _See [How to set an app password](https://support.google.com/accounts/answer/185833)_
+
 ## Testing
 
 Simply run `npm test` and all your tests in the `test/` directory to run server side unit test or run  `npm test-client` to run client side tests.
@@ -72,15 +112,6 @@ $ feathers generate hook                  # Generate a new Hook
 $ feathers generate model                 # Generate a new Model
 $ feathers help                           # Show all commands
 ```
-
-## Docker-compose
-Create an environments file, `environment.env` in the project root that you can store production environment variables in. These will contain things like your app secret, gmail, app password, and such. Don't include this file in your repo as you may expose sensitive information.
-
-You may run
-```
-docker-compose up
-```
-to build a docker-virtual machine instance.
 
 ## Help
 

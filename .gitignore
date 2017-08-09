@@ -44,4 +44,5 @@ client-tests/test.js
 server/style.css
 platforms/
 www/
+environment-dev.env
 # .gitlab-ci.yml

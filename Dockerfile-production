@@ -3,15 +3,17 @@ RUN apk add --update bash && rm -rf /var/cache/apk/*
 RUN apk add --update git && rm -rf /tmp/* /var/cache/apk/*
 
 WORKDIR /var/www/
+COPY package.json /var/www/
 
-ENV NODE_ENV=development
-ADD package.json /tmp/package.json
+ENV NODE_ENV=production
+COPY package.json /tmp/package.json
 RUN cd /tmp && npm install
 RUN cp -a /tmp/node_modules /var/www/
 
-COPY . /var/www
+COPY public/ /var/www/public
+COPY config/ /var/www/config
+COPY server/ /var/www/server
 
-EXPOSE 3030
-VOLUME /var/www
+EXPOSE 80
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "production"]

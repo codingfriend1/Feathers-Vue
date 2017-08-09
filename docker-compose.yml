@@ -1,14 +1,19 @@
-db:
-  image: mongo
-  expose:
-    - "27017"
-    - "37017"
-  command: --smallfiles
-web:
-  build: .
-  ports:
-    - "80:80"
-  env_file:
-    - environment.env
-  links:
-    - db:db
+version: '3'
+services:
+  db:
+    image: mongo:3.2.16
+    expose:
+      - "27017"
+      - "37017"
+    command: --smallfiles
+  web:
+    build: .
+    env_file:
+      - environment-dev.env
+    ports:
+      - "3030:3030"
+    volumes:
+      - .:/var/www/:rw
+      - /var/www/node_modules
+    links:
+      - db:db

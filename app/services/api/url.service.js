@@ -3,7 +3,7 @@
  */
 
 const Vue = require('vue')
-const config = require('../../../config/default.json')
+const config = require('../../../config/default.js')
 const productionConfig = require('../../../config/production.json')
 
 var correctConfig = config

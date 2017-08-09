@@ -1,4 +1,5 @@
 const isProd = process.env.NODE_ENV === 'production';
+const isTest = process.env.NODE_ENV === 'test';
 const path = require('path');
 const fs = require('fs');
 const serverRenderer = require('vue-server-renderer');

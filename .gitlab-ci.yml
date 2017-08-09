@@ -12,6 +12,8 @@ stages:
 build:
   stage: build
   image: node:latest
+  variables:
+    NODE_ENV: "production"
   before_script:
     - npm install
   script:
@@ -48,10 +50,10 @@ release:
     - docker version
     - docker-compose version
     - "docker info"
-    - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
+    - "docker login -u $CI_REGISTRY_USER -p $CI_BUILD_TOKEN $CI_REGISTRY"
   script:
     - docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
-    - "docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest --pull ."
+    - "docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest -f docker-compose.production.yml ."
     - "docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest"
   after_script:
     - "docker logout ${CI_REGISTRY}"

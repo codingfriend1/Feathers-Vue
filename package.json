@@ -21,15 +21,23 @@
     "yarn": ">= 0.18.0"
   },
   "scripts": {
+    
+    "start": "docker-compose up",
+
+    "build-dev": "docker-compose build --no-cache",
+
+    "qa": "docker-compose -f docker-compose.production.yml up",
+    "build-qa": "docker-compose -f docker-compose.production.yml build --no-cache",
+
+    "watch": "gulp && webpack -w",
+    "serve": "nodemon --watch server --ignore 'server/compiled-ssr.js' --watch config server/",
+    "mocha": "mocha test/ --recursive",
     "test": "npm run eslint && npm run mocha",
     "eslint": "eslint server/. test/. --config .eslintrc.json",
-    "start": "pm2 start server/ --no-daemon",
-    "docker": "docker-compose stop && docker-compose build web --no-cache && docker-compose up -d",
-    "build": "gulp && webpack",
-    "watch": "gulp && webpack -w",
-    "serve": "nodemon server/",
     "dev": "npm-run-all --parallel watch serve",
-    "mocha": "mocha test/ --recursive"
+
+    "build": "gulp && webpack",
+    "production": "pm2 start server/ --no-daemon"
   },
   "dependencies": {
     "body-parser": "^1.17.2",
