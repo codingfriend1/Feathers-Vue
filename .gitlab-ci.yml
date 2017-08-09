@@ -67,16 +67,7 @@ deploy:
   services:
     - docker:dind
   before_script:
-   # - apt-get update -y && apt-get install sshpass
-   # - mkdir -p ~/.ssh
-   # - chmod 700 ~/.ssh
-   # - ssh-keyscan -p 22 -H $DEPLOYMENT_SERVER_IP >> ~/.ssh/known_hosts
-   # - echo $PRIVATE_KEY > ~/.ssh/gitlab-ci
-   # - chmod 400 ~/.ssh/gitlab-ci
-   # - echo $PUBLIC_KEY > ~/.ssh/gitlab-ci.pub
-   # - chmod 400 ~/.ssh/gitlab-ci.pub
     - mkdir -p ~/.ssh
-    # Paste the PRIVATE key into a gitlab variable. Pay attention to the linebreak at the end when pasting
     - echo "$DEPLOY_SERVER_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
@@ -86,8 +77,3 @@ deploy:
     - printf "DATABASE_URL=${DATABASE_URL}\nPORT=80\n" > environment.env
     - scp -r ./environment.env ./docker-compose.autodeploy.yml root@${DEPLOYMENT_SERVER_IP}:~/
     - ssh root@$DEPLOYMENT_SERVER_IP "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}; docker-compose -f docker-compose.autodeploy.yml stop; docker-compose -f docker-compose.autodeploy.yml rm --force; docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest; docker-compose -f docker-compose.autodeploy.yml up -d"
-    # - sshpass -p "${DEPLOYMENT_SERVER_PASS}" scp -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ./environment.env ${DEPLOYMENT_SERVER_USER}@${DEPLOYMENT_SERVER_IP}:~/
-
-    # - sshpass -p "${DEPLOYMENT_SERVER_PASS}" scp -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ./docker-compose.autodeploy.yml ${DEPLOYMENT_SERVER_USER}@${DEPLOYMENT_SERVER_IP}:~/
-
-    # - sshpass -p $DEPLOYMENT_SERVER_PASS ssh -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no $DEPLOYMENT_SERVER_USER@$DEPLOYMENT_SERVER_IP "echo ${DEPLOYMENT_SERVER_PASS} | sudo -S docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}; sudo docker-compose -f docker-compose.autodeploy.yml stop; sudo docker-compose -f docker-compose.autodeploy.yml rm --force; sudo docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest; sudo docker-compose -f docker-compose.autodeploy.yml up -d"
