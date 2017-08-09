@@ -13,7 +13,7 @@ build:
   stage: build
   image: node:8-alpine
   variables:
-    NODE_ENV: "production"
+    NODE_ENV: "development"
   before_script:
     - apk add --update bash && rm -rf /var/cache/apk/*
     - apk add --update git && rm -rf /tmp/* /var/cache/apk/*
