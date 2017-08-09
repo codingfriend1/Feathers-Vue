@@ -4,12 +4,13 @@ cache:
   - node_modules/
 
 stages:
-  - prepare
+  - build
+  - test
   - release
   - deploy
 
 build:
-  stage: prepare
+  stage: build
   image: node:8-alpine
   variables:
     NODE_ENV: "production"
@@ -25,7 +26,7 @@ build:
      - public/
 
 test:
-  stage: prepare
+  stage: test
   image: node:8-alpine
   variables:
     DATABASE_TEST_URL: "mongodb://mongo/FeathersVueTest"
