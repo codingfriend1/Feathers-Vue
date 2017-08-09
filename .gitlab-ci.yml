@@ -48,15 +48,7 @@ release:
     DOCKER_DRIVER: "overlay"
 
   before_script:
-    - apk update
-    - apk upgrade
-    - apk add python python-dev py-pip build-base curl
-    - curl -L https://github.com/docker/compose/releases/download/1.15.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-    - chmod +x /usr/local/bin/docker-compose
-    - pip install docker-compose
-
     - docker version
-    - docker-compose version
     - "docker info"
     - "docker login -u $CI_REGISTRY_USER -p $CI_BUILD_TOKEN $CI_REGISTRY"
   script:
@@ -81,13 +73,13 @@ deploy:
    - ssh-keyscan -p 22 -H $DEPLOYMENT_SERVER_IP >> ~/.ssh/known_hosts
    - echo $PRIVATE_KEY > ~/.ssh/gitlab-ci
    - chmod 400 ~/.ssh/gitlab-ci
-   # - echo $PUBLIC_KEY > ~/.ssh/gitlab-ci.pub
-   # - chmod 400 ~/.ssh/gitlab-ci.pub
+   - echo $PUBLIC_KEY > ~/.ssh/gitlab-ci.pub
+   - chmod 400 ~/.ssh/gitlab-ci.pub
   script:
     - printf "DATABASE_URL=${DATABASE_URL}\nPORT=80\n" > environment.env
-    - scp -i ~/.ssh/gitlab-ci ./environment.env ${DEPLOYMENT_SERVER_USER}@${DEPLOYMENT_SERVER_IP}:~/
-    - scp -i ~/.ssh/gitlab-ci ./docker-compose.autodeploy.yml ${DEPLOYMENT_SERVER_USER}@${DEPLOYMENT_SERVER_IP}:~/
-    - ssh -i ~/.ssh/gitlab-ci $DEPLOYMENT_SERVER_USER@$DEPLOYMENT_SERVER_IP "echo ${DEPLOYMENT_SERVER_PASS} | sudo -S docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}; sudo docker-compose -f docker-compose.autodeploy.yml stop; sudo docker-compose -f docker-compose.autodeploy.yml rm --force; sudo docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest; sudo docker-compose -f docker-compose.autodeploy.yml up -d"
+    - scp -i ~/.ssh/gitlab-ci ./environment.env root@${DEPLOYMENT_SERVER_IP}:~/
+    - scp -i ~/.ssh/gitlab-ci ./docker-compose.autodeploy.yml root@${DEPLOYMENT_SERVER_IP}:~/
+    - ssh -i ~/.ssh/gitlab-ci $DEPLOYMENT_SERVER_USER@$DEPLOYMENT_SERVER_IP "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}; docker-compose -f docker-compose.autodeploy.yml stop; docker-compose -f docker-compose.autodeploy.yml rm --force; docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest; docker-compose -f docker-compose.autodeploy.yml up -d"
     # - sshpass -p "${DEPLOYMENT_SERVER_PASS}" scp -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ./environment.env ${DEPLOYMENT_SERVER_USER}@${DEPLOYMENT_SERVER_IP}:~/
 
     # - sshpass -p "${DEPLOYMENT_SERVER_PASS}" scp -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ./docker-compose.autodeploy.yml ${DEPLOYMENT_SERVER_USER}@${DEPLOYMENT_SERVER_IP}:~/
