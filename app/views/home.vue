@@ -22,7 +22,7 @@
 				@keydown="validateLive(newMessage, 'message', 'text')"
 			)
 			.alert.alert-danger(v-show="errorsSummary" v-html="errorsSummary")
-			button.btn.btn-success(@click="sendMessage(newMessage)") Add Message
+			button.btn.btn-success(@click="sendMessage(newMessage)") Send Message
 
 </template>
 
