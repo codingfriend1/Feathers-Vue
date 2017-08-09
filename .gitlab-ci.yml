@@ -11,10 +11,12 @@ stages:
 
 build:
   stage: build
-  image: node:latest
+  image: node:8-alpine
   variables:
     NODE_ENV: "production"
   before_script:
+    - apk add --update bash && rm -rf /var/cache/apk/*
+    - apk add --update git && rm -rf /tmp/* /var/cache/apk/*
     - npm install
   script:
     - npm run build
@@ -25,7 +27,7 @@ build:
 
 test:
   stage: test
-  image: node:latest
+  image: node:8-alpine
   variables:
     DATABASE_TEST_URL: "mongodb://mongo/FeathersVueTest"
     NODE_ENV: "test"
