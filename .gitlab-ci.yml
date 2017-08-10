@@ -23,7 +23,7 @@ test:
   script:
     - npm run build
     - export NODE_ENV=test
-    - npm run mocha
+    - npm run test
   artifacts:
     paths:
      - server/

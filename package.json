@@ -27,13 +27,12 @@
     "build-dev": "docker-compose build --no-cache",
 
     "qa": "docker-compose -f docker-compose.production.yml up",
+    
     "build-qa": "docker-compose -f docker-compose.production.yml build --no-cache",
 
     "watch": "gulp && webpack -w",
     "serve": "nodemon --watch server --ignore 'server/compiled-ssr.js' --watch config server/",
-    "mocha": "mocha test/ --recursive",
-    "test": "npm run eslint && npm run mocha",
-    "eslint": "eslint server/. test/. --config .eslintrc.json",
+    "test": "mocha test/ --recursive",
     "dev": "npm-run-all --parallel watch serve",
 
     "build": "gulp && webpack",
@@ -43,7 +42,6 @@
     "body-parser": "^1.17.2",
     "compression": "^1.6.2",
     "cors": "^2.8.3",
-    "eslint": "^3.19.0",
     "feathers": "^2.1.2",
     "feathers-authentication": "^1.2.7",
     "feathers-authentication-hooks": "^0.1.3",
