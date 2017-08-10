@@ -5,8 +5,7 @@
 if(!global.mongoose) {
   global.mongoose = require('mongoose')
 } else {
-  const bluebird = require('bluebird')
-  global.mongoose.Promise = bluebird
+  global.mongoose.Promise = Promise
 }
 
 module.exports = {
