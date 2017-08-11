@@ -23,7 +23,6 @@ const authentication = require('./authentication');
 const routes = require('./routes');
 const seed = require('./seed');
 
-
 const api = feathers();
 
 // Load app configuration

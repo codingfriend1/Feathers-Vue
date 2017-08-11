@@ -6,6 +6,8 @@ services:
       - "27017"
       - "37017"
     command: --smallfiles
+    logging:
+      driver: none
   web:
     build: .
     env_file:
@@ -13,7 +15,7 @@ services:
     ports:
       - "3030:3030"
     volumes:
-      - .:/var/www/:rw
+      - .:/var/www/:delegated
       - /var/www/node_modules
     links:
       - db:db

@@ -27,10 +27,16 @@ module.exports = {
   	
   	this.$store.auth = auth
   	this.$store.api = api
+  	this.$store.db = db
 
     if(!this.$isServer) {
       this.$store.validateLive = validateLive
-      syncList('/api/message', 'messages')
+
+      syncList('api/message', 'messages', err => {
+	      notify.error(parseErrors(err))
+	    })
+	    
+      syncList('api/roles', 'roles')
     }
   },
   metaInfo: {

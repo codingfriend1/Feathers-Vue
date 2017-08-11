@@ -34,13 +34,34 @@ function updateLocalItems(items, store, storeProperty, idProperty) {
   store[storeProperty] = Object.assign({}, store[storeProperty], _.keyBy(items, idProperty))
 }
 
-function liveSyncWithServer(service, storeProperty, store) {
-
-  // This line disables the service from running server side when doing things like SSR with Vue
-  if(typeof window === 'undefined') { return false }
+function liveSyncWithServer(store, service, storeProperty, onErrorCB, onFindCB) {
 
   // Pre-inputs the store, storeProperty and idProperty values since the event listeners won't provide that data
   const updateItemsInStore = _.partialRight(updateLocalItems, store, storeProperty, idProperty)
+
+  if(onErrorCB) {
+    radio.$on(service + ':error', onErrorCB)
+  }
+
+  radio.$on(service + ':find', onFindCB || updateItemsInStore)
+
+
+  // If we are doing server side api requests we run our pub/sub system through vue instead of feathers
+  if(typeof window === 'undefined') {
+    return false
+  }
+
+  function removeItemsInStore(items) {
+    items = _.castArray(items)
+
+    convertStoreArrayToHash(store, storeProperty, idProperty)
+
+    let itemsHash = _.keyBy(items, idProperty)
+
+    store[storeProperty] = _.pickBy(store[storeProperty], function(item, key) {
+      if(!itemsHash[key]) { return item }
+    })
+  }
 
   // Adds items to the local list that were added to the server
   feathers.service(service).on('created', updateItemsInStore)
@@ -52,21 +73,11 @@ function liveSyncWithServer(service, storeProperty, store) {
   feathers.service(service).on('updated', updateItemsInStore)
 
   // Removes items from local list that were removed from the server
-  feathers.service(service).on('removed', items => {
-    items = _.castArray(items)
-
-    convertStoreArrayToHash(store, storeProperty, idProperty)
-
-    let itemsHash = _.keyBy(items, idProperty)
-
-    store[storeProperty] = _.pickBy(store[storeProperty], function(item, key) {
-      if(!itemsHash[key]) { return item }
-    })
-  })
+  feathers.service(service).on('removed', removeItemsInStore)
 }
 
 function prepareSyncList(store) {
-  global.syncList = _.partialRight(liveSyncWithServer, store)
+  global.syncList = _.partial(liveSyncWithServer, store)
   return global.syncList
 }
 

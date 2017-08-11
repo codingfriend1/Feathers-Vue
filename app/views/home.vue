@@ -13,7 +13,7 @@
 						:error="m.errors? m.errors.text: ''"
 					)
 					button.btn.btn-warning(@click="updateMessage(m)") Update
-					button.btn.btn-danger(@click="api.messages.deleteOne(m._id)") Delete
+					button.btn.btn-danger(@click="db.messages.remove = {id: m._id}") Delete
 			simpleInput(
 				label="Message",
 				v-model="newMessage.text",
@@ -42,16 +42,11 @@ module.exports = {
 		newMessageText: '',
 		errorsSummary: ''
 	}),
-	store: ['message', 'auth', 'currentModal', 'messages', 'api', 'validateLive'],
+	store: ['message', 'auth', 'currentModal', 'messages', 'api', 'db', 'validateLive'],
 
 	// beforeCreate and create are both run on the server before the html is sent. The api library used, "axios", is isomorphic so it works both on client and server
 	created: async function() {
-		if(this.$isServer) {
-			let [err, result] = await api.messages.find({})
-			if(!err) {
-				this.$store.messages = result.data
-			}		
-		}
+		db.messages.find = {}
 	},
 	metaInfo: {
 		title: 'Home',
@@ -63,8 +58,7 @@ module.exports = {
 
 			let valid = await checkValid(mes, 'message')
 			if(valid) {
-				let [err, message] = await api.messages.upsert(mes)
-        if(err) { notify.error(parseErrors(err)); }
+				db.messages.upsert = mes
 			} else {
 				Vue.set(m, 'errors', mes.errors)
 			}
@@ -82,11 +76,10 @@ module.exports = {
 
 			if(valid) {
 				this.errorsSummary = ''
-				var [err, success] = await api.messages.upsert(data)
+				db.messages.upsert = data
 			} else {
 				this.errorsSummary = _.map(data.errors, err => err).join('<br>')
 			}
-
 		}
 	}
 }
