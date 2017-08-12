@@ -1,14 +1,37 @@
-db:
-  image: mongo
-  expose:
-    - "27017"
-    - "37017"
-  command: --smallfiles
-web:
-  image: codingfriend/feathers-vue:latest
-  ports:
-    - "80:80"
-  env_file:
-    - environment.env
-  links:
-    - db:db
+version: '3'
+volumes:
+  dbdata:
+services:
+  db:
+    image: mongo
+    expose:
+      - "27017"
+      - "37017"
+    command: --smallfiles
+    volumes:
+      - dbdata:/data/db
+  web:
+    image: codingfriend/feathers-vue:latest
+    ports:
+      - "80:80"
+    env_file:
+      - environment.env
+    depends_on:
+      - db
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 30s
+      restart_policy:
+        condition: on-failure
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    stop_grace_period: 1m30s
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
