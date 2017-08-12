@@ -1,0 +1,14 @@
+db:
+  image: mongo
+  expose:
+    - "27017"
+    - "37017"
+  command: --smallfiles
+web:
+  image: codingfriend/feathers-vue:latest
+  ports:
+    - "80:80"
+  env_file:
+    - environment.env
+  links:
+    - db:db
