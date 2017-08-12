@@ -126,6 +126,8 @@ I'm working on a cordova starter with feathers 2, Vue 2, and Framework 7. Visit 
 1. Create a digitalocean instance from using the one-click docker instance.
 2. ssh into the instance and run
   ```
+    sudo apt-get update
+    sudo apt-get upgrade
     sudo apt-get -y install python-pip
     sudo pip install docker-compose
   ```
