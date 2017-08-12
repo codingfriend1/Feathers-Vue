@@ -6,9 +6,9 @@ networks:
 services:
   db:
     image: mongo
-    expose:
-      - "27017"
-      - "37017"
+    # expose:
+    #   - "27017"
+    #   - "37017"
     command: --smallfiles
     volumes:
       - dbdata:/data/db
@@ -29,7 +29,7 @@ services:
       - db
     deploy:
       replicas: 2
-      mode: global
+      mode: replicated
       placement:
         constraints: [node.role == worker]
       update_config:
