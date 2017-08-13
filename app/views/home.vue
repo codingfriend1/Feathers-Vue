@@ -48,7 +48,6 @@ module.exports = {
 	created: async function() {
 		// if(this.$isServer) {
 			let [err, result] = await api.messages.find({})
-			console.log('result', result);
 			if(!err) {
 				this.$store.messages = result.data
 			}		
