@@ -3,13 +3,13 @@ volumes:
   dbdata:
 networks:
   web:
-  backend:
 services:
   db:
     image: mongo
+    # expose:
+    #   - "27017"
+    #   - "37017"
     command: --smallfiles
-    networks:
-      - backend
     volumes:
       - dbdata:/data/db
     deploy:
@@ -19,23 +19,27 @@ services:
         condition: on-failure
   web:
     image: codingfriend/feathers-vue:latest
+    ports:
+      - "3000:80"
     networks:
       - web
-      - backend
     env_file:
       - environment.env
     depends_on:
       - db
     deploy:
       replicas: 2
+      mode: replicated
+      placement:
+        constraints: [node.role == worker]
       update_config:
         parallelism: 1
         delay: 15s
       restart_policy:
         condition: on-failure
       labels:
-        - "traefik.docker.network=web"
-        - "traefik.port=80"
+        - "traefik.docker.network=feathers-vue_web"
+        - "traefik.port=3000"
         - "traefik.frontend.rule=PathPrefix:/;"
         - "traefik.backend.loadbalancer.sticky=true"
   loadbalancer:
@@ -46,7 +50,8 @@ services:
       --web \
       --loglevel=DEBUG
     ports:
-      - "80"
+      - 80:80
+      - 8080:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     deploy:
@@ -60,15 +65,13 @@ services:
          constraints: [node.role == manager]
     networks:
       - web
-  visualizer:
-    image: dockersamples/visualizer
-    ports:
-      - "8080:8080"
-    networks:
-      - web
-    stop_grace_period: 1m30s
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    deploy:
-      placement:
-        constraints: [node.role == manager]
+  # visualizer:
+  #   image: dockersamplesh/visualizer:stable
+  #   ports:
+  #     - "8080:8080"
+  #   stop_grace_period: 1m30s
+  #   volumes:
+  #     - "/var/run/docker.sock:/var/run/docker.sock"
+  #   deploy:
+  #     placement:
+  #       constraints: [node.role == manager]
