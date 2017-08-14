@@ -13,8 +13,6 @@ services:
     volumes:
       - dbdata:/data/db
     deploy:
-      placement:
-        constraints: [node.role == worker]
       restart_policy:
         condition: on-failure
   web:
@@ -55,6 +53,7 @@ services:
       --acme.ondemand=false \
       --acme.acmelogging=true \
       --acme.onhostrule=true \
+      --acme.caServer="https://acme-staging.api.letsencrypt.org/directory" \
       --acme.storage='/etc/traefik/acme/acme.json'
       --loglevel=DEBUG
     ports:
@@ -78,11 +77,18 @@ services:
       - web
   visualizer:
     image: dockersamples/visualizer:stable
-    ports:
-      - "8080:8080"
     stop_grace_period: 1m30s
+    networks:
+      - web
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
     deploy:
       placement:
         constraints: [node.role == manager]
+      labels:
+        - "traefik.docker.network=web"
+        - "traefik.port=8080"
+        - "traefik.frontend.rule=PathPrefix:/;"
+        - "traefik.frontend.rule=Host:monitor.${LETS_ENCRYPT_DOMAIN};"
+        - "traefik.enable=true"
+        - "traefik.backend.loadbalancer.sticky=true"
