@@ -53,12 +53,13 @@ services:
       --acme.ondemand=false \
       --acme.acmelogging=true \
       --acme.onhostrule=true \
-      --acme.caServer="https://acme-staging.api.letsencrypt.org/directory" \
+      --acme.caserver="https://acme-staging.api.letsencrypt.org/directory" \
       --acme.storage='/etc/traefik/acme/acme.json'
       --loglevel=DEBUG
     ports:
       - "80:80"
       - "443:443"
+      - "9090:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - acme:/etc/traefik/acme
