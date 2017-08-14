@@ -45,4 +45,5 @@ server/style.css
 platforms/
 www/
 environment-dev.env
+.env
 # .gitlab-ci.yml

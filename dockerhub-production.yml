@@ -1,27 +1,26 @@
 version: '3'
 volumes:
   dbdata:
+  acme:
 networks:
   web:
-  backend:
 services:
   db:
     image: mongo
     command: --smallfiles
     networks:
-      - backend
+      - web
     volumes:
       - dbdata:/data/db
     deploy:
       placement:
-        constraints: [node.role == manager]
+        constraints: [node.role == worker]
       restart_policy:
         condition: on-failure
   web:
     image: codingfriend/feathers-vue:latest
     networks:
       - web
-      - backend
     env_file:
       - environment.env
     depends_on:
@@ -36,7 +35,9 @@ services:
       labels:
         - "traefik.docker.network=web"
         - "traefik.port=80"
+        - "traefik.enable=true"
         - "traefik.frontend.rule=PathPrefix:/;"
+        - "traefik.frontend.rule=Host:$LETS_ENCRYPT_DOMAIN"
         - "traefik.backend.loadbalancer.sticky=true"
   loadbalancer:
     image: traefik
@@ -44,11 +45,24 @@ services:
       --docker.swarmmode \
       --docker.watch \
       --web \
+      --defaultEntryPoints='http,https' \
+      --entryPoints='Name:http Address::80' \
+      --entryPoints='Name:https Address::443 TLS' \
+      --docker.exposedbydefault=false \
+      --acme \
+      --acme.entryPoint='https' \
+      --acme.email=$LETS_ENCRYPT_EMAIL \
+      --acme.ondemand=false \
+      --acme.acmelogging=true \
+      --acme.onhostrule=true \
+      --acme.storageFile='/etc/traefik/acme/acme.json'
       --loglevel=DEBUG
     ports:
-      - "80"
+      - "80:80"
+      - "443:443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - acme:/etc/traefik/acme
     deploy:
       restart_policy:
         condition: any
@@ -60,15 +74,5 @@ services:
          constraints: [node.role == manager]
     networks:
       - web
-  visualizer:
-    image: dockersamples/visualizer
-    ports:
-      - "8080:8080"
-    networks:
+    depends_on:
       - web
-    stop_grace_period: 1m30s
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    deploy:
-      placement:
-        constraints: [node.role == manager]

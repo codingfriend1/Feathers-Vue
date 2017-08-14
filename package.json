@@ -26,9 +26,9 @@
 
     "build-dev": "docker-compose build --no-cache",
 
-    "qa": "docker-compose -f docker-compose.production.yml up",
+    "qa": "docker-compose -f qa.yml up",
     
-    "build-qa": "docker-compose -f docker-compose.production.yml build --no-cache",
+    "build-qa": "docker-compose -f qa.yml build --no-cache",
 
     "watch": "gulp && webpack -w",
     "serve": "nodemon --watch server --ignore 'server/compiled-ssr.js' --watch config server/",
