@@ -73,4 +73,4 @@ deploy:
 
     - scp -r environment.env .env production.yml root@${DEPLOY_SERVER_IP}:~/
 
-    - ssh root@$DEPLOY_SERVER_IP "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}; docker stack deploy -c production.yml $STACK_NAME"
+    - ssh root@$DEPLOY_SERVER_IP "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}; docker stack deploy -c production.yml --with-registry-auth --prune $STACK_NAME"

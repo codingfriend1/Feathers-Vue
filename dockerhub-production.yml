@@ -37,7 +37,7 @@ services:
         - "traefik.port=80"
         - "traefik.enable=true"
         - "traefik.frontend.rule=PathPrefix:/;"
-        - "traefik.frontend.rule=Host:$LETS_ENCRYPT_DOMAIN"
+        - "traefik.frontend.rule=Host:${LETS_ENCRYPT_DOMAIN};"
         - "traefik.backend.loadbalancer.sticky=true"
   loadbalancer:
     image: traefik
@@ -51,11 +51,11 @@ services:
       --docker.exposedbydefault=false \
       --acme \
       --acme.entryPoint='https' \
-      --acme.email=$LETS_ENCRYPT_EMAIL \
+      --acme.email=${LETS_ENCRYPT_EMAIL} \
       --acme.ondemand=false \
       --acme.acmelogging=true \
       --acme.onhostrule=true \
-      --acme.storageFile='/etc/traefik/acme/acme.json'
+      --acme.storage='/etc/traefik/acme/acme.json'
       --loglevel=DEBUG
     ports:
       - "80:80"
