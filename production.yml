@@ -55,7 +55,7 @@ services:
       --acme.ondemand=false \
       --acme.acmelogging=true \
       --acme.onhostrule=true \
-      --acme.storageFile='/etc/traefik/acme/acme.json'
+      --acme.storage='/etc/traefik/acme/acme.json'
       --loglevel=DEBUG
     ports:
       - "80:80"
