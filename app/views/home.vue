@@ -2,7 +2,7 @@
 	.row
 		.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
 			p
-				| Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error, repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus, minus!
+				| Eius! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error, repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus, minus!
 			h3 Messages
 			ul
 				li(v-for="m in messages")
