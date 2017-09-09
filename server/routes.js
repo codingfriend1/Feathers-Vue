@@ -28,6 +28,7 @@ module.exports = function() {
 
     renderer.renderToString(context, (err, html) => {
       if (err) {
+        console.warn(`Error with SSR`, err)
         return res.status(200).send('Server Error: server-side rendering is not working');
       }
 

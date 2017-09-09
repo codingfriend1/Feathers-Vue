@@ -26,9 +26,13 @@ const parseErrors = function parseErrors(err) {
   if(err.name) {
     return err.message
   } else {
-    return _.map(_.get(err, 'inner', []), err => err.message.join('<br>'))
+    return _.map(_.get(err, 'errors', []), err =>
+      err.message
+        .replace('Path ', '')
+        .replace('`', '')
+        .replace('`', ''))
+      .join('<br>')
   }
-
 }
 
 function formatErrors(err) {

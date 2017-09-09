@@ -142,17 +142,15 @@ configs[0] = Object.assign({
   }
 }, modules);
 
-// if(isProduction || isTest) {
-  configs[1] = Object.assign({
-    target: 'node',
-    entry: ['babel-polyfill', path.join(folders.root, 'vue-server-side-rendering.js')],
-    output: {
-      libraryTarget: 'commonjs2',
-      path: path.join(folders.root, 'server'),
-      filename: 'compiled-ssr.js'
-    }
-  }, modules)
-// }
+configs[1] = Object.assign({
+  target: 'node',
+  entry: [path.join(folders.root, 'vue-server-side-rendering.js')],
+  output: {
+    libraryTarget: 'commonjs2',
+    path: path.join(folders.root, 'server'),
+    filename: 'compiled-ssr.js'
+  }
+}, modules)
 
 
 module.exports = configs
