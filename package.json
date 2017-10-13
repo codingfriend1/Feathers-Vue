@@ -101,7 +101,6 @@
     "npm-run-all": "^4.0.2",
     "null-loader": "^0.1.1",
     "proxyquire": "^1.7.11",
-    "request": "^2.79.0",
     "resolve-url-loader": "^1.6.1",
     "run-sequence": "^1.2.2",
     "sass-loader": "^4.1.1",
