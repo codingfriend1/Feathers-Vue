@@ -12,6 +12,8 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const WebpackCleanupPlugin = require('webpack-cleanup-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const configs = []
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -150,15 +152,27 @@ const base = {
         safe: true
       }
     }),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: false,
-      minimize: true,
-      compress: {
-        warnings: false
-      }
-    }),
+    new UglifyJSPlugin({
+        uglifyOptions: {
+          beautify: false,
+          ecma: 6,
+          compress: true,
+          comments: false
+        }
+      })
+    // new webpack.optimize.UglifyJsPlugin({
+    //   // sourceMap: false,
+    //   // minimize: true,
+    //   // compress: {
+    //   //   warnings: false
+    //   // },
+    //   uglifyOptions: {
+    //     beautify: false,
+    //     ecma: 6,
+    //     compress: true,
+    //     comments: false
+    //   }
+    // }),
 
   ] : []),
   performance: {
@@ -175,7 +189,7 @@ configs[0] = merge({}, base, {
     chunkFilename: '[id].js',
     sourceMapFilename: "[file].map"
   },
-  devtool: isProduction? null: "cheap-source-map",
+  devtool: isProduction? false : "cheap-source-map",
   resolve: {
     modules: ['node_modules'],
     mainFields: ['browser', 'main'],
@@ -215,7 +229,7 @@ configs[1] = merge({}, base, {
     path: folders.public,
     filename: '[name].js'
   },
-  devtool: isProduction ? null: "cheap-source-map",
+  devtool: isProduction ? false : "cheap-source-map",
   plugins: [
     new VueSSRServerPlugin()
   ]
