@@ -22,6 +22,11 @@ prepareConfirm(app.store)
 if(Vue.prototype.$isServer) {
   app.$mount('#app')
 } else {
+
+  require('../vendor')
+  require('../css/app.styl')
+  require('./async-data')
+
   auth.isLoggedIn()
     .then(res => app.$mount('#app'))
     .catch(err => app.$mount('#app'))

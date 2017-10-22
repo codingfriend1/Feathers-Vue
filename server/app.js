@@ -20,7 +20,7 @@ const mongodb = require('./mongodb');
 
 const authentication = require('./authentication');
 
-const routes = require('./routes');
+const ssr = require('./ssr');
 const seed = require('./seed');
 
 
@@ -61,7 +61,7 @@ const app = feathers()
   .use(favicon(path.join(api.get('public'), 'favicon.ico')))
   // Host the public folder
   .use('/public', feathers.static(api.get('public')))
-  .configure(routes)
+  .configure(ssr)
 
 app.set('view engine', 'jade');
 

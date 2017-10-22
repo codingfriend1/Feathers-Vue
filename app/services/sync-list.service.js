@@ -2,6 +2,7 @@
  * Uses Socket.io to detect updates, deletions, and creations and updates a property on the store with the changes
  */
 const feathers = require('./api/feathers.service')
+const _ = require('lodash')
 
 // The id property to identify list items by
 const idProperty = '_id'

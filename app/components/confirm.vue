@@ -38,7 +38,7 @@ module.exports = {
 }
 </script>
 
-<style type="stylus">
+<style lang="stylus">
   .confirm-dialogue
     .confirm-dialogue-header
       position relative
