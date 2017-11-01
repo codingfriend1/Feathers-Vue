@@ -47991,7 +47991,7 @@ Vue.use(VueStash)
 let store = defaultStore
 
 try {
-  if(window && window.__INITIAL_STATE__) {
+  if(typeof window !== 'undefined' && window.__INITIAL_STATE__) {
     store = window.__INITIAL_STATE__
   }
 } catch(err) {}
@@ -48181,8 +48181,8 @@ module.exports = {
 
 
 // const feathers = require('../services/api/feathers.service')
-const _ = __webpack_require__(16)
-const Vue = __webpack_require__(6)
+const _ = __webpack_require__(16);
+const Vue = __webpack_require__(6);
 
 module.exports = {
 	data: () => ({
@@ -48197,52 +48197,52 @@ module.exports = {
 	store: ['message', 'auth', 'currentModal', 'messages', 'api', 'validateLive'],
 
 	// beforeCreate and create are both run on the server before the html is sent. The api library used, "axios", is isomorphic so it works both on client and server
-	created: async function() {
+	created: async function () {
 		// if(this.$isServer) {
-			let [err, result] = await api.messages.find({})
-			if(!err) {
-				this.$store.messages = result.data
-			}		
+		let [err, result] = await api.messages.find({});
+		if (!err) {
+			this.$store.messages = result.data;
+		}
 		// }
 	},
 	metaInfo: {
-		title: 'Home',
+		title: 'Home'
 	},
 	methods: {
-		updateMessage: async function(m) {
-			let mes = _.cloneDeep(m)
-			mes.text = mes.textChanges
+		updateMessage: async function (m) {
+			let mes = _.cloneDeep(m);
+			mes.text = mes.textChanges;
 
-			let valid = await checkValid(mes, 'message')
-			if(valid) {
-				let [err, message] = await api.messages.upsert(mes)
-        if(err) { notify.error(parseErrors(err)); }
+			let valid = await checkValid(mes, 'message');
+			if (valid) {
+				let [err, message] = await api.messages.upsert(mes);
+				if (err) {
+					notify.error(parseErrors(err));
+				}
 			} else {
-				Vue.set(m, 'errors', mes.errors)
+				Vue.set(m, 'errors', mes.errors);
 			}
 		},
 
-		sendMessage: async function(data) {
-      if(!_.get(this, 'auth.currentUser._id')) {
-        this.errorsSummary = "You must be logged in."
-        return false;
-      }
-
-      data.userId = _.get(this, 'auth.currentUser._id');
-
-			let valid = await checkValid(data, 'message')
-
-			if(valid) {
-				this.errorsSummary = ''
-				var [err, success] = await api.messages.upsert(data)
-			} else {
-				this.errorsSummary = _.map(data.errors, err => err).join('<br>')
+		sendMessage: async function (data) {
+			if (!_.get(this, 'auth.currentUser._id')) {
+				this.errorsSummary = "You must be logged in.";
+				return false;
 			}
 
+			data.userId = _.get(this, 'auth.currentUser._id');
+
+			let valid = await checkValid(data, 'message');
+
+			if (valid) {
+				this.errorsSummary = '';
+				var [err, success] = await api.messages.upsert(data);
+			} else {
+				this.errorsSummary = _.map(data.errors, err => err).join('<br>');
+			}
 		}
 	}
-}
-
+};
 
 /***/ }),
 /* 142 */
@@ -48439,8 +48439,8 @@ if (false) {
 //
 //
 
-module.exports =  {
-	store: [ 'auth' ],
+module.exports = {
+	store: ['auth'],
 	data: () => ({
 		showing: 'login',
 		accountTitle: 'Login',
@@ -48452,68 +48452,71 @@ module.exports =  {
 			newPassword: '',
 			newEmail: null,
 			type: 'local'
-		},
+		}
 	}),
 	methods: {
-		login: async function(user) {
-			let result = await auth.login(user)
-			if( result ) { this.$router.push('/') }
-		},
-		signup: async function(user) {
-			user.role = 'willBeReplaced'
-			let valid = await checkValid(user, 'user')
-
-			if(valid) {
-				this.errorsSummary = ''
-				let result = await auth.signup(user)
-				if( result ) { this.$router.push('/') }
-			} else {
-				this.errorsSummary = _.map(user.errors, err => err).join('<br>')
-			}
-
-		},
-		toggleLogin: function() {
-			if(this.showing === 'login') {
-				this.showing = 'signup'
-				this.accountTitle = 'Sign Up'
-			} else {
-				this.showing = 'login'
-				this.accountTitle = 'Login'
+		login: async function (user) {
+			let result = await auth.login(user);
+			if (result) {
+				this.$router.push('/');
 			}
 		},
-		resetPassword: function(password) {
+		signup: async function (user) {
+			user.role = 'willBeReplaced';
+			let valid = await checkValid(user, 'user');
+
+			if (valid) {
+				this.errorsSummary = '';
+				let result = await auth.signup(user);
+				if (result) {
+					this.$router.push('/');
+				}
+			} else {
+				this.errorsSummary = _.map(user.errors, err => err).join('<br>');
+			}
+		},
+		toggleLogin: function () {
+			if (this.showing === 'login') {
+				this.showing = 'signup';
+				this.accountTitle = 'Sign Up';
+			} else {
+				this.showing = 'login';
+				this.accountTitle = 'Login';
+			}
+		},
+		resetPassword: function (password) {
 			auth.resetPassword(this.$route.params.slug, password).then(response => {
-				this.showing = 'login'
-				this.accountTitle = 'Login'
-				this.user.password = ''
-			})
+				this.showing = 'login';
+				this.accountTitle = 'Login';
+				this.user.password = '';
+			});
 		}
 	},
-	mounted: function() {
+	mounted: function () {
 
 		switch (this.$route.params.type) {
 
 			case 'verify':
-				auth.verifySignUp(this.$route.params.slug)
+				auth.verifySignUp(this.$route.params.slug);
 				break;
 			case 'verifyChanges':
-				auth.verifyChanges(this.$route.params.slug)
+				auth.verifyChanges(this.$route.params.slug);
 				break;
 			case 'reset':
-				this.accountTitle = 'Reset Password'
-				this.showing = 'reset'
+				this.accountTitle = 'Reset Password';
+				this.showing = 'reset';
 				break;
 			case 'changePassword':
-				if(this.$store.auth.currentUser) {
-					this.accountTitle = 'Change Password'
-					this.showing = 'changePassword'
+				if (this.$store.auth.currentUser) {
+					this.accountTitle = 'Change Password';
+					this.showing = 'changePassword';
 				}
 
 				break;
 			case 'changeEmail':
-				if(this.$store.auth.currentUser) {
-					this.accountTitle = 'Change Email'
-					this.showing = 'changeEmail'
+				if (this.$store.auth.currentUser) {
+					this.accountTitle = 'Change Email';
+					this.showing = 'changeEmail';
 				}
 				break;
 			default:
@@ -48521,10 +48524,9 @@ module.exports =  {
 		}
 	},
 	metaInfo: {
-		title: 'Login',
+		title: 'Login'
 	}
-}
-
+};
 
 /***/ }),
 /* 145 */
@@ -67149,14 +67151,14 @@ Backoff.prototype.setJitter = function(jitter){
  *
  * Global Notification Library
  *
- * Replace methods on the window with you own call backs so you can readily replace the notification system
+ * Replace methods on the global with you own call backs so you can readily replace the notification system
  */
 
 // Client side notifications
 try {
   const toastr = __webpack_require__(395);
-  window.toastr = toastr
-  window.notify = {
+  global.toastr = toastr
+  global.notify = {
     warning: (...args) => {
       toastr.warning(...args)
     },
@@ -67955,7 +67957,9 @@ const auth = {
       auth.currentUser = feathers.get('user')
       return auth.currentUser
     }, err => {
+      console.log(`err`, err)
       notify.debug("Currently not logged in")
+      return false
     })
   },
 
@@ -68203,23 +68207,22 @@ module.exports = {
   data: () => ({
     question: ''
   }),
-  beforeMount: function() {
-    this.question = this.modalConfig.message
+  beforeMount: function () {
+    this.question = this.modalConfig.message;
 
     radio.$on('modalClosed', () => {
-      this.modalConfig.answer(false)
-      this.modalConfig = {}
-    })
+      this.modalConfig.answer(false);
+      this.modalConfig = {};
+    });
   },
   methods: {
-    answer: function(reply) {
-      this.modalConfig.answer(reply)
-      this.currentModal = undefined
-      this.modalConfig = {}
+    answer: function (reply) {
+      this.modalConfig.answer(reply);
+      this.currentModal = undefined;
+      this.modalConfig = {};
     }
   }
-}
-
+};
 
 /***/ }),
 /* 404 */
@@ -68339,8 +68342,7 @@ module.exports = Component.exports
 
 module.exports = {
   store: ['routes', 'tasks']
-}
-
+};
 
 /***/ }),
 /* 407 */
@@ -68451,8 +68453,7 @@ module.exports = Component.exports
 
 module.exports = {
   store: ['routes', 'tasks']
-}
-
+};
 
 /***/ }),
 /* 410 */
@@ -68548,21 +68549,20 @@ module.exports = {
   store: ['currentModal', 'modalConfig'],
   methods: {
     close: function () {
-      this.currentModal = undefined
-      radio.$emit('modalClosed')
+      this.currentModal = undefined;
+      radio.$emit('modalClosed');
     }
   },
   mounted: function () {
     // When escape key is pressed close the modal
-    document.addEventListener("keydown", (e) => {
+    document.addEventListener("keydown", e => {
       if (this.currentModal && e.keyCode == 27) {
-        this.currentModal = undefined
-        radio.$emit('modalClosed')
+        this.currentModal = undefined;
+        radio.$emit('modalClosed');
       }
-    })
+    });
   }
-}
-
+};
 
 /***/ }),
 /* 414 */
@@ -68659,8 +68659,7 @@ module.exports = Component.exports
 
 module.exports = {
   store: ['routes', 'tasks']
-}
-
+};
 
 /***/ }),
 /* 417 */
@@ -68772,17 +68771,16 @@ module.exports = Component.exports
 
 module.exports = {
   props: ['value', 'label', 'error', 'type', 'addon'],
-  data: function() {
+  data: function () {
     return {
       randomId: 'simple-input-' + Math.random() * Math.random(),
       safeType: 'text'
-    }
+    };
   },
-  beforeMount: function() {
-    this.safeType = this.type || 'text'
+  beforeMount: function () {
+    this.safeType = this.type || 'text';
   }
-}
-
+};
 
 /***/ }),
 /* 420 */
@@ -68925,39 +68923,34 @@ module.exports = Component.exports
 //
 
 module.exports = {
-	methods: {
-
-	},
+	methods: {},
 	computed: {
 		/**
-		 * Get a class name based on the route path.
-		 *
-		 * @return {String}
-		 */
+   * Get a class name based on the route path.
+   *
+   * @return {String}
+   */
 		routeClass() {
-			return this.$route.path.split('/').filter(part => Boolean(part)).join('-')
+			return this.$route.path.split('/').filter(part => Boolean(part)).join('-');
 		}
 	},
-  beforeMount: function() {
-  	
-  	this.$store.auth = auth
-  	this.$store.api = api
+	beforeMount: function () {
 
-    if(!this.$isServer) {
-      this.$store.validateLive = validateLive
-      syncList('/api/message', 'messages')
-    }
-  },
-  metaInfo: {
-    // if no subcomponents specify a metaInfo.title, this title will be used
-    // all titles will be injected into this template
-    titleTemplate: '%s | Front-Vue',
-		meta: [
-			{ vmid: 'description', name: 'description', content: 'A boiler plate using jade, stylus, babel (es6, es7, es8), webpack, server side rendering, vue, docker, authentication'}
-		]
-  }
-}
+		this.$store.auth = auth;
+		this.$store.api = api;
 
+		if (!this.$isServer) {
+			this.$store.validateLive = validateLive;
+			syncList('/api/message', 'messages');
+		}
+	},
+	metaInfo: {
+		// if no subcomponents specify a metaInfo.title, this title will be used
+		// all titles will be injected into this template
+		titleTemplate: '%s | Front-Vue',
+		meta: [{ vmid: 'description', name: 'description', content: 'A boiler plate using jade, stylus, babel (es6, es7, es8), webpack, server side rendering, vue, docker, authentication' }]
+	}
+};
 
 /***/ }),
 /* 424 */
@@ -68986,12 +68979,13 @@ if (false) {
 /* 425 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(426)
+/* WEBPACK VAR INJECTION */(function(global) {__webpack_require__(426)
 
-window.$ = window.jQuery = __webpack_require__(132)
-window._ = __webpack_require__(16)
+global.$ = global.jQuery = __webpack_require__(132)
+global._ = __webpack_require__(16)
 __webpack_require__(427)
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 426 */

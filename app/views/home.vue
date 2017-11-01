@@ -46,12 +46,10 @@ module.exports = {
 
 	// beforeCreate and create are both run on the server before the html is sent. The api library used, "axios", is isomorphic so it works both on client and server
 	created: async function() {
-		// if(this.$isServer) {
-			let [err, result] = await api.messages.find({})
-			if(!err) {
-				this.$store.messages = result.data
-			}		
-		// }
+		let [err, result] = await api.messages.find({})
+		if(!err) {
+			this.$store.messages = result.data
+		}		
 	},
 	metaInfo: {
 		title: 'Home',

@@ -2,14 +2,14 @@
  *
  * Global Notification Library
  *
- * Replace methods on the window with you own call backs so you can readily replace the notification system
+ * Replace methods on the global with you own call backs so you can readily replace the notification system
  */
 
 // Client side notifications
 try {
   const toastr = require('toastr');
-  window.toastr = toastr
-  window.notify = {
+  global.toastr = toastr
+  global.notify = {
     warning: (...args) => {
       toastr.warning(...args)
     },

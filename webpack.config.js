@@ -141,6 +141,9 @@ const base = {
     }),
     new FriendlyErrorsPlugin({
       clearConsole: true
+    }),
+    new webpack.DefinePlugin({
+      NODE_ENV: JSON.stringify(process.env.NODE_ENV)
     })
 
   // Production plugins
@@ -189,12 +192,14 @@ configs[0] = merge({}, base, {
     chunkFilename: '[id].js',
     sourceMapFilename: "[file].map"
   },
-  devtool: isProduction? false : "cheap-source-map",
+  externals: isTest ? nodeExternals(): undefined,
+  devtool: isProduction ? false : isTest ? "inline-cheap-module-source-map" : "cheap-source-map",
   resolve: {
     modules: ['node_modules'],
     mainFields: ['browser', 'main'],
     alias: {
-      vue: 'vue/dist/vue.js'
+      vue: 'vue/dist/vue.js',
+      '@app': path.resolve(__dirname, 'app')
     }
   },
   plugins: [
@@ -229,11 +234,10 @@ configs[1] = merge({}, base, {
     path: folders.public,
     filename: '[name].js'
   },
-  devtool: isProduction ? false : "cheap-source-map",
+  devtool: isProduction ? false : isTest ? "inline-cheap-module-source-map" : "cheap-source-map",
   plugins: [
     new VueSSRServerPlugin()
   ]
 })
 
-
-module.exports = configs
+module.exports = isTest? configs[0] : configs

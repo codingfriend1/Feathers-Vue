@@ -292,6 +292,7 @@ const auth = {
       return auth.currentUser
     }, err => {
       notify.debug("Currently not logged in")
+      return false
     })
   },
 
