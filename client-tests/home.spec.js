@@ -5,7 +5,9 @@ const { url } = require('@app/services/api/url.service')
 const api = require('@app/services/api/index')
 const auth = require('@app/services/auth.service')
 const {
-  click
+  click,
+  waitForAppLoad,
+  asyncTimeout
 } = require('./helpers.service.js')
 
 async function createMessages() {
@@ -40,71 +42,52 @@ describe('Home.vue', function() {
     await createMessages();
     ({ app, router, store } = require('@app/boot'))
     router.replace('/')
+    await waitForAppLoad()
+    home = app.$refs.mainView
   })
 
-  it('Should fetch the messages', done => {
-    router.onReady(() => {
-      Vue.prototype.$nextTick(() => {
-        setTimeout(() => {
-          expect(Object.keys(store.messages).length)
-            .toBe(2)
-          done()
-        }, 500)
-      })
-    })
+  it('Should fetch the messages', () => {
+    expect(Object.keys(store.messages).length).toBe(2)
   })
 
-  it('Should contain two message elements', done => {
+  it('Should contain two message elements', () => {
 
     const results = [
       'test 1',
       'test 2'
     ]
 
-    Vue.prototype.$nextTick(() => {
-      home = app.$refs.mainView
-      var messages = Array.from(
-        home.$el
-          .querySelectorAll('.message .message-text')
-      )
-        .forEach((message, index) => {
-          expect(message.textContent).toEqual(results[index])
-        })
-
-      done()
-    })
+    Array.from(
+      home.$el.querySelectorAll('.message .message-text')
+    )
+      .forEach((message, index) => {
+        expect(message.textContent).toEqual(results[index])
+      })
     
   })
 
-  it('should be able to create a new message', function(done) {
-    
+  it('should be able to create a new message', async function() {
+
     const results = [
       'test 1',
       'test 2',
       'test 3'
     ]
 
-    Vue.prototype.$nextTick(() => {
-      home = app.$refs.mainView
-      home.newMessage.text = 'test 3'
-      var sendBtn = home.$el.querySelector('.btn-success')
-      click(sendBtn)
+    home.newMessage.text = 'test 3'
+    var sendBtn = home.$el.querySelector('.btn-success')
+    click(sendBtn)
 
-      setTimeout(() => {
-        Vue.prototype.$nextTick(() => {
-          Array.from(
-            home.$el
-              .querySelectorAll('.message .message-text')
-          )
-            .forEach((message, index) => {
-              expect(message.textContent).toEqual(results[index])
-            })
+    await asyncTimeout(1000)
+    await Vue.nextTick()
 
-          expect(Object.keys(store.messages).length).toBe(3)
+    Array.from(
+      home.$el.querySelectorAll('.message .message-text')
+    )
+      .forEach((message, index) => {
+        expect(message.textContent).toEqual(results[index])
+      })
 
-          done()
-        })
-      }, 1000)
-    })
+    expect(Object.keys(store.messages).length).toBe(3)
   })
 })

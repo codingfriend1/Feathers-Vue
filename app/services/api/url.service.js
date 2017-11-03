@@ -22,7 +22,7 @@ if(typeof window === 'undefined') {
 
   url = `${correctConfig.protocal}://${correctConfig.host}${port}`
 
-} else if(NODE_ENV === 'test') {
+} else if(process.env.NODE_ENV === 'test') {
   url = 'http://localhost:3030'
 } else {
   if(typeof window !== undefined) {

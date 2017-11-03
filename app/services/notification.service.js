@@ -6,7 +6,7 @@
  */
 
 
-if(process.env.NODE_ENV === 'test' || NODE_ENV === 'test' || typeof window === 'undefined') {
+if(process.env.NODE_ENV === 'test' || typeof window === 'undefined') {
   global.notify = {
     warning: (...args) => {
       console.log("Warning: ", ...args );
