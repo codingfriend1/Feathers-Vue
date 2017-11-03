@@ -98,7 +98,7 @@ _See [How to set an app password](https://support.google.com/accounts/answer/185
 
 ## Testing
 
-Simply run `npm test` and all your tests in the `test/` directory to run server side unit test or run  `npm test-client` to run client side tests.
+Simply run `npm test` and all your tests in the `test/` directory to run server side unit test or run  `npm run integration` to run client side side tests.
 
 ## Scaffolding
 
