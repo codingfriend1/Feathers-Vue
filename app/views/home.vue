@@ -5,9 +5,9 @@
 				| Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error, repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus, minus!
 			h3 Messages
 			ul
-				li(v-for="m in messages")
-					div {{m.text}}
-					simpleInput(
+				li.message(v-for="m in messages")
+					div.message-text {{m.text}}
+					simpleInput.here(
 						v-model="m.textChanges",
 						@keyup.enter="updateMessage(m)",
 						:error="m.errors? m.errors.text: ''"

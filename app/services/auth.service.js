@@ -42,6 +42,8 @@
  * - currentUser - Contains the current user definition
  */
 
+require('./notification.service')
+
 const auth = {
   currentUser: null,
   __authenticate: user => {

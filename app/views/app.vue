@@ -3,7 +3,7 @@
 		navigation
 		heading
 		.container
-			router-view
+			router-view(ref="mainView")
 		foot
 		modal
 </template>

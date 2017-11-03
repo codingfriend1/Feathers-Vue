@@ -132,7 +132,6 @@ const base = {
       awaitAnywhere:true,
       asyncExits:true
     }),
-    // new ExtractTextPlugin("style.css"),
     new ExtractTextPlugin({
       filename: '[name].css'
     }),

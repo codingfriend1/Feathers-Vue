@@ -29,7 +29,7 @@
     "serve": "nodemon --watch server --ignore 'server/compiled-ssr.js' --watch config server/",
     "test": "mocha test/ --recursive",
     "test-client": "cross-env NODE_ENV=test mocha-webpack --webpack-config webpack.config.js --timeout 15000 --require client-tests/setup.js client-tests/**/*.spec.js --watch",
-    "integration": "npm-run-all --parallel serve test-client",
+    "integration": "cross-env NODE_ENV=test npm-run-all --parallel serve test-client",
     "dev": "npm-run-all --parallel watch serve",
     "build": "gulp && webpack",
     "production": "pm2 start server/ --no-daemon"
