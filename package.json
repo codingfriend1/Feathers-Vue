@@ -26,7 +26,7 @@
     "qa": "docker-compose -f qa.yml up",
     "build-qa": "docker-compose -f qa.yml build --no-cache",
     "watch": "gulp && webpack -w",
-    "serve": "nodemon --watch server --ignore 'server/compiled-ssr.js' --watch config server/",
+    "serve": "nodemon --watch server --watch config server/",
     "test": "mocha test/ --recursive",
     "test-client": "cross-env NODE_ENV=test mocha-webpack --webpack-config webpack.config.js --timeout 15000 --require client-tests/setup.js client-tests/**/*.spec.js --watch",
     "integration": "cross-env NODE_ENV=test npm-run-all --parallel serve test-client",
