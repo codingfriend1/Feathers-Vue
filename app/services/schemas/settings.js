@@ -1,4 +1,4 @@
-const p = require('../../../server/patterns')
+const p = require('../patterns.service.js')
 const y = require('yup')
 
 module.exports = y.object({

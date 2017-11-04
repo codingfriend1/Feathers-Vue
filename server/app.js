@@ -41,6 +41,8 @@ api.configure(mongodb);
 api.configure(rest());
 api.configure(socketio());
 
+console.log(`api.get('mongodb')`, api.get('mongodb'))
+
 api.configure(sync({
   db: api.get('mongodb'),
   collection: 'syncEvents'

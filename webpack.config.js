@@ -13,7 +13,6 @@ const WebpackCleanupPlugin = require('webpack-cleanup-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const configs = []
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -34,16 +33,17 @@ const base = {
   module : {
     loaders : [
       {
-        test: /mongoose/,
-        loader: 'null'
-      },
-      {
         test: /\.pug/,
         loaders: ["string-loader", "pug-html-loader"],
         exclude: node,
         include: [
           folders.app
         ]
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: node
       },
       {
         test: /\.vue$/,
@@ -142,7 +142,9 @@ const base = {
       clearConsole: true
     }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      'process.env': {
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      }
     })
 
   // Production plugins
@@ -154,27 +156,13 @@ const base = {
         safe: true
       }
     }),
-    new UglifyJSPlugin({
-        uglifyOptions: {
-          beautify: false,
-          ecma: 6,
-          compress: true,
-          comments: false
-        }
-      })
-    // new webpack.optimize.UglifyJsPlugin({
-    //   // sourceMap: false,
-    //   // minimize: true,
-    //   // compress: {
-    //   //   warnings: false
-    //   // },
-    //   uglifyOptions: {
-    //     beautify: false,
-    //     ecma: 6,
-    //     compress: true,
-    //     comments: false
-    //   }
-    // }),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: false,
+      minimize: true,
+      compress: {
+        warnings: false
+      }
+    })
 
   ] : []),
   performance: {
@@ -202,22 +190,42 @@ configs[0] = merge({}, base, {
     }
   },
   plugins: [
-    new WebpackCleanupPlugin({
-      exclude: [
-        "index.html", 
-        "vue-ssr-server-bundle.json", 
-        "favicon.ico",
-        "images/**/*",
-        "fonts/**/*"
-      ],
-    }),
+    // new WebpackCleanupPlugin({
+    //   exclude: [
+    //     "index.html", 
+    //     "vue-ssr-server-bundle.json", 
+    //     "favicon.ico",
+    //     "images/**/*",
+    //     "fonts/**/*"
+    //   ],
+    // }),
     new VueSSRClientPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(folders.app, 'index.template.html'),
       inject: true
     })
-  ]
+  ].concat(!isProduction ? [] : [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest',
+      chunks: ['vendor']
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: function (module, count) {
+        // any required modules inside node_modules are extracted to vendor
+        return (
+          module.resource &&
+          /\.js$/.test(module.resource) &&
+          (
+            module.resource.indexOf(
+              path.join(__dirname, 'node_modules')
+            ) === 0
+          )
+        )
+      }
+    }),
+  ])
 })
 
 configs[1] = merge({}, base, {
