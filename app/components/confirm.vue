@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 .confirm-dialogue
   .confirm-dialogue-header
     h3.absolute-center.no-margin Are you sure?

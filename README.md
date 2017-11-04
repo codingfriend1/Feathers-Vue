@@ -11,7 +11,7 @@ This project is not finished but if you are can be ready to use if you are conte
 Features
   - SASS
   - Stylus
-  - Jade
+  - Pug
   - ES6, ES7, and ES8
   - Webpack
   - Vue Stash - For Redux Store

@@ -63,6 +63,6 @@ const app = feathers()
   .use('/public', feathers.static(api.get('public')))
   .configure(ssr)
 
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 module.exports = { app, api };

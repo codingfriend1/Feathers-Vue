@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 nav.navbar.navbar-default.navbar-custom.navbar-fixed-top
   .container-fluid
     .navbar-header.page-scroll

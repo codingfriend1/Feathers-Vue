@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 .form-group(:class="{'has-error': error, 'has-success': !error }")
   label(:for='randomId', v-once='', v-if='label') {{label}}
   .input-group(v-if='addon', v-once='')

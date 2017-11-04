@@ -38,8 +38,8 @@ const base = {
         loader: 'null'
       },
       {
-        test: /\.jade$/,
-        loaders: ["string-loader", "jade-html-loader"],
+        test: /\.pug/,
+        loaders: ["string-loader", "pug-html-loader"],
         exclude: node,
         include: [
           folders.app
@@ -66,7 +66,7 @@ const base = {
               fallback: 'vue-style-loader',
               use: 'css-loader!stylus-loader'
             }),
-            html: 'jade'
+            html: 'pug'
           }
         }
       },
