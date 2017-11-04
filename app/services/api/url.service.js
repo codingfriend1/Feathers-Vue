@@ -3,8 +3,8 @@
  */
 
 const Vue = require('vue')
-const config = require('../../../config/default.js')
-const productionConfig = require('../../../config/production.json')
+const config = require('../../../config/default')
+const productionConfig = require('../../../config/production')
 
 var correctConfig = config
 var url
