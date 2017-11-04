@@ -50993,11 +50993,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"
   }, [_c('p', [_vm._v("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error, repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus, minus!")]), _c('h3', [_vm._v("Messages")]), _c('ul', _vm._l((_vm.messages), function(m) {
     return _c('li', {
+      key: m._id,
       staticClass: "message"
     }, [_c('div', {
       staticClass: "message-text"
     }, [_vm._v(_vm._s(m.text))]), _c('simpleInput', {
-      staticClass: "here",
       attrs: {
         "error": m.errors ? m.errors.text : ''
       },
@@ -61543,30 +61543,11 @@ var y = __webpack_require__(59);
 
 var colors = ['#1ABC9C', '#16A085', '#2ECC71', '#27AE60', '#3498DB', '#2980B9', '#34495E', '#EA4C88', '#CA2C68', '#9B59B6', '#8E44AD', '#F1C40F', '#F39C12', '#E74C3C', '#C0392B'];
 
-module.exports = {
-
+module.exports = y.object({
   email: y.string().required(),
   password: y.string().required(),
-  name: y.string(),
-
-  isEnabled: y.boolean().default(function () {
-    return true;
-  }),
-
-  role: y.string().required().trim().matches(p.isTitle, p.messages.isTitle),
-
-  color: y.string().trim().oneOf(colors).default(function () {
-    return colors[Math.floor(Math.random() * colors.length)];
-  }),
-
-  initials: y.string().required().trim().max(2),
-  createdAt: y.date().default(function () {
-    return new Date();
-  }),
-  updatedAt: y.date().default(function () {
-    return new Date();
-  })
-};
+  name: y.string()
+});
 
 /***/ }),
 /* 388 */
@@ -72146,7 +72127,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: {
       'has-error': _vm.error, 'has-success': !_vm.error
     }
-  }, [(_vm.label) ? _vm._m(0) : _vm._e(), (_vm.addon) ? _vm._m(2) : _vm._e(), (!_vm.addon) ? _vm._m(3) : _vm._e(), _c('div', {
+  }, [(_vm.label) ? _vm._m(0) : _vm._e(), (_vm.addon) ? _vm._m(1) : _vm._e(), (!_vm.addon) ? _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "id": _vm.randomId,
+      "type": "text",
+      "name": _vm.label,
+      "type": _vm.safeType,
+      "placeholder": _vm.label
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', $event.target.value)
+      },
+      "keyup": function($event) {
+        _vm.$emit('keyup', $event)
+      },
+      "keydown": function($event) {
+        _vm.$emit('keydown', $event)
+      }
+    }
+  }) : _vm._e(), _c('div', {
     staticClass: "help-block with-errors"
   }, [_vm._v(_vm._s(_vm.error))])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -72156,28 +72157,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v(_vm._s(_vm.label))])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('input', {
-    staticClass: "form-control",
-    attrs: {
-      "id": _vm.randomId,
-      "type": "text",
-      "name": _vm.label,
-      "type": _vm.safeType,
-      "placeholder": _vm.label
-    },
-    on: {
-      "input": function($event) {
-        _vm.$emit('input', $event.target.value)
-      },
-      "keyup": function($event) {
-        _vm.$emit('keyup', $event)
-      },
-      "keydown": function($event) {
-        _vm.$emit('keydown', $event)
-      }
-    }
-  })
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "input-group"
   }, [_c('div', {
@@ -72185,9 +72164,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "innerHTML": _vm._s(_vm.addon)
     }
-  }), _vm._m(1)])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('input', {
+  }), _c('input', {
     staticClass: "form-control",
     attrs: {
       "id": _vm.randomId,
@@ -72207,7 +72184,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$emit('keydown', $event)
       }
     }
-  })
+  })])
 }]}
 module.exports.render._withStripped = true
 if (false) {

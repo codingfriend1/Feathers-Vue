@@ -5,9 +5,9 @@
 				| Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error, repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus, minus!
 			h3 Messages
 			ul
-				li.message(v-for="m in messages")
+				li.message(v-for="m in messages" :key="m._id")
 					div.message-text {{m.text}}
-					simpleInput.here(
+					simpleInput(
 						v-model="m.textChanges",
 						@keyup.enter="updateMessage(m)",
 						:error="m.errors? m.errors.text: ''"
@@ -28,7 +28,6 @@
 
 <script>
 
-// const feathers = require('../services/api/feathers.service')
 const _ = require('lodash')
 const Vue = require('vue')
 
