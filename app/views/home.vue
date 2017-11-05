@@ -23,7 +23,6 @@
 			)
 			.alert.alert-danger(v-show="errorsSummary" v-html="errorsSummary")
 			button.btn.btn-success(@click="sendMessage(newMessage)") Add Message
-
 </template>
 
 <script>
@@ -38,7 +37,6 @@ module.exports = {
 			userId: null,
 			errors: {}
 		},
-		newMessageText: '',
 		errorsSummary: ''
 	}),
 	store: ['message', 'auth', 'currentModal', 'messages', 'api', 'validateLive'],
@@ -61,25 +59,26 @@ module.exports = {
 			let valid = await checkValid(mes, 'message')
 			if(valid) {
 				let [err, message] = await api.messages.upsert(mes)
-        if(err) { notify.error(parseErrors(err)); }
+				if(err) { notify.error(parseErrors(err)); }
 			} else {
 				Vue.set(m, 'errors', mes.errors)
 			}
 		},
 
 		sendMessage: async function(data) {
-      if(!_.get(this, 'auth.currentUser._id')) {
-        this.errorsSummary = "You must be logged in."
-        return false;
-      }
+			if(!_.get(this, 'auth.currentUser._id')) {
+				this.errorsSummary = "You must be logged in."
+				return false;
+			}
 
-      data.userId = _.get(this, 'auth.currentUser._id');
+			data.userId = _.get(this, 'auth.currentUser._id');
 
 			let valid = await checkValid(data, 'message')
 
 			if(valid) {
 				this.errorsSummary = ''
 				var [err, success] = await api.messages.upsert(data)
+				this.newMessage.text = ''
 			} else {
 				this.errorsSummary = _.map(data.errors, err => err).join('<br>')
 			}

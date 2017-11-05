@@ -49311,7 +49311,6 @@ module.exports = {
 				userId: null,
 				errors: {}
 			},
-			newMessageText: '',
 			errorsSummary: ''
 		};
 	},
@@ -49439,7 +49438,7 @@ module.exports = {
 								valid = _context3.sent;
 
 								if (!valid) {
-									_context3.next = 17;
+									_context3.next = 18;
 									break;
 								}
 
@@ -49452,15 +49451,17 @@ module.exports = {
 								_ref9 = (0, _slicedToArray3.default)(_ref8, 2);
 								err = _ref9[0];
 								success = _ref9[1];
-								_context3.next = 18;
+
+								this.newMessage.text = '';
+								_context3.next = 19;
 								break;
 
-							case 17:
+							case 18:
 								this.errorsSummary = _.map(data.errors, function (err) {
 									return err;
 								}).join('<br>');
 
-							case 18:
+							case 19:
 							case 'end':
 								return _context3.stop();
 						}
@@ -51068,7 +51069,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.sendMessage(_vm.newMessage)
       }
     }
-  }, [_vm._v("Add Message")])], 1)])
+  }, [_vm._v("Add Message")]), _c('div', [_vm._v(_vm._s(_vm.newMessage.text))])], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -72015,17 +72016,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "container-fluid"
   }, [_c('div', {
     staticClass: "navbar-header page-scroll"
-  }, [_vm._m(0), _c('a', {
-    directives: [{
-      name: "link",
-      rawName: "v-link",
-      value: ({
-        path: '/'
-      }),
-      expression: "{path: '/'}"
-    }],
-    staticClass: "navbar-brand"
-  }, [_vm._v("Feathers-Vue")])]), _c('div', {
+  }, [_vm._m(0), _c('router-link', {
+    staticClass: "navbar-brand",
+    attrs: {
+      "to": "/"
+    }
+  }, [_vm._v("Feathers-Vue")])], 1), _c('div', {
     staticClass: "collapse navbar-collapse",
     attrs: {
       "id": "headbar-navbar"
@@ -72127,7 +72123,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: {
       'has-error': _vm.error, 'has-success': !_vm.error
     }
-  }, [(_vm.label) ? _vm._m(0) : _vm._e(), (_vm.addon) ? _vm._m(1) : _vm._e(), (!_vm.addon) ? _c('input', {
+  }, [(_vm.label) ? _vm._m(0) : _vm._e(), (_vm.addon) ? _c('div', {
+    staticClass: "input-group"
+  }, [_c('div', {
+    staticClass: "input-group-addon",
+    domProps: {
+      "innerHTML": _vm._s(_vm.addon)
+    }
+  }), _c('input', {
     staticClass: "form-control",
     attrs: {
       "id": _vm.randomId,
@@ -72135,6 +72138,32 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "name": _vm.label,
       "type": _vm.safeType,
       "placeholder": _vm.label
+    },
+    domProps: {
+      "value": _vm.value
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', $event.target.value)
+      },
+      "keyup": function($event) {
+        _vm.$emit('keyup', $event)
+      },
+      "keydown": function($event) {
+        _vm.$emit('keydown', $event)
+      }
+    }
+  })]) : _vm._e(), (!_vm.addon) ? _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "id": _vm.randomId,
+      "type": "text",
+      "name": _vm.label,
+      "type": _vm.safeType,
+      "placeholder": _vm.label
+    },
+    domProps: {
+      "value": _vm.value
     },
     on: {
       "input": function($event) {
@@ -72156,35 +72185,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "for": _vm.randomId
     }
   }, [_vm._v(_vm._s(_vm.label))])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "input-group"
-  }, [_c('div', {
-    staticClass: "input-group-addon",
-    domProps: {
-      "innerHTML": _vm._s(_vm.addon)
-    }
-  }), _c('input', {
-    staticClass: "form-control",
-    attrs: {
-      "id": _vm.randomId,
-      "type": "text",
-      "name": _vm.label,
-      "type": _vm.safeType,
-      "placeholder": _vm.label
-    },
-    on: {
-      "input": function($event) {
-        _vm.$emit('input', $event.target.value)
-      },
-      "keyup": function($event) {
-        _vm.$emit('keyup', $event)
-      },
-      "keydown": function($event) {
-        _vm.$emit('keydown', $event)
-      }
-    }
-  })])
 }]}
 module.exports.render._withStripped = true
 if (false) {
