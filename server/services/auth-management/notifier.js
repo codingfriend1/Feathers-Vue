@@ -1,7 +1,7 @@
 const isProd = process.env.NODE_ENV === 'production'
 const path = require('path')
 const returnEmail = process.env.COMPLAINT_EMAIL
-const jade = require('jade')
+const pug = require('pug')
 
 module.exports = function(app) {
 
@@ -37,9 +37,9 @@ module.exports = function(app) {
 
           hashLink = getLink('verify', user.verifyToken)
 
-          templatePath = path.join(emailAccountTemplatesPath, 'verify-email.jade')
+          templatePath = path.join(emailAccountTemplatesPath, 'verify-email.pug')
 
-          compiledHTML = jade.compileFile(templatePath)({
+          compiledHTML = pug.compileFile(templatePath)({
             logo: '',
             name: user.name || user.email,
             hashLink,
@@ -60,9 +60,9 @@ module.exports = function(app) {
 
           hashLink = getLink('verify', user.verifyToken)
 
-          templatePath = path.join(emailAccountTemplatesPath, 'email-verified.jade')
+          templatePath = path.join(emailAccountTemplatesPath, 'email-verified.pug')
 
-          compiledHTML = jade.compileFile(templatePath)({
+          compiledHTML = pug.compileFile(templatePath)({
             logo: '',
             name: user.name || user.email,
             hashLink,
@@ -83,9 +83,9 @@ module.exports = function(app) {
 
           hashLink = getLink('reset', user.resetToken)
 
-          templatePath = path.join(emailAccountTemplatesPath, 'reset-password.jade')
+          templatePath = path.join(emailAccountTemplatesPath, 'reset-password.pug')
 
-          compiledHTML = jade.compileFile(templatePath)({
+          compiledHTML = pug.compileFile(templatePath)({
             logo: '',
             name: user.name || user.email,
             hashLink,
@@ -106,9 +106,9 @@ module.exports = function(app) {
 
           hashLink = getLink('reset', user.resetToken)
 
-          templatePath = path.join(emailAccountTemplatesPath, 'password-was-reset.jade')
+          templatePath = path.join(emailAccountTemplatesPath, 'password-was-reset.pug')
 
-          compiledHTML = jade.compileFile(templatePath)({
+          compiledHTML = pug.compileFile(templatePath)({
             logo: '',
             name: user.name || user.email,
             hashLink,
@@ -127,9 +127,9 @@ module.exports = function(app) {
           break
         case 'passwordChange':
 
-          templatePath = path.join(emailAccountTemplatesPath, 'password-change.jade')
+          templatePath = path.join(emailAccountTemplatesPath, 'password-change.pug')
 
-          compiledHTML = jade.compileFile(templatePath)({
+          compiledHTML = pug.compileFile(templatePath)({
             logo: '',
             name: user.name || user.email,
             returnEmail
@@ -148,9 +148,9 @@ module.exports = function(app) {
         case 'identityChange':
           hashLink = getLink('verifyChanges', user.verifyToken)
 
-          templatePath = path.join(emailAccountTemplatesPath, 'identity-change.jade')
+          templatePath = path.join(emailAccountTemplatesPath, 'identity-change.pug')
 
-          compiledHTML = jade.compileFile(templatePath)({
+          compiledHTML = pug.compileFile(templatePath)({
             logo: '',
             name: user.name || user.email,
             hashLink,

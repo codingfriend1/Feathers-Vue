@@ -1,11 +1,11 @@
-<template lang="jade">
+<template lang="pug">
 nav.navbar.navbar-default.navbar-custom.navbar-fixed-top
   .container-fluid
     .navbar-header.page-scroll
       button.navbar-toggle(type='button', data-toggle='collapse', data-target='#headbar-navbar')
         span.sr-only Toggle navigation
         i.fa.fa-bars
-      a.navbar-brand(v-link="{path: '/'}") Feathers-Vue
+      router-link.navbar-brand(to="/") Feathers-Vue
     #headbar-navbar.collapse.navbar-collapse
       ul.nav.navbar-nav.navbar-right
         li(v-for="route in routes" v-if="!route.meta.excludeMenu")

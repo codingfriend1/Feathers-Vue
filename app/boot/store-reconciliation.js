@@ -2,13 +2,12 @@
 const Vue = require('vue')
 const VueStash = require('vue-stash').default
 const defaultStore = require('../store')
-
 Vue.use(VueStash)
 
 let store = defaultStore
 
 try {
-  if(window && window.__INITIAL_STATE__ && window.__INITIAL_STATE__ !== "init_state") {
+  if(typeof window !== 'undefined' && window.__INITIAL_STATE__) {
     store = window.__INITIAL_STATE__
   }
 } catch(err) {}

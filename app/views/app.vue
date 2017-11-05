@@ -1,9 +1,9 @@
-<template lang="jade">
+<template lang="pug">
 	#app(:class='routeClass').phone-view
 		navigation
 		heading
 		.container
-			router-view
+			router-view(ref="mainView")
 		foot
 		modal
 </template>

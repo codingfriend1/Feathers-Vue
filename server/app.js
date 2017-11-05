@@ -20,7 +20,7 @@ const mongodb = require('./mongodb');
 
 const authentication = require('./authentication');
 
-const routes = require('./routes');
+const ssr = require('./ssr');
 const seed = require('./seed');
 
 
@@ -40,6 +40,8 @@ api.configure(hooks());
 api.configure(mongodb);
 api.configure(rest());
 api.configure(socketio());
+
+console.log(`api.get('mongodb')`, api.get('mongodb'))
 
 api.configure(sync({
   db: api.get('mongodb'),
@@ -61,8 +63,8 @@ const app = feathers()
   .use(favicon(path.join(api.get('public'), 'favicon.ico')))
   // Host the public folder
   .use('/public', feathers.static(api.get('public')))
-  .configure(routes)
+  .configure(ssr)
 
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 module.exports = { app, api };

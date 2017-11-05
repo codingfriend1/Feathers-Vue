@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 .confirm-dialogue
   .confirm-dialogue-header
     h3.absolute-center.no-margin Are you sure?
@@ -38,7 +38,7 @@ module.exports = {
 }
 </script>
 
-<style type="stylus">
+<style lang="stylus">
   .confirm-dialogue
     .confirm-dialogue-header
       position relative

@@ -1,4 +1,4 @@
-const p = require('../../../server/patterns')
+const p = require('../patterns.service.js')
 const y = require('yup')
 
 const colors = [
@@ -19,31 +19,8 @@ const colors = [
   '#C0392B'
 ]
 
-module.exports = {
-
+module.exports = y.object({
   email: y.string().required(),
   password: y.string().required(),
-  name: y.string(),
-
-  isEnabled: y.boolean().default(() => true),
-
-  role: y
-    .string()
-    .required()
-    .trim()
-    .matches(p.isTitle, p.messages.isTitle),
-
-  color: y
-    .string()
-    .trim()
-    .oneOf(colors)
-    .default(() => colors[Math.floor(Math.random()*colors.length)]),
-
-  initials: y
-    .string()
-    .required()
-    .trim()
-    .max(2),
-  createdAt: y.date().default(() => new Date),
-  updatedAt: y.date().default(() => new Date)
-};
+  name: y.string()
+})

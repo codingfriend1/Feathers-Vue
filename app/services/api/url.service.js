@@ -3,8 +3,8 @@
  */
 
 const Vue = require('vue')
-const config = require('../../../config/default.js')
-const productionConfig = require('../../../config/production.json')
+const config = require('../../../config/default')
+const productionConfig = require('../../../config/production')
 
 var correctConfig = config
 var url
@@ -22,6 +22,8 @@ if(typeof window === 'undefined') {
 
   url = `${correctConfig.protocal}://${correctConfig.host}${port}`
 
+} else if(process.env.NODE_ENV === 'test') {
+  url = 'http://localhost:3030'
 } else {
   if(typeof window !== undefined) {
     url = window.location.origin

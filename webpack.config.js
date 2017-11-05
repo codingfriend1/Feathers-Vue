@@ -1,9 +1,18 @@
+require('colors')
 const webpack = require('webpack')
+const merge = require('webpack-merge')
 const path = require('path')
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const AsyncAwaitPlugin = require('webpack-async-await')
 const TapWebpackPlugin = require('tap-webpack-plugin')
-
+const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
+const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
+const nodeExternals = require('webpack-node-externals')
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
+const WebpackCleanupPlugin = require('webpack-cleanup-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const configs = []
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -14,143 +23,228 @@ const node = /node_modules/
 const folders = {
   root: path.resolve(__dirname),
   node_modules: path.resolve(__dirname, 'node_modules'),
-  client_tests: path.resolve(__dirname, 'client-tests'),
-  bundle: path.resolve(__dirname, 'public'),
+  public: path.resolve(__dirname, 'public'),
   server: path.resolve(__dirname, 'server'),
-  renderer: path.resolve(__dirname, 'vue-server-side-rendering.js'),
-  serve: path.resolve(__dirname, 'public', '/'),
   app: path.resolve(__dirname, 'app'),
-  styles: path.resolve(__dirname, 'app/styles.js')
+  boot: path.resolve(__dirname, 'app', 'boot'),
 }
 
-const modules = {
+const base = {
   module : {
-    preLoaders: [
-      { 
-        test: /\.json$/, 
-        loader: 'json'
-      },
-    ],
     loaders : [
-      // {
-      //   test: /node_modules[\/\\]jsdom[\/\\]lib[\/\\]jsdom[\/\\]living[\/\\]generated[\/\\]MutationEvent\.js$/, 
-      //   loader: "ignore-loader"
-      // },
       {
-        test: /mongoose/,
-        loader: 'null'
-      },
-      // {
-      //   test: /\.js$/,
-      //   loader: 'babel?cacheDirectory',
-      //   exclude: node,
-      //   include: [
-      //     folders.app,
-      //     folders.renderer
-      //   ]
-      // },
-      {
-        test: /\.jade$/,
-        loaders: ["string", "jade-html"],
+        test: /\.pug/,
+        loaders: ["string-loader", "pug-html-loader"],
         exclude: node,
         include: [
-          folders.app,
-          folders.renderer
+          folders.app
         ]
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: node
       },
       {
         test: /\.vue$/,
-        loader: 'vue',
+        loader: 'vue-loader',
         exclude: node,
         include: [
-          folders.app,
-          folders.renderer
-        ]
+          folders.app
+        ],
+        options: {
+          loaders: {
+            css: ExtractTextPlugin.extract({
+              fallback: 'vue-style-loader',
+              use: 'css-loader'
+            }),
+            styl: ExtractTextPlugin.extract({
+              fallback: 'vue-style-loader',
+              use: 'css-loader!stylus-loader'
+            }),
+            stylus: ExtractTextPlugin.extract({
+              fallback: 'vue-style-loader',
+              use: 'css-loader!stylus-loader'
+            }),
+            html: 'pug'
+          }
+        }
+      },
+      {
+        test: /\.json$/,
+        loader: 'json-loader'
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract("style", "css!sass"),
+        loader: ExtractTextPlugin.extract({
+          use: 'css-loader!sass-loader'
+        }),
         include: [
-          folders.app,
-          folders.renderer,
-          // folders.node_modules
+          folders.app
         ]
       },
       {
         test: /\.styl$/,
-        loader: ExtractTextPlugin.extract("style", "css!stylus"),
+        loader: ExtractTextPlugin.extract({
+          use: 'css-loader!stylus-loader'
+        }),
         exclude: node,
         include: [
-          folders.app,
-          folders.renderer
+          folders.app
         ]
       },
       {
-        test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: "url"
+        test: /\.svg$/,
+        loader: 'raw-loader'
       },
       {
-        test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
-        loader: 'file'
+        test: /\.(png|jpe?g|gif)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'img/[name].[ext]'
+        }
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'fonts/[name].[ext]'
+        }
       }
+      // {
+      //   test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      //   loader: "url-loader"
+      // },
+      // {
+      //   test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
+      //   loader: 'file-loader'
+      // }
     ]
   },
-  // noParse: [
-  //   folders.node_modules
-  // ],
-  vue: {
-    loaders: {
-      // js: 'babel',
-      css: ExtractTextPlugin.extract("style-loader", "css-loader!stylus-loader"),
-      stylus: ExtractTextPlugin.extract("style-loader", "css-loader!stylus-loader"),
-      html: 'jade'
-    }
-  },
-  plugins: !isProduction ? [
+
+  // Dev plugins
+
+  plugins: [
+    new webpack.NoEmitOnErrorsPlugin(),
     new AsyncAwaitPlugin({
       awaitAnywhere:true,
       asyncExits:true
     }),
-    new ExtractTextPlugin("style.css")
-  ] : [
-    new AsyncAwaitPlugin({
-      awaitAnywhere:true,
-      asyncExits:true
+    new ExtractTextPlugin({
+      filename: '[name].css'
     }),
-    new ExtractTextPlugin("style.css"),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false})
-  ]
+    new ProgressBarPlugin({
+      format: ' [:bar] ' + ':percent'.bold + ' (:msg)'
+    }),
+    new FriendlyErrorsPlugin({
+      clearConsole: true
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      }
+    })
+
+  // Production plugins
+
+  ].concat(isProduction ? [
+
+    new OptimizeCSSPlugin({
+      cssProcessorOptions: {
+        safe: true
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: false,
+      minimize: true,
+      compress: {
+        warnings: false
+      }
+    })
+
+  ] : []),
+  performance: {
+    hints: false
+  }
 }
 
-configs[0] = Object.assign({
-  // entry: ['babel-polyfill', path.join(folders.app, 'app.js')],
-  entry: [path.join(folders.app, 'app.js')],
+configs[0] = merge({}, base, {
+  entry: folders.boot,
   output: {
-    path: path.join(folders.bundle, 'app'),
-    pathinfo: true,
-    filename: 'app.js',
+    path: folders.public,
+    publicPath: '/public/',
+    filename: '[name].js',
+    chunkFilename: '[id].js',
     sourceMapFilename: "[file].map"
   },
-  devtool: isProduction? null: "cheap-source-map",
+  externals: isTest ? nodeExternals(): undefined,
+  devtool: isProduction ? false : isTest ? "inline-cheap-module-source-map" : "cheap-source-map",
   resolve: {
     modules: ['node_modules'],
+    mainFields: ['browser', 'main'],
     alias: {
-      vue: 'vue/dist/vue.js'
+      vue: 'vue/dist/vue.js',
+      '@app': path.resolve(__dirname, 'app')
     }
-  }
-}, modules);
+  },
+  plugins: [
+    // new WebpackCleanupPlugin({
+    //   exclude: [
+    //     "index.html", 
+    //     "vue-ssr-server-bundle.json", 
+    //     "favicon.ico",
+    //     "images/**/*",
+    //     "fonts/**/*"
+    //   ],
+    // }),
+    new VueSSRClientPlugin(),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: path.resolve(folders.app, 'index.template.html'),
+      inject: true
+    })
+  ].concat(!isProduction ? [] : [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest',
+      chunks: ['vendor']
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: function (module, count) {
+        // any required modules inside node_modules are extracted to vendor
+        return (
+          module.resource &&
+          /\.js$/.test(module.resource) &&
+          (
+            module.resource.indexOf(
+              path.join(__dirname, 'node_modules')
+            ) === 0
+          )
+        )
+      }
+    }),
+  ])
+})
 
-configs[1] = Object.assign({
+configs[1] = merge({}, base, {
   target: 'node',
-  entry: [path.join(folders.root, 'vue-server-side-rendering.js')],
+  entry: {
+    app: path.resolve(folders.app, 'server-entry.js')
+  },
+  externals: nodeExternals({
+    whitelist: /(\.css$|\.less$|\.sass$|\.scss$|\.styl$|\.stylus$|\.(png|jpe?g|gif|svg)(\?.*)?$|\.(woff2?|eot|ttf|otf)(\?.*)?$)/
+  }),
   output: {
     libraryTarget: 'commonjs2',
-    path: path.join(folders.root, 'server'),
-    filename: 'compiled-ssr.js'
-  }
-}, modules)
+    path: folders.public,
+    filename: '[name].js'
+  },
+  devtool: isProduction ? false : isTest ? "inline-cheap-module-source-map" : "cheap-source-map",
+  plugins: [
+    new VueSSRServerPlugin()
+  ]
+})
 
-
-module.exports = configs
+module.exports = isTest? configs[0] : configs

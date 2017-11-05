@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 .modal-mask(@click='close', v-show='currentModal', transition='modal')
   .modal-area
     .modal-container(@click.stop='')
