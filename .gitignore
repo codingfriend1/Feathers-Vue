@@ -30,6 +30,8 @@ environment.env
 data/
 public/admin/
 public/app/
+public/**/*
+!public/favicon.ico
 lib/email-templates/
 lib/hooks/
 lib/services/
