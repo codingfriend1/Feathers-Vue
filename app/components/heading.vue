@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 	header.intro-header(style="background-image: url('/public/images/Laptop Desk.jpg')")
 	  .container
 	    .row

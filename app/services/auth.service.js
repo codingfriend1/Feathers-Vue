@@ -42,6 +42,8 @@
  * - currentUser - Contains the current user definition
  */
 
+require('./notification.service')
+
 const auth = {
   currentUser: null,
   __authenticate: user => {
@@ -292,6 +294,7 @@ const auth = {
       return auth.currentUser
     }, err => {
       notify.debug("Currently not logged in")
+      return false
     })
   },
 

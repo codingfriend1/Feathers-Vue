@@ -1,9 +1,7 @@
 const Vue = require('vue')
 const _ = require('lodash')
 
-if(typeof window !== 'undefined') {
-  global.schemas = require('../../server/schemas');
-}
+const schemas = require('./schemas')
 
 
 /**
@@ -28,14 +26,23 @@ const parseErrors = function parseErrors(err) {
   if(err.name) {
     return err.message
   } else {
-    return _.map(err.errors, err =>
+    return _.map(_.get(err, 'errors', []), err =>
       err.message
         .replace('Path ', '')
         .replace('`', '')
         .replace('`', ''))
       .join('<br>')
   }
+}
 
+function formatErrors(err) {
+  var errors = {}
+  _.get(err, 'inner', []).forEach(err => {
+    if(_.get(err, 'path') && _.get(err, 'message')) {
+      errors[err.path] = err.message
+    }
+  })
+  return errors
 }
 
 /**
@@ -47,64 +54,47 @@ const parseErrors = function parseErrors(err) {
  */
 const radio = new Vue()
 
-
-// ### isValid(schema, data, field)
-/**
- * Validates data against a mongoose schema
- * @param {Object} schema Mongoose schema
- * @param {Object} data The data to validate against
- * @param {string} field Only validate one field
- * @return {Promise} Rejects with mongoose errors or resolves with 'valid'
- */
-const isValid = function isValid(schema, data, field) {
-  return new Promise((resolve, reject) => {
-    let doc = global.mongoose.Document(_.cloneDeep(data), schema)
-    doc.validate((err) => {
-      if(!err) { return resolve(data) }
-
-      let errors = _.forOwn(err.errors, function(val, key) {
-        err.errors[key] = val.message.replace('Path ', '').replace('`', '').replace('`', '')
-      })
-
-      reject(errors)
-    })
-  })
-}
-
 // checkValid(data, schema, field)
 /**
  * Sets validation errors to the errors property of the data passed in
- * @param {object} data The data to validate against mongooose
- * @param {string|object} schema The schema property name or mongoose schema object itself
- * @param {string} field Validate one specific field instead of all of them
+ * @param {object} data The data to validate against
+ * @param {string|object} schema The schema property name or schema definition itself
  * @return {Promise} Returns boolean of if data is valid
  */
 const checkValid = async function checkValid(data, schema, field) {
 
-  let foundSchema = typeof schema === 'string'? _.get(schemas, schema): schema
+  let foundSchema = typeof schema === 'string' ? 
+    _.get(schemas, schema): schema
 
-  let [validationErrors, wow] = await to( isValid(foundSchema, data, field) )
+  if(!foundSchema) { 
+    return Promise.reject({errors: [`Schema doesn't exist`]}) 
+  }
 
-  if(validationErrors) {
+  let [err, validData] = await to( 
+    foundSchema.validate(data, { abortEarly: false })
+  )
+
+  if(err) {
+
+    var errors = formatErrors(err)
+
     if(!data.errors) {
       Vue.set(data, 'errors', {})
     }
-    if(field) {
-      Vue.set(data.errors, field, validationErrors[field])
+    if (field) {
+      Vue.set(data.errors, field, err[field])
     } else {
-      Vue.set(data, 'errors', validationErrors)
+      Vue.set(data, 'errors', errors)
     }
     return false
   } else {
-    Vue.set(data, 'errors', {})
-    return true
+    Vue.set(validData, 'errors', {})
+    return validData
   }
 
 }
 
-const validateLive = _.debounce(async function validateLive(data, schema, field) {
-  checkValid(data, schema, field)
-}, 500)
+const validateLive = _.debounce(checkValid, 500)
 
 const a_or_an = function a_or_an(field) {
   return /[aeiou]/.test(field.charAt(0)) ? 'an' : 'a'
@@ -129,7 +119,6 @@ const prepareConfirm =  function prepareConfirm(store) {
 global.radio = radio
 global.to = to
 global.parseErrors = parseErrors
-global.isValid = isValid
 global.checkValid = checkValid
 global.validateLive = validateLive
 global.a_or_an = a_or_an
@@ -140,7 +129,6 @@ module.exports = {
   to,
   parseErrors,
   radio,
-  isValid,
   validateLive,
   a_or_an,
   confirm,

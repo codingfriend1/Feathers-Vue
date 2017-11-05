@@ -5,9 +5,8 @@ RUN apk add --update git && rm -rf /tmp/* /var/cache/apk/*
 WORKDIR /var/www/
 
 ENV NODE_ENV=development
-ADD package.json /tmp/package.json
-RUN cd /tmp && npm install
-RUN cp -a /tmp/node_modules /var/www/
+COPY package.json /var/www/package.json
+RUN npm install
 
 COPY . /var/www
 

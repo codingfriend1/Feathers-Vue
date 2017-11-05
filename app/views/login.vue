@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 .login-form-container
 	header.login-form-header
 		.login-form-title {{accountTitle}}

@@ -27,7 +27,6 @@ if(typeof window === 'undefined') {
 } else {
   app
     .configure(socketio(socket))
-    // .configure(rest(url).axios(axios))
     .configure(authentication({ storage: window.localStorage, path: '/api/authentication' }))
 }
 

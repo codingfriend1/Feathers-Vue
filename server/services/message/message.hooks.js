@@ -13,15 +13,16 @@ const {
 
 const errors = require('feathers-errors');
 const _ = require('lodash');
+const idField = '_id';
 
 const schema = {
   include: [{
     service: 'users',
     nameAs: 'user',
     parentField: 'userId',
-    childField: '_id',
+    childField: idField,
     query: {
-      $select: ['name', '_id', 'color', 'initials']
+      $select: ['name', idField, 'color', 'initials']
     },
     provider: undefined
   }],

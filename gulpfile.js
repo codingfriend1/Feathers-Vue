@@ -8,7 +8,7 @@ const _ = require('lodash')
 const folders = {
   app: path.resolve(__dirname, 'app'),
   components: path.resolve(__dirname, 'app', 'components'),
-  schemas: path.resolve(__dirname, 'shared', 'schemas'),
+  schemas: path.resolve(__dirname, 'app', 'services', 'schemas'),
   css: path.resolve(__dirname, 'app', 'css'),
   views: path.resolve(__dirname, 'app', 'views'),
   hooks: path.resolve(__dirname, 'server', 'hooks'),
@@ -159,7 +159,6 @@ gulp.task('inject-schemas', function() {
     [
       folders.schemas + '/**/*.js',
       '!' + folders.schemas + '/**/index.js',
-      '!' + folders.schemas + '/**/mongoose.js',
     ],
     'inject schemas',
     'require',
@@ -196,5 +195,5 @@ gulp.task('globalize-vue-components', function() {
 })
 
 gulp.task('default', function(done) {
-  runSequence('inject-css', 'inject-component-js', 'inject-vue', 'inject-views', 'inject-hooks', 'globalize-vue-components', done)
+  runSequence('inject-css', 'inject-schemas', 'inject-component-js', 'inject-vue', 'inject-views', 'inject-hooks', 'globalize-vue-components', done)
 })

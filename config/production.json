@@ -1,6 +1,0 @@
-{
-  "host": "feathersvue.feathersjs.com",
-  "port": "PORT",
-  "protocal": "https",
-  "mongodb": "DATABASE_URL"
-}

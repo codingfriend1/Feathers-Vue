@@ -1,5 +1,8 @@
 const rolesData = require('./services/roles.js')
 const settingsData = require('./services/settings.js')
+const userData = require('./services/users.js')
+
+const isTest = process.env.NODE_ENV === 'test'
 
 
 module.exports = function() {
@@ -12,6 +15,10 @@ module.exports = function() {
   app.configure(ifEmptyCreate('roles', rolesData));
   app.configure(ifEmptyCreate('settings', settingsData));
 
+  if(userData.length > 0 && isTest) {
+    app.configure(ifEmptyCreate('users', userData));
+  }
+  
   let reset_seed = process.env.RESET_SEED && typeof process.env.RESET_SEED === 'string'? process.env.RESET_SEED.toLowerCase(): process.env.RESET_SEED;
 
   if(reset_seed === "true") {
