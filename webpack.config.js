@@ -13,6 +13,7 @@ const WebpackCleanupPlugin = require('webpack-cleanup-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const configs = []
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -189,23 +190,27 @@ configs[0] = merge({}, base, {
       '@app': path.resolve(__dirname, 'app')
     }
   },
-  plugins: [
-    // new WebpackCleanupPlugin({
-    //   exclude: [
-    //     "index.html", 
-    //     "vue-ssr-server-bundle.json", 
-    //     "favicon.ico",
-    //     "images/**/*",
-    //     "fonts/**/*"
-    //   ],
-    // }),
+  plugins: base.plugins.concat([
+    new WebpackCleanupPlugin({
+      exclude: [
+        "index.html",
+        "file-size-report.html",
+        "vue-ssr-server-bundle.json", 
+        "favicon.ico",
+        "images/**/*",
+        "fonts/**/*"
+      ],
+    }),
     new VueSSRClientPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(folders.app, 'index.template.html'),
       inject: true
+    }),
+    new BundleAnalyzerPlugin({
+      reportFilename: 'file-size-report.html'
     })
-  ].concat(!isProduction ? [] : [
+  ]).concat(!isProduction ? [] : [
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
       chunks: ['vendor']
@@ -242,9 +247,9 @@ configs[1] = merge({}, base, {
     filename: '[name].js'
   },
   devtool: isProduction ? false : isTest ? "inline-cheap-module-source-map" : "cheap-source-map",
-  plugins: [
+  plugins: base.plugins.concat([
     new VueSSRServerPlugin()
-  ]
+  ])
 })
 
 module.exports = isTest? configs[0] : configs
