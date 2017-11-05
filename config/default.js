@@ -1,7 +1,7 @@
 module.exports = {
   "host": "localhost",
   "port": 3030,
-  "protocal": "http",
+  "protocol": "http",
   "public": "../public/",
   "src": "../server/",
   "GMAIL": process.env.GMAIL,

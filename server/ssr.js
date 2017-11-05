@@ -40,7 +40,7 @@ module.exports = function() {
     template
   }));
 
-  app.get('/*', (req, res) => {
+  app.get('*', (req, res) => {
 
     if(!isProd) {
       renderer = createBundleRenderer(serverBundlePath, {

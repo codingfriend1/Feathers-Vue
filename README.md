@@ -85,7 +85,7 @@ Switching contexts between production and development requires a full docker bui
 
     ```
     npm run build
-    npm production
+    npm run production
     ```
     
 
@@ -157,9 +157,9 @@ I'm working on a cordova starter with feathers 2, Vue 2, and Framework 7. Visit 
 
 ## Breaking Changes
 
-  - Latest change contains a breaking change with gulp auto-importing. Before the first hyphen was converted to _, now named injected files use camelCase convention.
-  - `hasPermission` hook is changed to `hasPermissions` and allows multiple permission names to be passed in.
-  - Various other hooks have been updated.
+  - Removed mongoose validation from client side and replaced with Yup.
+  - Reconstructed server-side rendering to use updated instructions in vuejs.
+  - Moved server-entry file into app.
 
 ## License
 
