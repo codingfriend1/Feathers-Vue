@@ -114,14 +114,6 @@ const base = {
           name: 'fonts/[name].[ext]'
         }
       }
-      // {
-      //   test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      //   loader: "url-loader"
-      // },
-      // {
-      //   test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
-      //   loader: 'file-loader'
-      // }
     ]
   },
 
