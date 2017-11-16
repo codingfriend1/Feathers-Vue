@@ -32,6 +32,7 @@ public/admin/
 public/app/
 public/**/*
 !public/favicon.ico
+!public/images/**/*
 lib/email-templates/
 lib/hooks/
 lib/services/
