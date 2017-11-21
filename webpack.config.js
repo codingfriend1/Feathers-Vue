@@ -13,7 +13,9 @@ const WebpackCleanupPlugin = require('webpack-cleanup-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const configs = []
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -27,6 +29,7 @@ const folders = {
   public: path.resolve(__dirname, 'public'),
   server: path.resolve(__dirname, 'server'),
   app: path.resolve(__dirname, 'app'),
+  images: path.resolve(__dirname, 'app', 'images'),
   boot: path.resolve(__dirname, 'app', 'boot'),
 }
 
@@ -134,6 +137,18 @@ const base = {
     new FriendlyErrorsPlugin({
       clearConsole: true
     }),
+    new CopyWebpackPlugin([
+      {
+        from: folders.images,
+        to: path.join(folders.public, 'images')
+      }
+    ]),
+    new CopyWebpackPlugin([
+      {
+        from: path.join(folders.app, 'favicon.ico'),
+        to: folders.public
+      }
+    ]),
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
@@ -155,8 +170,14 @@ const base = {
       compress: {
         warnings: false
       }
+    }),
+    new CompressionWebpackPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: /\.(js|css)$/,
+      threshold: 10240,
+      minRatio: 0.8
     })
-
   ] : []),
   performance: {
     hints: false
@@ -196,6 +217,11 @@ configs[0] = merge({}, base, {
     new VueSSRClientPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
+      minify: {
+        removeAttributeQuotes: false,
+        removeComments: true,
+        collapseWhitespace: true
+      },
       template: path.resolve(folders.app, 'index.template.html'),
       inject: true
     }),

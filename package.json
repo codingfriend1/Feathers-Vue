@@ -35,9 +35,12 @@
     "production": "cross-env NODE_ENV=production node server/"
   },
   "dependencies": {
+    "axios": "^0.15.3",
     "body-parser": "^1.17.2",
     "compression": "^1.6.2",
     "cors": "^2.8.3",
+    "cross-env": "^5.1.1",
+    "express-static-gzip": "^0.3.0",
     "feathers": "^2.1.2",
     "feathers-authentication": "^1.2.7",
     "feathers-authentication-hooks": "^0.1.3",
@@ -67,15 +70,11 @@
     "serve-favicon": "^2.4.3",
     "vue": "^2.5.2",
     "vue-meta": "https://github.com/codingfriend1/vue-meta.git#dev",
-    "vue-server-renderer": "^2.5.2",
-    "winston": "^2.3.1",
-    "cross-env": "^5.1.1",
-    "yup": "^0.22.0",
-    "vue": "^2.5.2",
     "vue-router": "^2.8.1",
     "vue-server-renderer": "^2.5.2",
     "vue-stash": "^2.0.1-beta",
-    "axios": "^0.15.3"
+    "winston": "^2.3.1",
+    "yup": "^0.22.0"
   },
   "devDependencies": {
     "babel": "^6.23.0",
@@ -85,6 +84,8 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "bootstrap-sass": "^3.3.7",
+    "compression-webpack-plugin": "^1.0.1",
+    "copy-webpack-plugin": "^4.2.1",
     "css-loader": "^0.26.1",
     "expect": "^21.2.1",
     "extract-text-webpack-plugin": "^3.0.1",

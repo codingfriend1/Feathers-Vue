@@ -56,12 +56,20 @@ api.configure(middleware);
 api.hooks(appHooks);
 
 const app = feathers()
-  .configure(configuration(path.join(__dirname, '..')))
-  .use('/api', api)
-  .use(favicon(path.join(api.get('public'), 'favicon.ico')))
-  // Host the public folder
-  .use('/public', feathers.static(api.get('public')))
-  .configure(ssr)
+
+app.configure(configuration(path.join(__dirname, '..')))
+app.use('/api', api)
+app.use(favicon(path.join(api.get('public'), 'favicon.ico')))
+// Host the public folder
+
+if (process.env.NODE_ENV === 'production') {
+  const expressStaticGzip = require("express-static-gzip");
+  app.use('/public', expressStaticGzip(api.get('public')) )
+} else {
+  app.use('/public', feathers.static(api.get('public')))
+}
+
+app.configure(ssr)
 
 app.set('view engine', 'pug');
 
