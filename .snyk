@@ -1,0 +1,10 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.12.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:hoek:20180212':
+    - feathers-authentication-jwt > passport-jwt > jsonwebtoken > joi > hoek:
+        patched: '2018-06-19T04:30:08.463Z'
+    - feathers-authentication-jwt > passport-jwt > jsonwebtoken > joi > topo > hoek:
+        patched: '2018-06-19T04:30:08.463Z'
