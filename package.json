@@ -51,7 +51,7 @@
     "feathers-configuration": "^0.4.1",
     "feathers-errors": "^2.8.0",
     "feathers-hooks": "^2.0.1",
-    "feathers-hooks-common": "^3.3.2",
+    "feathers-hooks-common": "^4.8.0",
     "feathers-mailer": "^1.0.6",
     "feathers-mongoose": "^5.1.0",
     "feathers-rest": "^1.7.2",
